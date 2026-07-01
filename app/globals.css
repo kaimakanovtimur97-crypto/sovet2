@@ -178,3 +178,19 @@ img, svg { display: block; }
 .article ul li { font-size: 15.5px; line-height: 1.6; color: var(--fg-1); }
 .article ul li::marker { color: var(--accent-hover); }
 .article-note { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 14px; padding: 18px 22px; font-size: 15px; line-height: 1.6; color: var(--fg-1); margin: 0 0 22px; }
+
+/* Мобильное бургер-меню */
+.burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 42px; height: 42px; padding: 0 9px; background: var(--ink-700); border: 1px solid var(--line); border-radius: 10px; cursor: pointer; }
+.burger-bar { display: block; height: 2px; width: 100%; background: var(--fg-1); border-radius: 2px; transition: transform .2s, opacity .2s; }
+.burger-bar.x0 { opacity: 0; }
+.burger-bar.x1 { transform: translateY(7px) rotate(45deg); }
+.burger-bar.x2 { transform: translateY(-7px) rotate(-45deg); }
+.mobile-panel { position: absolute; top: 70px; left: 0; right: 0; background: var(--ink-800); border-bottom: 1px solid var(--line); box-shadow: var(--shadow-4); padding: 10px var(--gutter) 20px; display: none; flex-direction: column; gap: 2px; }
+.mobile-link { display: flex; align-items: center; gap: 8px; padding: 13px 10px; font-size: 16px; font-weight: 600; color: var(--fg-1); border-radius: 10px; border-bottom: 1px solid var(--line); }
+.mobile-link:last-of-type { border-bottom: none; }
+.mobile-link:hover { color: var(--fg-0); background: var(--ink-700); }
+.mobile-phone { font-family: var(--font-mono); font-size: 14px; color: var(--fg-2); }
+@media (max-width: 980px) {
+  .burger { display: flex; }
+  .mobile-panel { display: flex; }
+}

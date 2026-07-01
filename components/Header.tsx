@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { Icon } from "./Icon";
 import { ConsultButton } from "./Lead";
+import { MobileMenu } from "./MobileMenu";
 import { CONTACT } from "@/lib/data";
 
 export function Header() {
@@ -25,6 +26,7 @@ export function Header() {
             <Icon name="phone" size={15} /> {CONTACT.phone}
           </span>
           <ConsultButton>Обсудить проект</ConsultButton>
+          <MobileMenu />
         </div>
       </div>
     </header>
