@@ -155,6 +155,7 @@ img, svg { display: block; }
   .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
   .logos-grid { grid-template-columns: repeat(3,1fr) !important; }
   .svc-hero { grid-template-columns: 1fr !important; gap: 36px !important; }
+  .cta-grid { grid-template-columns: 1fr !important; gap: 32px !important; padding: 32px !important; }
 }
 @media (max-width: 560px) {
   .grid-4 { grid-template-columns: 1fr; }
@@ -162,4 +163,5 @@ img, svg { display: block; }
   .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
   .svc-includes { grid-template-columns: 1fr !important; }
   .header-inner { gap: 16px !important; }
+  .cta-grid { padding: 24px !important; border-radius: 18px !important; }
 }
