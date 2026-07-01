@@ -54,7 +54,7 @@ export default function Home() {
       <section style={{ position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: 0, background: "radial-gradient(900px 380px at 80% -12%, var(--accent-glow), transparent 60%)", pointerEvents: "none" }} />
         <div className="grain" />
-        <div className="wrap" style={{ position: "relative", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 64, alignItems: "center", paddingTop: "clamp(56px,8vw,104px)", paddingBottom: "clamp(56px,8vw,104px)" }}>
+        <div className="wrap hero-grid" style={{ position: "relative", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: 64, alignItems: "center", paddingTop: "clamp(56px,8vw,104px)", paddingBottom: "clamp(56px,8vw,104px)" }}>
           <div>
             <span className="eyebrow" style={{ marginBottom: 24 }}>
               <Icon name="sparkles" size={15} /> Маркетинговое агентство · Новороссийск
@@ -106,7 +106,7 @@ export default function Home() {
       <section style={{ borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
         <div className="wrap" style={{ paddingTop: 34, paddingBottom: 34, display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
           <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--fg-3)", whiteSpace: "nowrap" }}>Нам доверяют</span>
-          <div style={{ flex: 1, minWidth: 300, display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14 }}>
+          <div className="logos-grid" style={{ flex: 1, minWidth: 260, display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14 }}>
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} style={{ height: 50, border: "1px dashed var(--line-strong)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--fg-4)", fontFamily: "var(--font-mono)", fontSize: 11 }}>логотип</div>
             ))}
@@ -139,7 +139,7 @@ export default function Home() {
 
       {/* ЦИФРЫ */}
       <section style={{ borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)", background: "var(--ink-800)" }}>
-        <div className="wrap" style={{ paddingTop: 56, paddingBottom: 56, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 32 }}>
+        <div className="wrap stats-grid" style={{ paddingTop: 56, paddingBottom: 56, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 32 }}>
           {PROOF.map((p) => (
             <div key={p.label}>
               <div style={{ fontWeight: 800, fontSize: 40, letterSpacing: "-0.03em", color: p.accent ? "var(--accent-hover)" : "var(--fg-0)" }}>{p.value}</div>

@@ -59,7 +59,7 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
                 <Link href="/#cases" className="btn btn--outline btn--lg">Смотреть кейсы</Link>
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 12 }}>
+            <div className="svc-includes" style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 12 }}>
               {svc.stats.map((s) => (
                 <div key={s.label} style={{ background: "var(--ink-700)", border: "1px solid var(--line)", borderRadius: 14, padding: 20, boxShadow: "var(--edge-top)" }}>
                   <div style={{ fontWeight: 800, fontSize: 26, letterSpacing: "-0.02em", color: s.accent ? "var(--accent-hover)" : "var(--fg-0)" }}>{s.value}</div>

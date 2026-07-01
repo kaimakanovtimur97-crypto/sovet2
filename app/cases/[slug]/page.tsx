@@ -65,7 +65,7 @@ export default function CasePage({ params }: { params: { slug: string } }) {
 
       {/* ЗАДАЧА / РЕШЕНИЕ */}
       <section style={{ maxWidth: 1000, margin: "0 auto", paddingLeft: "var(--gutter)", paddingRight: "var(--gutter)" }} className="section">
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48 }} className="grid-2">
+        <div style={{ gap: 48 }} className="grid-2">
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--accent-hover)", marginBottom: 12 }}>Задача</div>
             <p style={{ fontSize: 16, lineHeight: 1.65, color: "var(--fg-1)", margin: 0 }}>{cs.challenge}</p>
