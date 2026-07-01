@@ -6,7 +6,7 @@ import { Icon } from "@/components/Icon";
 import { ConsultButton } from "@/components/Lead";
 import { CtaSection } from "@/components/CtaSection";
 import { Faq } from "@/components/Faq";
-import { SERVICES, CASES, STEPS, CONTACT, initials } from "@/lib/data";
+import { SERVICES, CASES, STEPS, CONTACT, COMPLEX_PLAN, SINGLE_SERVICES, initials } from "@/lib/data";
 
 const PROOF = [
   { value: "₽ 2.4 млрд", label: "выручки клиентам за 2024", accent: false },
@@ -28,17 +28,9 @@ const TESTIMONIALS = [
   { quote: "Запустили нас с нуля и довели до лидера ниши за полгода. Прозрачно на каждом шаге.", name: "Ольга Дин", role: "Фаундер, EdTech", accent: false },
 ];
 
-const PLANS = [
-  { name: "Старт", price: "₽ 120 000", per: "/ мес", popular: false, cta: "Обсудить старт", tagline: "Для проверки гипотез и первого канала.",
-    features: ["Один канал привлечения", "Еженедельные отчёты", "Базовая сквозная аналитика", "Менеджер проекта"] },
-  { name: "Рост", price: "₽ 280 000", per: "/ мес", popular: true, cta: "Выбрать «Рост»", tagline: "Оптимальный набор для управляемого роста.",
-    features: ["До трёх каналов", "Сквозная аналитика и атрибуция", "A/B-тесты и связки", "Дашборд в реальном времени", "Стратег + 2 специалиста"] },
-  { name: "Масштаб", price: "₽ от 600 000", per: "/ мес", popular: false, cta: "Запросить расчёт", tagline: "Для тех, кто масштабирует выручку.",
-    features: ["Безлимит каналов", "BI и атрибуция до выручки", "Выделенная команда", "Квартальная стратегия", "SLA по ключевым KPI"] },
-];
 
 const HOME_FAQ = [
-  { q: "Сколько стоит и за что я плачу?", a: "Фиксированный ретейнер за работу команды плюс рекламные бюджеты отдельно — без скрытого процента от расходов. Вы всегда видите, сколько уходит на работу, а сколько в рекламу." },
+  { q: "Сколько стоит и за что я плачу?", a: "Комплекс «Совет» — 50 000 ₽ в месяц: фиксированный ретейнер за работу команды, рекламные бюджеты отдельно, без скрытого процента от расходов. Отдельные услуги — от 15 000 ₽. Вы всегда видите, сколько уходит на работу, а сколько в рекламу." },
   { q: "Когда будут первые результаты?", a: "Первые гипотезы запускаем за две недели. Значимые сдвиги по ключевым метрикам обычно видны к 4–6 неделе работы." },
   { q: "Вы работаете по KPI?", a: "Да. На старте фиксируем метрики (CPL, CPA, ROMI, LTV) и отчитываемся по ним еженедельно в прозрачном дашборде." },
   { q: "Заберёте ли вы наши кабинеты и данные?", a: "Все рекламные аккаунты, кабинеты и данные остаются вашими. Мы работаем с полным доступом и прозрачностью — ничего не уносим с собой." },
@@ -46,8 +38,18 @@ const HOME_FAQ = [
 ];
 
 export default function Home() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: HOME_FAQ.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Header />
 
       {/* HERO */}
@@ -220,32 +222,51 @@ export default function Home() {
       <section id="pricing" className="wrap section">
         <div className="secthead center">
           <span className="eyebrow">Тарифы</span>
-          <h2>Прозрачно: ретейнер за команду, бюджеты — отдельно</h2>
-          <p style={{ marginLeft: "auto", marginRight: "auto" }}>Без скрытых процентов от рекламного бюджета. Вы платите за работу команды и видите каждый рубль.</p>
+          <h2>Комплексный маркетинг — 50 000 ₽ в месяц</h2>
+          <p style={{ marginLeft: "auto", marginRight: "auto" }}>Фиксированный ретейнер за работу команды. Рекламные бюджеты — отдельно и прозрачно, без скрытых процентов.</p>
         </div>
-        <div className="grid-3" style={{ marginTop: 48, alignItems: "start" }}>
-          {PLANS.map((pl) => (
-            <div key={pl.name} className={`card card--pad${pl.popular ? " card--accent" : ""}`}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 14 }}>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--fg-3)" }}>{pl.name}</span>
-                {pl.popular && <span className="badge badge--accent">Популярный</span>}
+
+        <div className="card card--accent" style={{ marginTop: 48, padding: "clamp(24px,4vw,40px)" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" }}>
+                <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--fg-3)" }}>{COMPLEX_PLAN.name}</span>
+                <span className="badge badge--accent">Выгоднее отдельных услуг</span>
               </div>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 6, marginBottom: 6, flexWrap: "wrap" }}>
-                <span style={{ fontWeight: 800, fontSize: 34, letterSpacing: "-0.02em", color: "var(--fg-0)", whiteSpace: "nowrap" }}>{pl.price}</span>
-                <span style={{ fontSize: 14, color: "var(--fg-3)" }}>{pl.per}</span>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+                <span style={{ fontWeight: 800, fontSize: "clamp(34px,4vw,46px)", letterSpacing: "-0.02em", color: "var(--fg-0)", whiteSpace: "nowrap" }}>{COMPLEX_PLAN.priceLabel}</span>
+                <span style={{ fontSize: 15, color: "var(--fg-3)" }}>{COMPLEX_PLAN.per}</span>
               </div>
-              <p style={{ fontSize: 14, lineHeight: 1.5, color: "var(--fg-2)", margin: "0 0 20px" }}>{pl.tagline}</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 11, marginBottom: 24 }}>
-                {pl.features.map((ft) => (
-                  <div key={ft} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--fg-1)", lineHeight: 1.45 }}>
-                    <span style={{ color: "var(--accent-hover)", marginTop: 1, flexShrink: 0 }}><Icon name="check" size={16} /></span>
-                    <span>{ft}</span>
-                  </div>
-                ))}
-              </div>
-              <ConsultButton variant={pl.popular ? "primary" : "outline"} block>{pl.cta}</ConsultButton>
+              <p style={{ fontSize: 15, lineHeight: 1.55, color: "var(--fg-2)", margin: "12px 0 0", maxWidth: 560 }}>{COMPLEX_PLAN.tagline}</p>
             </div>
-          ))}
+            <ConsultButton size="lg">{COMPLEX_PLAN.cta}</ConsultButton>
+          </div>
+          <div className="plan-features" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "12px 28px", marginTop: 32, paddingTop: 28, borderTop: "1px solid var(--line)" }}>
+            {COMPLEX_PLAN.features.map((ft) => (
+              <div key={ft} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontSize: 14, color: "var(--fg-1)", lineHeight: 1.45 }}>
+                <span style={{ color: "var(--accent-hover)", marginTop: 1, flexShrink: 0 }}><Icon name="check" size={16} /></span>
+                <span>{ft}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ marginTop: 64 }}>
+          <div className="secthead">
+            <span className="eyebrow">Отдельные услуги</span>
+            <h2 style={{ fontSize: "clamp(24px,3vw,34px)" }}>Нужно что-то одно — берите отдельно</h2>
+          </div>
+          <div className="grid-4" style={{ marginTop: 36 }}>
+            {SINGLE_SERVICES.map((s) => (
+              <div key={s.name} className="card card--pad" style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "var(--fg-0)", margin: 0, letterSpacing: "-0.01em" }}>{s.name}</h3>
+                <div style={{ marginTop: "auto", display: "flex", alignItems: "baseline", gap: 5, flexWrap: "wrap" }}>
+                  <span style={{ fontWeight: 800, fontSize: s.priceNum ? 22 : 17, letterSpacing: "-0.01em", color: "var(--accent-hover)" }}>{s.price}</span>
+                  {s.monthly && <span style={{ fontSize: 13, color: "var(--fg-3)" }}>/ мес</span>}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import React from "react";
 import "./globals.css";
 import { LeadProvider } from "@/components/Lead";
-import { CONTACT } from "@/lib/data";
+import { CONTACT, COMPLEX_PLAN, SINGLE_SERVICES } from "@/lib/data";
 
 export const metadata: Metadata = {
   metadataBase: new URL(CONTACT.siteUrl),
   title: {
-    default: "Маркетинговое агентство «Совет» в Новороссийске — performance, бренд, аналитика",
+    default: "Маркетинговое агентство «Совет» в Новороссийске — комплексный маркетинг 50 000 ₽/мес",
     template: "%s",
   },
   description:
-    "Маркетинговое агентство полного цикла в Новороссийске: performance, бренд, SMM и аналитика. Работаем на прозрачные KPI и выручку. Бесплатная стратегия за 3 дня.",
+    "Маркетинговое агентство «Совет» в Новороссийске: комплексный маркетинг за 50 000 ₽/мес — Яндекс Директ, таргет VK, SMM, SEO, лендинги и аналитика. Прозрачные KPI и ежемесячная отчётность.",
   keywords: [
     "маркетинговое агентство Новороссийск",
     "реклама Новороссийск",
@@ -20,6 +20,14 @@ export const metadata: Metadata = {
     "SMM Новороссийск",
     "performance маркетинг",
     "продвижение сайтов Новороссийск",
+    "ведение Яндекс Директ Новороссийск",
+    "таргетированная реклама ВКонтакте",
+    "создание лендинга Новороссийск",
+    "создание сайтов Новороссийск",
+    "SEO продвижение Новороссийск",
+    "SMM ведение соцсетей",
+    "маркетинговая стратегия для бизнеса",
+    "настройка Яндекс Карты 2ГИС",
   ],
   openGraph: {
     type: "website",
@@ -27,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Совет",
     title: "Маркетинговое агентство «Совет» в Новороссийске",
     description:
-      "Performance, бренд и аналитика в одной команде. Работаем на выручку и прозрачные KPI. Бесплатная стратегия за 3 дня.",
+      "Комплексный маркетинг за 50 000 ₽/мес: Директ, таргет VK, SMM, SEO, лендинги и аналитика в одной команде. Бесплатная стратегия за 3 дня.",
     url: CONTACT.siteUrl,
   },
   twitter: { card: "summary_large_image" },
@@ -41,11 +49,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     name: "Совет — маркетинговое агентство",
     legalName: CONTACT.legalName,
     description:
-      "Маркетинговое агентство полного цикла в Новороссийске: performance, бренд, SMM, аналитика.",
+      "Маркетинговое агентство полного цикла в Новороссийске: комплексный маркетинг, Яндекс Директ, таргет VK, SMM, SEO, лендинги и аналитика.",
     url: CONTACT.siteUrl,
     telephone: CONTACT.phone,
     email: CONTACT.email,
-    priceRange: "от ₽ 120 000",
+    priceRange: "15 000 ₽ – 50 000 ₽",
     address: {
       "@type": "PostalAddress",
       streetAddress: CONTACT.street,
@@ -56,6 +64,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     },
     geo: { "@type": "GeoCoordinates", latitude: CONTACT.lat, longitude: CONTACT.lng },
     areaServed: ["Новороссийск", "Краснодарский край", "Россия"],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Услуги агентства «Совет»",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          name: COMPLEX_PLAN.name,
+          price: String(COMPLEX_PLAN.price),
+          priceCurrency: "RUB",
+          itemOffered: { "@type": "Service", name: "Комплексный маркетинг под ключ", description: COMPLEX_PLAN.tagline },
+        },
+        ...SINGLE_SERVICES.filter((s) => s.priceNum).map((s) => ({
+          "@type": "Offer",
+          name: s.name,
+          price: String(s.priceNum),
+          priceCurrency: "RUB",
+          itemOffered: { "@type": "Service", name: s.name },
+        })),
+      ],
+    },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],

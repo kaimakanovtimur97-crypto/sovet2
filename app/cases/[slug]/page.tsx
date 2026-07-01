@@ -6,7 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Icon } from "@/components/Icon";
 import { CtaSection } from "@/components/CtaSection";
-import { CASES, getCase, initials } from "@/lib/data";
+import { CASES, CONTACT, getCase, initials } from "@/lib/data";
 
 export function generateStaticParams() {
   return CASES.map((c) => ({ slug: c.slug }));
@@ -30,8 +30,20 @@ export default function CasePage({ params }: { params: { slug: string } }) {
 
   const related = CASES.filter((c) => c.slug !== cs.slug).slice(0, 3);
 
+  const base = CONTACT.siteUrl.replace(/\/$/, "");
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Главная", item: `${base}/` },
+      { "@type": "ListItem", position: 2, name: "Кейсы", item: `${base}/#cases` },
+      { "@type": "ListItem", position: 3, name: cs.title, item: `${base}/cases/${cs.slug}` },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <Header />
 
       {/* HERO */}

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SERVICES, CASES, CONTACT } from "@/lib/data";
+import { POSTS } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = CONTACT.siteUrl.replace(/\/$/, "");
@@ -17,6 +18,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 },
+    ...POSTS.map((p) => ({
+      url: `${base}/blog/${p.slug}`,
+      lastModified: new Date(p.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

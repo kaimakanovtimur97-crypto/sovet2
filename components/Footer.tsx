@@ -20,6 +20,7 @@ export function Footer() {
             <Link href="/#cases">Кейсы</Link>
             <Link href="/#team">Команда</Link>
             <Link href="/#pricing">Тарифы</Link>
+            <Link href="/blog">Блог</Link>
           </div>
           <div className="footer-col">
             <span className="h">Контакты</span>

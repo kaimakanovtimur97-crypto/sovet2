@@ -17,6 +17,7 @@ export function Header() {
           <Link href="/#cases">Кейсы</Link>
           <Link href="/#pricing">Тарифы</Link>
           <Link href="/#team">Команда</Link>
+          <Link href="/blog">Блог</Link>
           <Link href="/#contacts">Контакты</Link>
         </nav>
         <div className="header-right">

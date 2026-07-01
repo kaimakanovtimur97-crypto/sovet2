@@ -8,7 +8,7 @@ import { Icon } from "@/components/Icon";
 import { ConsultButton } from "@/components/Lead";
 import { CtaSection } from "@/components/CtaSection";
 import { Faq } from "@/components/Faq";
-import { SERVICES, STEPS, getService } from "@/lib/data";
+import { SERVICES, STEPS, CONTACT, getService } from "@/lib/data";
 
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
@@ -31,8 +31,39 @@ export default function ServicePage({ params }: { params: { slug: string } }) {
 
   const related = SERVICES.filter((s) => s.slug !== svc.slug);
 
+  const base = CONTACT.siteUrl.replace(/\/$/, "");
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Главная", item: `${base}/` },
+        { "@type": "ListItem", position: 2, name: "Услуги", item: `${base}/#services` },
+        { "@type": "ListItem", position: 3, name: svc.name, item: `${base}/services/${svc.slug}` },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: svc.name,
+      description: svc.intro,
+      areaServed: ["Новороссийск", "Краснодарский край", "Россия"],
+      provider: { "@type": "ProfessionalService", name: "Совет — маркетинговое агентство", url: base },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: svc.faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ];
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Header />
 
       {/* HERO */}
