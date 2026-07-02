@@ -14,7 +14,7 @@ export const CONTACT = {
   lng: "37.7688",
   hours: "Пн–Пт, 09:00–18:00",
   // Замените на реальный домен после деплоя на Vercel:
-  siteUrl: "https://example.com",
+  siteUrl: "https://sovet-nvrsk.ru",
 };
 
 export type Service = {
