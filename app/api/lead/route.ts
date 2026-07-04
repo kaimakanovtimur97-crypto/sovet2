@@ -51,6 +51,34 @@ async function sendEmail(lines: string[], name: string, contact: string) {
 async function sendTelegram(lines: string[]) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
+  const relayUrl = process.env.TELEGRAM_RELAY_URL;
+  const relaySecret = process.env.TELEGRAM_RELAY_SECRET;
+  const text = `🔔 Новая заявка с сайта\n\n${lines.join("\n")}`;
+
+  // Некоторые российские хостинги (напр. Timeweb) не могут напрямую достучаться
+  // до api.telegram.org (сеть блокирует). В этом случае заявка отправляется
+  // через relay-эндпоинт (/api/telegram-relay), развёрнутый там, где Telegram доступен напрямую.
+  if (relayUrl) {
+    try {
+      const res = await fetch(relayUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(relaySecret ? { "x-relay-secret": relaySecret } : {}),
+        },
+        body: JSON.stringify({ text }),
+      });
+      if (!res.ok) {
+        const detail = await res.text();
+        console.error("[lead] Telegram relay ошибка:", res.status, detail);
+        return { attempted: true, ok: false, reason: `Telegram relay ${res.status}` };
+      }
+      return { attempted: true, ok: true };
+    } catch (e) {
+      console.error("[lead] Telegram relay сетевая ошибка:", e);
+      return { attempted: true, ok: false, reason: "сетевая ошибка Telegram relay" };
+    }
+  }
 
   if (!botToken || !chatId) {
     return { attempted: false, ok: false, reason: "TELEGRAM_BOT_TOKEN/TELEGRAM_CHAT_ID не заданы" };
@@ -62,7 +90,7 @@ async function sendTelegram(lines: string[]) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: chatId,
-        text: `🔔 Новая заявка с сайта\n\n${lines.join("\n")}`,
+        text,
         parse_mode: "HTML",
       }),
     });
