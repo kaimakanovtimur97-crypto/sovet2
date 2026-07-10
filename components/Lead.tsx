@@ -2,6 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { Icon } from "./Icon";
+import { formatRuPhone, isCompleteRuPhone } from "./phone";
 
 type LeadContextType = { open: () => void };
 const LeadCtx = createContext<LeadContextType>({ open: () => {} });
@@ -10,18 +11,19 @@ export function useLead() {
   return useContext(LeadCtx);
 }
 
-function FormFields({ onSent }: { onSent: (name: string) => void }) {
-  const [name, setName] = useState("");
+function FormFields({ onSent }: { onSent: () => void }) {
+  const [phone, setPhone] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    if (!isCompleteRuPhone(phone)) {
+      setError("Укажите номер телефона полностью.");
+      return;
+    }
     const payload = {
-      name: String(fd.get("name") || ""),
-      contact: String(fd.get("contact") || ""),
-      budget: String(fd.get("budget") || ""),
+      phone,
       source: "Модальная форма «Получить стратегию роста»",
     };
     setSending(true);
@@ -33,9 +35,9 @@ function FormFields({ onSent }: { onSent: (name: string) => void }) {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error();
-      onSent(payload.name.trim());
+      onSent();
     } catch {
-      setError("Не удалось отправить. Попробуйте ещё раз или напишите нам напрямую.");
+      setError("Не удалось отправить. Попробуйте ещё раз или позвоните нам напрямую.");
     } finally {
       setSending(false);
     }
@@ -44,39 +46,24 @@ function FormFields({ onSent }: { onSent: (name: string) => void }) {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="field">
-        <label htmlFor="lead-name">Имя</label>
+        <label htmlFor="lead-phone">Номер телефона</label>
         <div className="input-wrap">
+          <span className="input-ic">
+            <Icon name="phone" size={16} />
+          </span>
           <input
-            id="lead-name"
-            name="name"
-            className="input"
-            type="text"
-            placeholder="Как к вам обращаться"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            id="lead-phone"
+            name="phone"
+            className="input has-ic"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="+7 (___) ___-__-__"
+            value={phone}
+            onChange={(e) => setPhone(formatRuPhone(e.target.value))}
             required
           />
         </div>
-      </div>
-      <div className="field">
-        <label htmlFor="lead-contact">Эл. почта или телефон</label>
-        <div className="input-wrap">
-          <span className="input-ic">
-            <Icon name="mail" size={16} />
-          </span>
-          <input id="lead-contact" name="contact" className="input has-ic" type="text" placeholder="you@company.ru" required />
-        </div>
-      </div>
-      <div className="field">
-        <label htmlFor="lead-budget">Бюджет на маркетинг</label>
-        <select id="lead-budget" name="budget" className="select" defaultValue="">
-          <option value="" disabled>
-            Выберите диапазон
-          </option>
-          <option>до ₽ 300 000 / мес</option>
-          <option>₽ 300 000 – 1 млн / мес</option>
-          <option>более ₽ 1 млн / мес</option>
-        </select>
       </div>
       {error && <p style={{ color: "#ff6b6b", fontSize: 13, margin: 0 }}>{error}</p>}
       <button type="submit" className="btn btn--primary btn--lg btn--block" disabled={sending}>
@@ -90,11 +77,9 @@ function FormFields({ onSent }: { onSent: (name: string) => void }) {
 export function LeadProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setOpen] = useState(false);
   const [sent, setSent] = useState(false);
-  const [name, setName] = useState("");
 
   const open = useCallback(() => {
     setSent(false);
-    setName("");
     setOpen(true);
   }, []);
   const close = useCallback(() => setOpen(false), []);
@@ -138,8 +123,8 @@ export function LeadProvider({ children }: { children: React.ReactNode }) {
                   <div className="thanks-ic">
                     <Icon name="check" size={28} />
                   </div>
-                  <h3>{name ? `Спасибо, ${name}!` : "Заявка отправлена"}</h3>
-                  <p style={{ maxWidth: 300 }}>Получим заявку и свяжемся с вами в течение рабочего дня.</p>
+                  <h3>Заявка отправлена</h3>
+                  <p style={{ maxWidth: 300 }}>Перезвоним вам в течение рабочего дня.</p>
                   <button className="btn btn--outline" onClick={close}>
                     Закрыть
                   </button>
@@ -155,12 +140,7 @@ export function LeadProvider({ children }: { children: React.ReactNode }) {
                   <p style={{ fontSize: 14, lineHeight: 1.55, color: "var(--fg-2)", margin: "0 0 24px" }}>
                     Разбор воронки и план первых гипотез. Без воды и презентаций ради презентаций.
                   </p>
-                  <FormFields
-                    onSent={(n) => {
-                      setName(n);
-                      setSent(true);
-                    }}
-                  />
+                  <FormFields onSent={() => setSent(true)} />
                 </>
               )}
             </div>

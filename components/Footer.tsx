@@ -30,9 +30,9 @@ export function Footer() {
           </div>
           <div className="footer-col" style={{ maxWidth: 240 }}>
             <span className="h">Реквизиты</span>
-            <span>{CONTACT.legalName} — юр. название</span>
+            <span>{CONTACT.legalName}</span>
             <span>ИНН {CONTACT.inn}</span>
-            <span>ОГРН {CONTACT.ogrn} (опц.)</span>
+            <span>ОГРНИП {CONTACT.ogrn}</span>
           </div>
         </div>
       </div>

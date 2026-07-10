@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 import { Icon } from "./Icon";
+import { formatRuPhone, isCompleteRuPhone } from "./phone";
 
 export function InlineLeadForm() {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
-  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
 
   if (sent) {
     return (
@@ -15,18 +16,20 @@ export function InlineLeadForm() {
         <div className="thanks-ic">
           <Icon name="check" size={28} />
         </div>
-        <h3>{name ? `Спасибо, ${name}!` : "Заявка отправлена"}</h3>
-        <p>Свяжемся с вами в ближайшее время.</p>
+        <h3>Заявка отправлена</h3>
+        <p>Перезвоним вам в ближайшее время.</p>
       </div>
     );
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
+    if (!isCompleteRuPhone(phone)) {
+      setError("Укажите номер телефона полностью.");
+      return;
+    }
     const payload = {
-      name: String(fd.get("name") || ""),
-      contact: String(fd.get("contact") || ""),
+      phone,
       source: "Форма в блоке контактов",
     };
     setSending(true);
@@ -38,10 +41,9 @@ export function InlineLeadForm() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error();
-      setName(payload.name.trim());
       setSent(true);
     } catch {
-      setError("Не удалось отправить. Попробуйте ещё раз или напишите нам напрямую.");
+      setError("Не удалось отправить. Попробуйте ещё раз или позвоните нам напрямую.");
     } finally {
       setSending(false);
     }
@@ -50,32 +52,21 @@ export function InlineLeadForm() {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div className="field">
-        <label htmlFor="cta-name">Имя</label>
-        <div className="input-wrap">
-          <input
-            id="cta-name"
-            name="name"
-            className="input"
-            type="text"
-            placeholder="Как к вам обращаться"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-      </div>
-      <div className="field">
-        <label htmlFor="cta-contact">Эл. почта или телефон</label>
+        <label htmlFor="cta-phone">Номер телефона</label>
         <div className="input-wrap">
           <span className="input-ic">
-            <Icon name="mail" size={16} />
+            <Icon name="phone" size={16} />
           </span>
           <input
-            id="cta-contact"
-            name="contact"
+            id="cta-phone"
+            name="phone"
             className="input has-ic"
-            type="text"
-            placeholder="you@company.ru"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="+7 (___) ___-__-__"
+            value={phone}
+            onChange={(e) => setPhone(formatRuPhone(e.target.value))}
             required
           />
         </div>
