@@ -104,18 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* КЛИЕНТЫ */}
-      <section style={{ borderTop: "1px solid var(--line)", borderBottom: "1px solid var(--line)" }}>
-        <div className="wrap" style={{ paddingTop: 34, paddingBottom: 34, display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--fg-3)", whiteSpace: "nowrap" }}>Нам доверяют</span>
-          <div className="logos-grid" style={{ flex: 1, minWidth: 260, display: "grid", gridTemplateColumns: "repeat(6,1fr)", gap: 14 }}>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} style={{ height: 50, border: "1px dashed var(--line-strong)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--fg-4)", fontFamily: "var(--font-mono)", fontSize: 11 }}>логотип</div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* УСЛУГИ */}
       <section id="services" className="wrap section">
         <div className="secthead">
@@ -254,7 +242,7 @@ export default function Home() {
         <div style={{ marginTop: 64 }}>
           <div className="secthead">
             <span className="eyebrow">Отдельные услуги</span>
-            <h2 style={{ fontSize: "clamp(24px,3vw,34px)" }}>Нужно что-то одно — берите отдельно</h2>
+            <h2 style={{ fontSize: "clamp(24px,3vw,34px)" }}>Каждую услугу можно заказать отдельно</h2>
           </div>
           <div className="grid-4" style={{ marginTop: 36 }}>
             {SINGLE_SERVICES.map((s) => (
@@ -304,14 +292,14 @@ export default function Home() {
         <Faq items={HOME_FAQ} />
       </section>
 
-      {/* КОНТАКТЫ + КАРТА */}
+      {/* КОНТАКТЫ */}
       <section id="contacts" style={{ borderTop: "1px solid var(--line)", background: "var(--ink-800)" }}>
         <div className="wrap section">
           <div className="secthead">
             <span className="eyebrow">Контакты</span>
             <h2>Найти нас в Новороссийске</h2>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "0.8fr 1.2fr", gap: 28, marginTop: 44 }} className="contacts-grid">
+          <div style={{ maxWidth: 620, margin: "44px auto 0" }} className="contacts-grid">
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               {[
                 { icon: "phone", label: "Телефон", value: CONTACT.phone },
@@ -328,17 +316,6 @@ export default function Home() {
               ))}
               <ConsultButton size="lg" block>Написать нам</ConsultButton>
               <span style={{ fontSize: 12, color: "var(--fg-4)", textAlign: "center" }}>Полный адрес и реквизиты — в подвале сайта</span>
-            </div>
-            {/* МЕСТО ПОД ЯНДЕКС-КАРТУ: замените блок на iframe виджета Яндекс.Карт с отметкой офиса */}
-            <div style={{ position: "relative", minHeight: 380, borderRadius: 16, border: "1px dashed var(--line-strong)", background: "var(--ink-700)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, textAlign: "center", padding: 32, overflow: "hidden" }}>
-              <div className="grain" style={{ backgroundSize: "24px 24px" }} />
-              <div style={{ position: "relative", width: 54, height: 54, borderRadius: 14, background: "var(--accent-soft)", border: "1px solid var(--accent-line)", color: "var(--accent-hover)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Icon name="mapPin" size={26} />
-              </div>
-              <div style={{ position: "relative", fontSize: 17, fontWeight: 700, color: "var(--fg-1)" }}>Здесь будет карта</div>
-              <div style={{ position: "relative", fontSize: 13.5, lineHeight: 1.55, color: "var(--fg-3)", maxWidth: 340 }}>
-                Вставьте код виджета Яндекс.Карт с отметкой офиса в Новороссийске. Этот блок полностью заменяется на iframe карты.
-              </div>
             </div>
           </div>
         </div>
