@@ -4,9 +4,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 type LeadPayload = {
+  phone?: string;
+  // Старые поля оставлены для совместимости со старыми версиями формы
   name?: string;
   contact?: string;
-  budget?: string;
   source?: string;
 };
 
@@ -114,31 +115,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Некорректный запрос" }, { status: 400 });
   }
 
+  const phone = clip(data.phone || data.contact);
   const name = clip(data.name);
-  const contact = clip(data.contact);
-  const budget = clip(data.budget);
   const source = clip(data.source);
 
-  if (!name || !contact) {
-    return NextResponse.json({ ok: false, error: "Укажите имя и контакт" }, { status: 400 });
+  if (!phone) {
+    return NextResponse.json({ ok: false, error: "Укажите номер телефона" }, { status: 400 });
   }
 
   const lines = [
-    `Имя: ${name}`,
-    `Контакт: ${contact}`,
-    budget ? `Бюджет: ${budget}` : "",
+    `Телефон: ${phone}`,
+    name ? `Имя: ${name}` : "",
     source ? `Источник: ${source}` : "",
   ].filter(Boolean);
 
   const [emailResult, telegramResult] = await Promise.all([
-    sendEmail(lines, name, contact),
+    sendEmail(lines, phone, phone),
     sendTelegram(lines),
   ]);
 
   // Если ни один канал не настроен — не теряем заявку, логируем и всё равно отвечаем успехом,
   // чтобы пользователь не видел ошибку из-за незаконченной настройки на нашей стороне.
   if (!emailResult.attempted && !telegramResult.attempted) {
-    console.warn("[lead] получена заявка, но ни email, ни Telegram не настроены:", { name, contact, budget, source });
+    console.warn("[lead] получена заявка, но ни email, ни Telegram не настроены:", { phone, name, source });
     return NextResponse.json({ ok: true, delivered: false });
   }
 
@@ -146,8 +145,7 @@ export async function POST(req: Request) {
 
   if (!delivered) {
     console.error("[lead] заявка получена, но не доставлена ни в один канал:", {
-      name,
-      contact,
+      phone,
       email: emailResult,
       telegram: telegramResult,
     });
