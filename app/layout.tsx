@@ -3,6 +3,7 @@ import React from "react";
 import "./globals.css";
 import { LeadProvider } from "@/components/Lead";
 import { CONTACT, COMPLEX_PLAN, SINGLE_SERVICES } from "@/lib/data";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(CONTACT.siteUrl),
@@ -103,6 +104,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <LeadProvider>{children}</LeadProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
