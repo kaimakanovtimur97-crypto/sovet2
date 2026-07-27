@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
   Check,
-  ChevronDown,
   CirclePlay,
   LineChart,
   Menu,
@@ -16,6 +15,7 @@ import {
   Users,
   X,
 } from "lucide-react";
+import { AnimatedFaq } from "@/components/animated-faq";
 
 const services = [
   {
@@ -213,16 +213,6 @@ export default function Home() {
 
   return (
     <main id="top">
-      <div className="video-shell" aria-hidden="true">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260508_064122_c4750c0e-7476-4b44-94a2-a85a65c63bf2.mp4"
-        />
-        <div className="video-dim" />
-      </div>
       <div className="guide guide-left" aria-hidden="true" />
       <div className="guide guide-right" aria-hidden="true" />
 
@@ -429,9 +419,7 @@ export default function Home() {
         <SectionTitle eyebrow="Вопросы" title="Частые вопросы" />
         <div className="faq-list">
           {faqs.map(([question, answer], index) => (
-            <motion.details className="liquid-glass" key={question} {...reveal} transition={{ ...reveal.transition, delay: index * 0.05 }}>
-              <summary><span>{question}</span><ChevronDown size={18} /></summary><p>{answer}</p>
-            </motion.details>
+            <AnimatedFaq question={question} answer={answer} index={index} key={question} />
           ))}
         </div>
       </section>

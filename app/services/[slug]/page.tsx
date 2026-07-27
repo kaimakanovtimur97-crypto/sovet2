@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { AnimatedFaq } from "@/components/animated-faq";
 import { cases, getService, services, site } from "@/lib/site-data";
 
 export function generateStaticParams() {
@@ -138,7 +139,7 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
           <h2>Перед стартом</h2>
         </div>
         <div>
-          {service.faq.map((item) => <details className="liquid-glass" key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}
+          {service.faq.map((item, index) => <AnimatedFaq question={item.question} answer={item.answer} index={index} key={item.question} />)}
         </div>
       </section>
 

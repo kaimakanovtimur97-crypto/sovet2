@@ -56,6 +56,23 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${inter.variable} ${mono.variable}`}>
+        <div className="site-backdrop" aria-hidden="true">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+            poster="/ambient-bg-poster.webp"
+            width="1920"
+            height="1080"
+          >
+            <source media="(max-width: 700px)" src="/ambient-bg-mobile.mp4" type="video/mp4" />
+            <source src="/ambient-bg-desktop.mp4" type="video/mp4" />
+          </video>
+          <div className="site-backdrop-shade" />
+          <div className="site-backdrop-aurora" />
+        </div>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
