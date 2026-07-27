@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
-import { CONTACT } from "@/lib/data";
+import { site } from "@/lib/site-data";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = CONTACT.siteUrl.replace(/\/$/, "");
   return {
-    rules: { userAgent: "*", allow: "/" },
-    sitemap: `${base}/sitemap.xml`,
+    rules: { userAgent: "*", allow: "/", disallow: ["/api/"] },
+    sitemap: `${site.url}/sitemap.xml`,
+    host: site.url,
   };
 }

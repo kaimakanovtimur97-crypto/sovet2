@@ -1,30 +1,14 @@
 import type { MetadataRoute } from "next";
-import { SERVICES, CASES, CONTACT } from "@/lib/data";
-import { POSTS } from "@/lib/posts";
+import { blogPosts, cases, services, site } from "@/lib/site-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = CONTACT.siteUrl.replace(/\/$/, "");
   const now = new Date();
   return [
-    { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
-    ...SERVICES.map((s) => ({
-      url: `${base}/services/${s.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    })),
-    ...CASES.map((c) => ({
-      url: `${base}/cases/${c.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
-    { url: `${base}/blog`, lastModified: now, changeFrequency: "weekly" as const, priority: 0.7 },
-    ...POSTS.map((p) => ({
-      url: `${base}/blog/${p.slug}`,
-      lastModified: new Date(p.date),
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
-    })),
+    { url: site.url, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    ...services.map((item) => ({ url: `${site.url}/services/${item.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.8 })),
+    ...cases.map((item) => ({ url: `${site.url}/cases/${item.slug}`, lastModified: now, changeFrequency: "monthly" as const, priority: 0.7 })),
+    { url: `${site.url}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    ...blogPosts.map((item) => ({ url: `${site.url}/blog/${item.slug}`, lastModified: item.dateIso, changeFrequency: "monthly" as const, priority: 0.65 })),
+    { url: `${site.url}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
 }

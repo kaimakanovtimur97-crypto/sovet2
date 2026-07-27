@@ -1,47 +1,46 @@
-import React from "react";
-import Link from "next/link";
 import type { Metadata } from "next";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Icon } from "@/components/Icon";
-import { CtaSection } from "@/components/CtaSection";
-import { POSTS } from "@/lib/posts";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { blogPosts, site } from "@/lib/site-data";
 
 export const metadata: Metadata = {
-  title: "Блог о маркетинге для бизнеса — агентство «Совет», Новороссийск",
-  description: "Практичные статьи о продвижении бизнеса в Новороссийске: Яндекс Директ, карты 2ГИС, сайты и лендинги, SEO. Без воды, с ценами и цифрами.",
+  title: "Блог о маркетинге для бизнеса в Новороссийске",
+  description: "Практические материалы агентства «Совет» о рекламе, локальном продвижении, сайтах и аналитике.",
   alternates: { canonical: "/blog" },
-  openGraph: { title: "Блог агентства «Совет»", description: "Практика продвижения бизнеса в Новороссийске: Директ, карты, сайты, SEO.", url: "/blog", type: "website", locale: "ru_RU" },
+  openGraph: { title: "Блог агентства «Совет»", description: "Реклама, сайты и аналитика без отрыва от экономики бизнеса.", url: "/blog", type: "website" },
 };
 
 export default function BlogPage() {
   return (
-    <>
-      <Header />
-      <section className="wrap section">
-        <div className="secthead">
-          <span className="eyebrow"><Icon name="sparkles" size={15} /> Блог</span>
-          <h1 style={{ fontSize: "clamp(34px,4.4vw,54px)", fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1.06, color: "var(--fg-0)", margin: 0 }}>Практика маркетинга — без воды</h1>
-          <p>Пишем о том, что делаем руками: реклама, карты, сайты и аналитика для бизнеса в Новороссийске.</p>
-        </div>
-        <div className="grid-3" style={{ marginTop: 48 }}>
-          {POSTS.map((p) => (
-            <Link key={p.slug} href={`/blog/${p.slug}`} className="card card--int card--pad" style={{ display: "flex", flexDirection: "column" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
-                <span className="badge">{p.tag}</span>
-                <span style={{ fontSize: 12.5, color: "var(--fg-4)" }}>{p.dateLabel} · {p.readTime}</span>
-              </div>
-              <h2 style={{ fontSize: 19, fontWeight: 700, color: "var(--fg-0)", margin: "0 0 10px", letterSpacing: "-0.01em", lineHeight: 1.3 }}>{p.title}</h2>
-              <p style={{ fontSize: 14, lineHeight: 1.55, color: "var(--fg-2)", margin: "0 0 18px" }}>{p.excerpt}</p>
-              <span style={{ marginTop: "auto", display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, color: "var(--accent-hover)" }}>
-                Читать <Icon name="arrowRight" size={15} />
-              </span>
-            </Link>
-          ))}
-        </div>
+    <main className="inner-page">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        name: "Блог агентства «Совет»",
+        url: `${site.url}/blog`,
+        publisher: { "@type": "Organization", "@id": `${site.url}/#organization`, name: site.name },
+        blogPost: blogPosts.map((post) => ({ "@type": "BlogPosting", headline: post.title, url: `${site.url}/blog/${post.slug}`, datePublished: post.dateIso })),
+      }} />
+      <SiteHeader />
+      <section className="inner-hero section-shell">
+        <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Блог" }]} />
+        <div className="eyebrow"><span />Практика</div>
+        <h1>Блог о маркетинге для бизнеса</h1>
+        <p>Разбираем рекламу, сайты и локальное продвижение через задачи, ограничения и экономику — без обещаний универсального результата.</p>
       </section>
-      <CtaSection title="Получите стратегию роста за 3 дня" text="Бесплатный разбор воронки и план первых гипотез. Без воды и презентаций ради презентаций." />
-      <Footer />
-    </>
+      <section className="inner-section section-shell blog-grid">
+        {blogPosts.map((post) => (
+          <article className="blog-card liquid-glass" key={post.slug}>
+            <div><span>{post.category}</span><time dateTime={post.dateIso}>{post.date}</time></div>
+            <h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2>
+            <p>{post.description}</p>
+            <Link href={`/blog/${post.slug}`}>Читать · {post.readTime} <ArrowRight size={15} /></Link>
+          </article>
+        ))}
+      </section>
+      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <SiteFooter />
+    </main>
   );
 }
