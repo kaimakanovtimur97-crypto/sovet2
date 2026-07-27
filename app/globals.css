@@ -17,7 +17,7 @@ button, input { font: inherit; }
 main { position: relative; z-index: 1; overflow: hidden; min-height: 100vh; background: linear-gradient(180deg, rgba(8,9,11,.18), rgba(8,9,11,.68) 18%, rgba(8,9,11,.78) 52%, rgba(8,9,11,.86) 100%); }
 .section-shell { width: min(1180px, calc(100% - 48px)); margin-inline: auto; position: relative; z-index: 2; }
 .site-backdrop { position: fixed; z-index: 0; inset: 0; overflow: hidden; pointer-events: none; background: #06070a; }
-.site-backdrop video { width: 100%; height: 100%; object-fit: cover; opacity: .5; filter: saturate(.82) hue-rotate(8deg) contrast(1.12); transform: scale(1.025); animation: backdrop-breathe 16s ease-in-out infinite alternate; }
+.site-backdrop video { width: 100%; height: 100%; object-fit: cover; opacity: .5; filter: saturate(.82) hue-rotate(8deg) contrast(1.12); transform: scale(1.025); animation: backdrop-breathe 16s ease-in-out infinite alternate; transition: opacity .8s ease; }
 .site-backdrop-shade { position: absolute; inset: 0; background: radial-gradient(circle at 70% 17%, rgba(58,103,225,.08), transparent 35%), linear-gradient(180deg, rgba(4,6,10,.16), rgba(6,8,12,.58) 58%, rgba(6,8,12,.76)); }
 .site-backdrop-aurora { position: absolute; width: 75vw; height: 75vw; min-width: 680px; min-height: 680px; right: -36vw; top: 20vh; border-radius: 50%; background: radial-gradient(circle, rgba(67,106,224,.14), rgba(53,100,183,.04) 38%, transparent 70%); filter: blur(45px); animation: aurora-drift 19s ease-in-out infinite alternate; }
 @keyframes backdrop-breathe { from { transform: scale(1.025) translate3d(0,0,0); } to { transform: scale(1.07) translate3d(-.8%,.6%,0); } }
