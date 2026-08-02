@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const VIDEO_VERSION = "20260727-2";
+const VIDEO_VERSION = "20260731-higgs-a05f6fa1";
 
 export function SiteBackdrop() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -55,8 +55,8 @@ export function SiteBackdrop() {
         playsInline
         preload="auto"
         poster="/ambient-bg-poster.webp"
-        width="1920"
-        height="1080"
+        width="1280"
+        height="720"
         disablePictureInPicture
       >
         <source

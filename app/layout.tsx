@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
+import { CookieNotice } from "@/components/cookie-notice";
 import { SiteBackdrop } from "@/components/site-backdrop";
 import "./globals.css";
 
@@ -75,6 +76,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <CookieNotice />
       </body>
     </html>
   );

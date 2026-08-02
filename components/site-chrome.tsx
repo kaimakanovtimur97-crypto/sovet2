@@ -67,7 +67,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom section-shell">
-        <span>© 2026 {site.legalName} · агентство «Совет»</span>
+        <span>© 2026 Агентство «Совет»</span>
         <Link href="/privacy">Политика конфиденциальности</Link>
       </div>
     </footer>

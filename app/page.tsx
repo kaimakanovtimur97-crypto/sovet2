@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import type { FormEvent, PointerEvent } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
@@ -16,6 +17,10 @@ import {
   X,
 } from "lucide-react";
 import { AnimatedFaq } from "@/components/animated-faq";
+import {
+  AnimatedMetricText,
+  PageScrollProgress,
+} from "@/components/premium-motion";
 
 const services = [
   {
@@ -111,20 +116,20 @@ const steps = [
 ];
 
 const standalone = [
-  ["Ведение Яндекс Директ", "20 000 ₽ / мес"],
-  ["Таргетированная реклама VK", "15 000 ₽ / мес"],
-  ["SMM-ведение", "30 000 ₽ / мес"],
+  ["Ведение Яндекс Директ", "от 20 000 ₽ / мес"],
+  ["Таргетированная реклама VK", "от 15 000 ₽ / мес"],
+  ["SMM-ведение", "от 30 000 ₽ / мес"],
   ["SEO-оптимизация", "от 20 000 ₽"],
-  ["Создание лендинга", "20 000 ₽"],
+  ["Создание лендинга", "от 20 000 ₽"],
   ["Многостраничный сайт по ТЗ", "от 50 000 ₽"],
-  ["Стратегия на 90 дней", "50 000 ₽"],
+  ["Стратегия на 90 дней", "от 50 000 ₽"],
   ["Упаковка стартапа", "индивидуально"],
 ];
 
 const faqs = [
   [
     "Сколько стоит и за что я плачу?",
-    "Комплекс «Совет» — 50 000 ₽ в месяц: фиксированный ретейнер за работу команды. Рекламные бюджеты оплачиваются отдельно, без скрытого процента от расходов.",
+    "Комплекс «Совет» — от 50 000 ₽ в месяц: стоимость зависит от состава команды и объёма задач. Рекламные бюджеты оплачиваются отдельно, без скрытого процента от расходов.",
   ],
   [
     "Когда будут первые результаты?",
@@ -154,6 +159,18 @@ function Logo() {
       <span>совет.</span>
     </a>
   );
+}
+
+function trackSpotlight(event: PointerEvent<HTMLElement>) {
+  if (event.pointerType === "touch") return;
+  const rect = event.currentTarget.getBoundingClientRect();
+  event.currentTarget.style.setProperty("--spotlight-x", `${event.clientX - rect.left}px`);
+  event.currentTarget.style.setProperty("--spotlight-y", `${event.clientY - rect.top}px`);
+  event.currentTarget.style.setProperty("--spotlight-opacity", "1");
+}
+
+function hideSpotlight(event: PointerEvent<HTMLElement>) {
+  event.currentTarget.style.setProperty("--spotlight-opacity", "0");
 }
 
 function SectionTitle({
@@ -223,6 +240,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
+          <PageScrollProgress />
           <Logo />
           <nav className="desktop-nav" aria-label="Основная навигация">
             <a href="#services">Услуги</a>
@@ -286,9 +304,9 @@ export default function Home() {
             <a className="ghost-button" href="#cases"><CirclePlay size={17} /> Смотреть кейсы</a>
           </div>
           <div className="hero-stats">
-            <div><b>4</b><span>направления</span></div>
-            <div><b>6</b><span>разобранных кейсов</span></div>
-            <div><b className="accent">1</b><span>команда на проект</span></div>
+            <div><b><AnimatedMetricText text="от 15 000 ₽" /></b><span>старт отдельных услуг</span></div>
+            <div><b className="accent"><AnimatedMetricText text="1–2 недели" /></b><span>типовой запуск</span></div>
+            <div><b>Россия</b><span>работаем удалённо</span></div>
           </div>
           <a className="hero-scroll-cue" href="#services">
             <span />
@@ -308,8 +326,10 @@ export default function Home() {
             const Icon = service.icon;
             return (
               <motion.article
-                className="service-card liquid-glass"
+                className="service-card liquid-glass interactive-spotlight"
                 key={service.title}
+                onPointerMove={trackSpotlight}
+                onPointerLeave={hideSpotlight}
                 {...reveal}
                 transition={{ ...reveal.transition, delay: index * 0.08 }}
               >
@@ -326,10 +346,10 @@ export default function Home() {
 
       <motion.section className="number-band" {...reveal}>
         <div className="section-shell number-grid">
-          <div><strong>от 15 000 ₽</strong><span>отдельные услуги</span></div>
-          <div><strong className="accent">50 000 ₽</strong><span>комплекс в месяц</span></div>
-          <div><strong>100%</strong><span>кабинеты и данные клиента</span></div>
-          <div><strong>1–2 недели</strong><span>типовой технический запуск</span></div>
+          <div><strong><AnimatedMetricText text="от 15 000 ₽" /></strong><span>отдельные услуги</span></div>
+          <div><strong className="accent"><AnimatedMetricText text="от 50 000 ₽" /></strong><span>комплекс в месяц</span></div>
+          <div><strong><AnimatedMetricText text="еженедельно" /></strong><span>оптимизация по данным</span></div>
+          <div><strong><AnimatedMetricText text="1–2 недели" /></strong><span>типовой технический запуск</span></div>
         </div>
       </motion.section>
 
@@ -342,12 +362,14 @@ export default function Home() {
         <div className="case-grid">
           {cases.map((item, index) => (
             <motion.article
-              className={`case-card liquid-glass case-${item.color}`}
+              className={`case-card liquid-glass interactive-spotlight case-${item.color}`}
               key={item.title}
+              onPointerMove={trackSpotlight}
+              onPointerLeave={hideSpotlight}
               {...reveal}
               transition={{ ...reveal.transition, delay: (index % 3) * 0.08 }}
             >
-              <div className="case-visual"><span>{item.tag}</span><strong>{item.metric}</strong></div>
+              <div className="case-visual"><span>{item.tag}</span><strong><AnimatedMetricText text={item.metric} /></strong></div>
               <div className="case-copy"><h3>{item.title}</h3><p>{item.text}</p><a href={`/cases/${item.slug}`}>Разобрать кейс <ArrowRight size={14} /></a></div>
             </motion.article>
           ))}
@@ -372,10 +394,11 @@ export default function Home() {
           text="Фиксированная стоимость команды и прозрачный рекламный бюджет."
         />
         <motion.div className="pricing-card liquid-glass" {...reveal}>
+          <span className="pricing-border-trail" aria-hidden="true" />
           <div className="pricing-glow" />
           <div className="pricing-intro">
             <div className="pricing-label"><span>Комплекс «Совет»</span><em>Выгоднее отдельных услуг</em></div>
-            <h3><span>50 000 ₽</span><small>/ месяц</small></h3>
+            <h3><span><AnimatedMetricText text="от 50 000 ₽" /></span><small>/ месяц</small></h3>
             <p>Вся система маркетинга и продаж под ключ: аналитика, стратегия, реклама, лендинг и ежемесячная отчётность.</p>
             <a className="pill-button dark" href="#contacts">Обсудить комплекс <ArrowRight size={16} /></a>
           </div>
@@ -447,7 +470,7 @@ export default function Home() {
                 ? "Спасибо! Свяжемся с вами в течение рабочего дня."
                 : formState === "error"
                   ? "Не удалось отправить заявку. Проверьте номер или позвоните нам."
-                  : <>Нажимая кнопку, вы соглашаетесь с <a href="/privacy">политикой конфиденциальности</a>.</>}
+                  : <>Нажимая кнопку, вы даёте согласие на обработку номера телефона в соответствии с <a href="/privacy">политикой конфиденциальности</a>.</>}
             </small>
           </form>
         </motion.div>
@@ -459,7 +482,7 @@ export default function Home() {
           <div><span>Навигация</span><a href="#services">Услуги</a><a href="#cases">Кейсы</a><a href="#pricing">Тарифы</a></div>
           <div><span>Контакты</span><a href="tel:+79180531553">+7 918 053 15 53</a><a href="mailto:hello@sovet.ru">hello@sovet.ru</a><small>Пн–Пт, 09:00–18:00</small></div>
         </div>
-        <div className="section-shell footer-bottom"><span>© 2026 ИП Каймаканов Амет Рустемович</span><a href="/privacy">Политика конфиденциальности</a><span>ИНН 231525948472 · ОГРНИП 326237500132941</span></div>
+        <div className="section-shell footer-bottom"><span>© 2026 Агентство «Совет»</span><a href="/privacy">Политика конфиденциальности</a><span>ИНН 231525948472 · ОГРНИП 326237500132941</span></div>
       </footer>
     </main>
   );
