@@ -4,7 +4,7 @@ import { site } from "@/lib/site-data";
 
 export function Logo() {
   return (
-    <Link className="logo" href="/" aria-label="Совет — на главную">
+    <Link className="logo" href="/" aria-label="Совет Маркетинг — на главную">
       <span className="logo-mark" aria-hidden="true"><i /><i /></span>
       <span>совет.</span>
     </Link>
@@ -17,23 +17,25 @@ export function SiteHeader() {
       <div className="nav-wrap">
         <Logo />
         <nav className="desktop-nav" aria-label="Основная навигация">
-          <Link href="/#services">Услуги</Link>
-          <Link href="/#cases">Кейсы</Link>
-          <Link href="/#pricing">Тарифы</Link>
+          <Link href="/services">Услуги</Link>
+          <Link href="/cases">Кейсы</Link>
+          <Link href="/prices">Цены</Link>
+          <Link href="/regions">География</Link>
           <Link href="/blog">Блог</Link>
-          <Link href="/#contacts">Контакты</Link>
+          <Link href="/contacts">Контакты</Link>
         </nav>
         <div className="nav-actions">
           <a className="phone-link" href={site.phoneHref}><Phone size={15} />{site.phone}</a>
-          <Link className="pill-button compact" href="/#contacts">Обсудить проект <ArrowRight size={15} /></Link>
+          <Link className="pill-button compact" href="/contacts#form">Обсудить проект <ArrowRight size={15} /></Link>
           <details className="mobile-menu">
             <summary aria-label="Открыть меню">Меню</summary>
             <nav aria-label="Мобильная навигация">
-              <Link href="/#services">Услуги</Link>
-              <Link href="/#cases">Кейсы</Link>
-              <Link href="/#pricing">Тарифы</Link>
+              <Link href="/services">Услуги</Link>
+              <Link href="/cases">Кейсы</Link>
+              <Link href="/prices">Цены</Link>
+              <Link href="/regions">География</Link>
               <Link href="/blog">Блог</Link>
-              <Link href="/#contacts">Контакты</Link>
+              <Link href="/contacts">Контакты</Link>
             </nav>
           </details>
         </div>
@@ -48,14 +50,15 @@ export function SiteFooter() {
       <div className="footer-grid section-shell">
         <div>
           <Logo />
-          <p>Маркетинговое агентство в Новороссийске. Стратегия, привлечение, контент и аналитика в одной команде.</p>
+          <p>Маркетинговое агентство в Новороссийске. Стратегия, сайты, реклама и аналитика с проверяемыми ограничениями.</p>
         </div>
         <div>
           <span>Навигация</span>
-          <Link href="/#services">Услуги</Link>
-          <Link href="/#cases">Кейсы</Link>
+          <Link href="/services">Услуги</Link>
+          <Link href="/cases">Кейсы</Link>
           <Link href="/blog">Блог</Link>
-          <Link href="/#pricing">Тарифы</Link>
+          <Link href="/prices">Цены</Link>
+          <Link href="/regions">География</Link>
         </div>
         <div>
           <span>Контакты</span>
@@ -67,8 +70,11 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom section-shell">
-        <span>© 2026 Агентство «Совет»</span>
+        <span>© 2026 «Совет Маркетинг»</span>
+        <Link href="/about">О компании</Link>
+        <Link href="/requisites">Реквизиты</Link>
         <Link href="/privacy">Политика конфиденциальности</Link>
+        <Link href="/consent">Согласие на обработку данных</Link>
       </div>
     </footer>
   );
@@ -99,7 +105,7 @@ export function LeadCta() {
         <p>На первой встрече уточним экономику, текущие данные и ограничения. Если задачу нельзя честно оценить без аудита — так и скажем.</p>
       </div>
       <div className="inner-cta-actions">
-        <Link className="pill-button" href="/#contacts">Обсудить проект <ArrowRight size={17} /></Link>
+        <Link className="pill-button" href="/contacts#form">Обсудить проект <ArrowRight size={17} /></Link>
         <a className="ghost-button" href={site.phoneHref}>{site.phone}</a>
       </div>
     </section>

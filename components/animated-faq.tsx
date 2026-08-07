@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ChevronDown } from "lucide-react";
 
 export function AnimatedFaq({
@@ -40,19 +40,15 @@ export function AnimatedFaq({
           <ChevronDown size={18} />
         </motion.i>
       </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            className="animated-faq-answer"
-            initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <p>{answer}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.div
+        className="animated-faq-answer"
+        initial={false}
+        animate={open ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }}
+        aria-hidden={!open}
+        transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
+      >
+        <p>{answer}</p>
+      </motion.div>
     </motion.div>
   );
 }
