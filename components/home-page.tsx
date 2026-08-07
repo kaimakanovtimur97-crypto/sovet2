@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { PointerEvent } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "motion/react";
 import {
   ArrowRight,
@@ -82,10 +83,10 @@ const reveal = {
 
 function Logo() {
   return (
-    <a className="logo" href="/" aria-label="Совет Маркетинг — на главную">
+    <Link className="logo" href="/" aria-label="Совет Маркетинг — на главную">
       <span className="logo-mark" aria-hidden="true"><i /><i /></span>
       <span>совет.</span>
-    </a>
+    </Link>
   );
 }
 
@@ -132,7 +133,7 @@ export function HomePage() {
           <PageScrollProgress />
           <Logo />
           <nav className="desktop-nav" aria-label="Основная навигация">
-            {navItems.map(([label, href]) => <a href={href} key={href}>{label}</a>)}
+            {navItems.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
           </nav>
           <div className="nav-actions">
             <a className="phone-link" href={site.phoneHref}><Phone size={15} />{site.phone}</a>
@@ -158,7 +159,7 @@ export function HomePage() {
               aria-label="Мобильная навигация"
             >
               {navItems.map(([label, href]) => (
-                <a href={href} key={href} onClick={() => setMenuOpen(false)}>{label}</a>
+                <Link href={href} key={href} onClick={() => setMenuOpen(false)}>{label}</Link>
               ))}
             </motion.nav>
           )}
@@ -177,7 +178,7 @@ export function HomePage() {
           </p>
           <div className="hero-actions">
             <a className="pill-button" href="#contacts">Обсудить задачу <ArrowRight size={17} /></a>
-            <a className="ghost-button" href="/cases"><CirclePlay size={17} /> Публичные проекты</a>
+            <Link className="ghost-button" href="/cases"><CirclePlay size={17} /> Публичные проекты</Link>
           </div>
           <div className="hero-stats">
             <div><b>Новороссийск</b><span>основной регион</span></div>
@@ -192,7 +193,7 @@ export function HomePage() {
         <SectionTitle
           eyebrow="Что мы делаем"
           title="Страницы и услуги под самостоятельный спрос"
-          text="Сначала усиливаем Новороссийск. Анапа и Геленджик получают отдельные городские хабы без копирования одинаковых текстов."
+          text="Сначала усиливаем Новороссийск. Затем развиваем Анапу и Геленджик, а Крымск и Абинск — как отдельные соседние рынки без копирования одинаковых текстов."
         />
         <div className="service-grid">
           {services.map((service, index) => {
@@ -210,12 +211,12 @@ export function HomePage() {
                 <h3>{service.shortTitle}</h3>
                 <p>{service.description}</p>
                 <div className="tag-row">{serviceTags[service.slug]?.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                <a href={`/services/${service.slug}`}>Подробнее <ArrowRight size={14} /></a>
+                <Link href={`/services/${service.slug}`} aria-label={`Подробнее об услуге «${service.shortTitle}»`}>Подробнее <ArrowRight size={14} /></Link>
               </motion.article>
             );
           })}
         </div>
-        <div className="section-more"><a className="ghost-button" href="/services">Все услуги <ArrowRight size={16} /></a></div>
+        <div className="section-more"><Link className="ghost-button" href="/services">Все услуги <ArrowRight size={16} /></Link></div>
       </section>
 
       <motion.section className="number-band" {...reveal}>
@@ -247,12 +248,12 @@ export function HomePage() {
               <div className="case-copy">
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <a href={`/cases/${item.slug}`}>Разобрать проект <ArrowRight size={14} /></a>
+                <Link href={`/cases/${item.slug}`} aria-label={`Разобрать проект «${item.title}»`}>Разобрать проект <ArrowRight size={14} /></Link>
               </div>
             </motion.article>
           ))}
         </div>
-        <div className="section-more"><a className="ghost-button" href="/cases">Как подтверждаем кейсы <ArrowRight size={16} /></a></div>
+        <div className="section-more"><Link className="ghost-button" href="/cases">Как подтверждаем кейсы <ArrowRight size={16} /></Link></div>
       </section>
 
       <section className="approach section-shell" id="approach">
@@ -300,7 +301,7 @@ export function HomePage() {
             {standalonePrices.slice(0, 6).map(([title, price]) => <div key={title}><span>{title}</span><strong>{price}</strong></div>)}
           </div>
         </motion.div>
-        <div className="section-more"><a className="ghost-button" href="/prices">Все цены и условия <ArrowRight size={16} /></a></div>
+        <div className="section-more"><Link className="ghost-button" href="/prices">Все цены и условия <ArrowRight size={16} /></Link></div>
       </section>
 
       <section className="testimonials section-shell">

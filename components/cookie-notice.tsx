@@ -9,11 +9,14 @@ export function CookieNotice() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    try {
-      setVisible(window.localStorage.getItem(STORAGE_KEY) !== "accepted");
-    } catch {
-      setVisible(true);
-    }
+    const frame = window.requestAnimationFrame(() => {
+      try {
+        setVisible(window.localStorage.getItem(STORAGE_KEY) !== "accepted");
+      } catch {
+        setVisible(true);
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   function acceptNotice() {

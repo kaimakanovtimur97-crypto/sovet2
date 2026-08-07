@@ -64,6 +64,15 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
               dateModified: region.updatedAt,
             },
             {
+              "@type": "Service",
+              "@id": `${url}#service`,
+              name: `Маркетинговые услуги для бизнеса в ${region.city}`,
+              serviceType: "Маркетинговые услуги",
+              url,
+              provider: { "@id": `${site.url}/#organization` },
+              areaServed: { "@type": "City", name: region.city },
+            },
+            {
               "@type": "BreadcrumbList",
               itemListElement: [
                 { "@type": "ListItem", position: 1, name: "Главная", item: site.url },
@@ -123,6 +132,24 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
               <span>0{index + 1}</span>
               <h3>{priority.title}</h3>
               <p>{priority.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="inner-section section-shell">
+        <div className="inner-heading">
+          <div className="eyebrow"><span />Локальные сценарии</div>
+          <h2>Задача, первый шаг и проверяемый сигнал</h2>
+          <p>Не объединяем разные типы бизнеса в одну воронку: у каждого сценария свой путь до обращения и критерий качества.</p>
+        </div>
+        <div className="feature-grid">
+          {region.scenarios.map((scenario) => (
+            <article className="liquid-glass region-scenario" key={scenario.audience}>
+              <span>{scenario.audience}</span>
+              <h3>{scenario.task}</h3>
+              <p>{scenario.firstStep}</p>
+              <p><strong>Проверяем:</strong> {scenario.signal}.</p>
             </article>
           ))}
         </div>

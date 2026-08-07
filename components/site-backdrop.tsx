@@ -11,15 +11,24 @@ export function SiteBackdrop() {
   const pathname = usePathname();
 
   useEffect(() => {
+    const resetFrame = window.requestAnimationFrame(() => setReady(false));
     const video = videoRef.current;
-    if (!video || pathname !== "/") return;
+    if (!video || pathname !== "/") {
+      return () => window.cancelAnimationFrame(resetFrame);
+    }
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
-    if (reduceMotion || connection.connection?.saveData) return;
+    if (reduceMotion || connection.connection?.saveData) {
+      return () => window.cancelAnimationFrame(resetFrame);
+    }
 
     let started = false;
+    let sourceAttached = false;
     let timer = 0;
+    const source = window.matchMedia("(max-width: 700px)").matches
+      ? `/ambient-bg-mobile.mp4?v=${VIDEO_VERSION}`
+      : `/ambient-bg-desktop.mp4?v=${VIDEO_VERSION}`;
 
     const markReady = () => {
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
@@ -28,6 +37,11 @@ export function SiteBackdrop() {
     };
 
     const startPlayback = () => {
+      if (!sourceAttached) {
+        video.src = source;
+        sourceAttached = true;
+        video.load();
+      }
       started = true;
       markReady();
       void video.play().catch(() => {
@@ -45,18 +59,23 @@ export function SiteBackdrop() {
     document.addEventListener("visibilitychange", handleVisibility);
     window.addEventListener("pointerdown", startPlayback, { once: true });
 
+    // Keep the lightweight poster during the first render. Loading the ambient
+    // video after the LCP window preserves the visual direction without making
+    // the decorative asset compete with the page's primary content.
     timer = window.setTimeout(() => {
-      video.load();
       startPlayback();
-    }, 900);
+    }, 4000);
 
     return () => {
       video.removeEventListener("loadeddata", startPlayback);
       video.removeEventListener("canplay", startPlayback);
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("pointerdown", startPlayback);
+      window.cancelAnimationFrame(resetFrame);
       window.clearTimeout(timer);
       video.pause();
+      video.removeAttribute("src");
+      video.load();
     };
   }, [pathname]);
 
@@ -72,17 +91,7 @@ export function SiteBackdrop() {
         width="1280"
         height="720"
         disablePictureInPicture
-      >
-        <source
-          media="(max-width: 700px)"
-          src={`/ambient-bg-mobile.mp4?v=${VIDEO_VERSION}`}
-          type="video/mp4"
-        />
-        <source
-          src={`/ambient-bg-desktop.mp4?v=${VIDEO_VERSION}`}
-          type="video/mp4"
-        />
-      </video>
+      />
       <div className="site-backdrop-shade" />
       <div className="site-backdrop-aurora" />
     </div>
