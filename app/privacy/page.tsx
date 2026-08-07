@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import { Breadcrumbs, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { buildMetadata } from "@/lib/seo";
 import { site } from "@/lib/site-data";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildMetadata({
   title: "Политика обработки персональных данных",
   description: "Политика обработки персональных данных и использования cookie на сайте агентства «Совет».",
-  alternates: { canonical: "/privacy" },
-  robots: { index: false, follow: true },
-};
+  path: "/privacy",
+  index: false,
+});
 
 export default function PrivacyPage() {
   return (
@@ -21,7 +22,7 @@ export default function PrivacyPage() {
             Документ объясняет, какие данные сайт получает, зачем они нужны,
             как обрабатываются и какими правами обладает посетитель.
           </p>
-          <div className="legal-meta">Редакция от 2 августа 2026 года</div>
+          <div className="legal-meta">Редакция от 7 августа 2026 года</div>
         </header>
 
         <div className="article-content">
@@ -34,8 +35,8 @@ export default function PrivacyPage() {
             </p>
             <p>
               Отправляя номер телефона через форму, посетитель подтверждает,
-              что ознакомился с политикой и даёт согласие на обработку данных
-              для ответа на обращение.
+              что ознакомился с политикой и отдельно подтверждает{" "}
+              <a href="/consent">согласие на обработку данных</a> для ответа на обращение.
             </p>
           </section>
 

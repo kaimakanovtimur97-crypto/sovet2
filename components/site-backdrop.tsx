@@ -1,16 +1,25 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const VIDEO_VERSION = "20260731-higgs-a05f6fa1";
 
 export function SiteBackdrop() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ready, setReady] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || pathname !== "/") return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
+    if (reduceMotion || connection.connection?.saveData) return;
+
+    let started = false;
+    let timer = 0;
 
     const markReady = () => {
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
@@ -19,6 +28,7 @@ export function SiteBackdrop() {
     };
 
     const startPlayback = () => {
+      started = true;
       markReady();
       void video.play().catch(() => {
         // Some browsers postpone autoplay until the tab becomes active.
@@ -26,7 +36,8 @@ export function SiteBackdrop() {
     };
 
     const handleVisibility = () => {
-      if (!document.hidden) startPlayback();
+      if (document.hidden) video.pause();
+      else if (started) startPlayback();
     };
 
     video.addEventListener("loadeddata", startPlayback);
@@ -34,26 +45,29 @@ export function SiteBackdrop() {
     document.addEventListener("visibilitychange", handleVisibility);
     window.addEventListener("pointerdown", startPlayback, { once: true });
 
-    video.load();
-    startPlayback();
+    timer = window.setTimeout(() => {
+      video.load();
+      startPlayback();
+    }, 900);
 
     return () => {
       video.removeEventListener("loadeddata", startPlayback);
       video.removeEventListener("canplay", startPlayback);
       document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("pointerdown", startPlayback);
+      window.clearTimeout(timer);
+      video.pause();
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div className={`site-backdrop${ready ? " is-video-ready" : ""}`} aria-hidden="true">
       <video
         ref={videoRef}
-        autoPlay
         loop
         muted
         playsInline
-        preload="auto"
+        preload="none"
         poster="/ambient-bg-poster.webp"
         width="1280"
         height="720"
