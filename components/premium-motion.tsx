@@ -29,13 +29,8 @@ export function AnimatedNumber({
   className?: string;
 }) {
   const formatted = value.toLocaleString("ru-RU");
-  const accessibleValue = `${prefix}${value.toLocaleString("ru-RU")}${suffix}`;
 
-  return (
-    <span className={className} aria-label={accessibleValue}>
-      <span aria-hidden="true">{prefix}{formatted}{suffix}</span>
-    </span>
-  );
+  return <span className={className}>{prefix}{formatted}{suffix}</span>;
 }
 
 export function AnimatedMetricText({

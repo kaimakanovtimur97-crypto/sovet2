@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { CookieNotice } from "@/components/cookie-notice";
 import { SiteBackdrop } from "@/components/site-backdrop";
-import { site } from "@/lib/site-data";
+import { regions, site } from "@/lib/site-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -81,7 +81,7 @@ export default function RootLayout({
                   logo: `${site.url}/favicon.svg`,
                   email: site.email,
                   telephone: "+79180531553",
-                  areaServed: ["Новороссийск", "Анапа", "Геленджик", "Краснодарский край"],
+                  areaServed: [site.city, ...regions.map((region) => region.city), site.region],
                   contactPoint: {
                     "@type": "ContactPoint",
                     telephone: "+79180531553",
