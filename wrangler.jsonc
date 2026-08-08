@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sovet2",
+  "main": "cloudflare/lead-worker.js",
+  "compatibility_date": "2026-08-08",
+  "workers_dev": false,
+  "keep_vars": true,
+  "routes": [
+    {
+      "pattern": "forms.sovet-nvrsk.ru",
+      "custom_domain": true
+    },
+    {
+      "pattern": "preview.sovet-nvrsk.ru",
+      "custom_domain": true
+    }
+  ],
+  "vars": {
+    "TIMEWEB_ORIGIN": "https://kaimakanovtimur97-crypto-sovet2-9d5e.twc1.net"
+  }
+}
