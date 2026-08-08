@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { blogPosts, cases, regions, services, site } from "@/lib/site-data";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: site.url, lastModified: site.updatedAt, changeFrequency: "weekly", priority: 1 },

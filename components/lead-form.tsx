@@ -8,6 +8,10 @@ import { site } from "@/lib/site-data";
 
 type FormState = "idle" | "sending" | "error";
 
+const leadEndpoint =
+  process.env.NEXT_PUBLIC_LEAD_ENDPOINT ||
+  "https://forms.sovet-nvrsk.ru/api/lead";
+
 function formatPhone(value: string) {
   const raw = value.replace(/\D/g, "");
   const digits = (raw.length > 10 && /^[78]/.test(raw) ? raw.slice(1) : raw).slice(0, 10);
@@ -44,7 +48,7 @@ export function LeadForm({ source = "Сайт" }: { source?: string }) {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/lead", {
+      const response = await fetch(leadEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
