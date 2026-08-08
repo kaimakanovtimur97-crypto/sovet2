@@ -6,11 +6,13 @@ import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { nearbyServiceAreas, regions, services, site } from "@/lib/site-data";
 
 export const metadata: Metadata = buildMetadata({
-  title: "География работы — Новороссийск и города Краснодарского края",
+  title: "Новороссийск и города Краснодарского края — география работы",
   description:
-    "«Совет Маркетинг» работает с бизнесом Новороссийска, Анапы, Геленджика, Крымска, Абинска и близлежащих населённых пунктов без фиктивных филиалов.",
+    "Создаём сайты, настраиваем SEO, Яндекс Директ и аналитику для бизнеса Новороссийска, Анапы, Геленджика, других городов Краснодарского края и России.",
   path: "/regions",
 });
+
+const featuredRegions = regions.filter(({ slug }) => ["anapa", "gelendzhik"].includes(slug));
 
 export default function RegionsPage() {
   const url = absoluteUrl("/regions");
@@ -19,6 +21,7 @@ export default function RegionsPage() {
     ...regions.map((region) => ({ "@type": "City", name: region.city })),
     ...nearbyServiceAreas.map((name) => ({ "@type": "Place", name })),
     { "@type": "AdministrativeArea", name: site.region },
+    { "@type": "Country", name: "Россия" },
   ];
 
   return (
@@ -42,13 +45,13 @@ export default function RegionsPage() {
               "@id": `${url}#page`,
               name: "География работы «Совет Маркетинг»",
               description:
-                "Новороссийск — основная точка агентства; с бизнесом других городов края работаем удалённо и с заранее согласованными выездами.",
+                "Работаем с бизнесом Новороссийска, Краснодарского края и других регионов России: создаём сайты, настраиваем SEO, рекламу и аналитику.",
               url,
               inLanguage: "ru-RU",
               about: { "@id": `${site.url}/#organization` },
               mainEntity: {
                 "@type": "ItemList",
-                itemListElement: regions.map((region, index) => ({
+                itemListElement: featuredRegions.map((region, index) => ({
                   "@type": "ListItem",
                   position: index + 1,
                   name: region.city,
@@ -70,11 +73,12 @@ export default function RegionsPage() {
 
       <section className="inner-hero section-shell">
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "География" }]} />
-        <div className="eyebrow"><span />Зона работы</div>
-        <h1>Новороссийск — основная точка. Города края — отдельные направления</h1>
+        <div className="eyebrow"><span />География работы</div>
+        <h1>Новороссийск и города края</h1>
         <p>
-          Мы не создаём видимость филиалов, которых нет. Для каждого города честно описываем формат работы,
-          локальный контекст и близлежащую зону обслуживания.
+          Помогаем бизнесу привлекать клиентов с помощью сайтов, SEO, рекламы и аналитики. Основной город —
+          Новороссийск; с компаниями из других городов Краснодарского края и России работаем онлайн, а выезд
+          при необходимости согласуем отдельно.
         </p>
         <div className="hero-actions">
           <Link className="pill-button" href="/contacts#form">Обсудить задачу <ArrowRight size={17} /></Link>
@@ -83,32 +87,44 @@ export default function RegionsPage() {
       </section>
 
       <section className="metric-strip section-shell" aria-label="География агентства">
-        <div><strong>{site.city}</strong><span>основная точка агентства</span></div>
-        <div><strong>{regions.length} города</strong><span>с отдельным локальным контекстом</span></div>
-        <div><strong>{nearbyServiceAreas.length}</strong><span>близлежащих направлений без тонких геостраниц</span></div>
+        <div><strong>{site.city}</strong><span>основной город агентства</span></div>
+        <div><strong>Краснодарский край</strong><span>работаем очно и дистанционно</span></div>
+        <div><strong>Россия</strong><span>ведём проекты онлайн</span></div>
       </section>
 
       <section className="inner-section section-shell">
         <div className="inner-heading">
-          <div className="eyebrow"><span />Города</div>
-          <h2>Где и как мы работаем</h2>
-          <p>Общие услуги едины, но спрос, сезонность и путь к обращению для каждого города разбираем отдельно.</p>
+          <div className="eyebrow"><span />География</div>
+          <h2>Работаем там, где находится ваш бизнес</h2>
+          <p>Основная точка — Новороссийск. Проекты в Анапе, Геленджике, других городах края и России ведём дистанционно; выезд и съёмку согласуем отдельно.</p>
         </div>
-        <div className="related-grid">
+        <div className="related-grid region-grid">
           <Link className="related-card liquid-glass" href="/">
-            <span>Основная точка</span>
+            <span>Основной город</span>
             <h3>{site.city}</h3>
-            <p>Локальная база агентства: сайты, SEO, Яндекс Директ, Карты, SMM и аналитика.</p>
-            <b>На главную <ArrowRight size={15} /></b>
+            <p>Помогаем местному бизнесу запускать сайты, получать трафик из SEO и Яндекс Директа и видеть путь заявки в аналитике.</p>
+            <b>Подробнее <ArrowRight size={15} /></b>
           </Link>
-          {regions.map((region) => (
+          {featuredRegions.map((region) => (
             <Link className="related-card liquid-glass" href={`/regions/${region.slug}`} key={region.slug}>
-              <span>Региональная страница</span>
+              <span>Город края</span>
               <h3>{region.city}</h3>
               <p>{region.description}</p>
               <b>Открыть страницу <ArrowRight size={15} /></b>
             </Link>
           ))}
+          <Link className="related-card liquid-glass" href="/contacts#form">
+            <span>Другие города</span>
+            <h3>Краснодарский край</h3>
+            <p>Работаем с компаниями из городов и районов края: изучаем спрос, собираем сайт и подключаем подходящие каналы продвижения.</p>
+            <b>Обсудить проект <ArrowRight size={15} /></b>
+          </Link>
+          <Link className="related-card liquid-glass" href="/contacts#form">
+            <span>Удалённая работа</span>
+            <h3>Россия</h3>
+            <p>Подключаемся к проектам онлайн: проводим аудит, создаём лендинги и многостраничные сайты, ведём SEO, рекламу и аналитику.</p>
+            <b>Обсудить онлайн <ArrowRight size={15} /></b>
+          </Link>
         </div>
       </section>
 
@@ -125,9 +141,9 @@ export default function RegionsPage() {
 
       <section className="inner-section section-shell">
         <div className="inner-heading">
-          <div className="eyebrow"><span />Общие услуги</div>
-          <h2>Одна система работы для всей географии</h2>
-          <p>Региональная страница объясняет контекст, а состав и ограничения каждой услуги описаны на общей странице.</p>
+          <div className="eyebrow"><span />Услуги для бизнеса</div>
+          <h2>Соберём продвижение под вашу задачу</h2>
+          <p>Можно заказать отдельную услугу или собрать комплекс: сайт, SEO, Яндекс Директ, продвижение в Картах, контент и аналитику. После короткого разбора предложим приоритеты, сроки и бюджет.</p>
         </div>
         <div className="related-grid">
           {services.map((service) => (

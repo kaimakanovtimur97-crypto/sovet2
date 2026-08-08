@@ -48,6 +48,62 @@ const serviceTags: Record<string, string[]> = {
   brand: ["Позиционирование", "Айдентика", "Креатив"],
 };
 
+const conceptProjects = [
+  {
+    key: "concept-ecommerce",
+    industry: "Концепт · E-commerce",
+    fact: "Демо-концепт",
+    title: "Воронка для бренда товаров для дома",
+    description:
+      "Демонстрационный сценарий: разделение категорий, рекламных кампаний и аналитики от запроса до заказа.",
+    href: "/services/analytics",
+    linkLabel: "Разобрать сценарий",
+  },
+  {
+    key: "concept-medicine",
+    industry: "Концепт · Медицина",
+    fact: "Демо-концепт",
+    title: "Система привлечения и записи для сети клиник",
+    description:
+      "Модель связки страниц услуг, Яндекс Директа, коллтрекинга и контроля записи — без заявлений о достигнутых показателях.",
+    href: "/services/yandex-direct",
+    linkLabel: "Разобрать сценарий",
+  },
+  {
+    key: "concept-retail",
+    industry: "Концепт · Локальный ритейл",
+    fact: "Демо-концепт",
+    title: "Продвижение сети магазинов по районам",
+    description:
+      "Сценарий с отдельными карточками точек, георекламой, актуальными данными на Картах и сверкой обращений с продажами.",
+    href: "/services/local-promotion",
+    linkLabel: "Разобрать сценарий",
+  },
+  {
+    key: "concept-edtech",
+    industry: "Концепт · EdTech",
+    fact: "Демо-концепт",
+    title: "Запуск маркетинга для онлайн-школы",
+    description:
+      "Пример системы из позиционирования, лендинга, контента, рекламы и аналитики — без вымышленного клиента и результата.",
+    href: "/services/marketing-support",
+    linkLabel: "Разобрать сценарий",
+  },
+];
+
+const homepageProjects = [
+  ...cases.map((item) => ({
+    key: item.slug,
+    industry: item.industry,
+    fact: item.facts[0][0],
+    title: item.title,
+    description: item.description,
+    href: `/cases/${item.slug}`,
+    linkLabel: "Разобрать проект",
+  })),
+  ...conceptProjects,
+];
+
 const steps = [
   ["01", "Аудит и определения метрик", "Разбираем спрос, продукт, текущие каналы и договариваемся о значениях метрик."],
   ["02", "Приоритетный план", "Отделяем обязательную базу от гипотез и фиксируем ответственных, срок и критерий."],
@@ -192,8 +248,8 @@ export function HomePage() {
       <section className="services section-shell" id="services">
         <SectionTitle
           eyebrow="Что мы делаем"
-          title="Страницы и услуги под самостоятельный спрос"
-          text="Сначала усиливаем Новороссийск. Затем развиваем Анапу и Геленджик, а Крымск и Абинск — как отдельные соседние рынки без копирования одинаковых текстов."
+          title="Всё необходимое для привлечения клиентов"
+          text="Создаём сайты, настраиваем рекламу и SEO, развиваем присутствие в Яндекс Картах и 2ГИС. Объединяем каналы и аналитику, чтобы вы понимали, откуда приходят обращения и что работает лучше."
         />
         <div className="service-grid">
           {services.map((service, index) => {
@@ -230,25 +286,25 @@ export function HomePage() {
 
       <section className="cases section-shell" id="cases">
         <SectionTitle
-          eyebrow="Публичные проекты"
-          title="Без придуманных клиентов и результатов"
-          text="Показываем только реальную работу и прямо отделяем опубликованный результат от проектного этапа."
+          eyebrow="Проекты и концепты"
+          title="Реальная работа и понятные сценарии"
+          text="У реальных проектов показываем подтверждение. Демонстрационные концепты всегда подписываем и не выдаём за клиентов или достигнутые результаты."
         />
         <div className="case-grid">
-          {cases.map((item, index) => (
+          {homepageProjects.map((item, index) => (
             <motion.article
               className={`case-card liquid-glass interactive-spotlight case-${index % 2 ? "cyan" : "blue"}`}
-              key={item.slug}
+              key={item.key}
               onPointerMove={trackSpotlight}
               onPointerLeave={hideSpotlight}
               {...reveal}
               transition={{ ...reveal.transition, delay: index * 0.08 }}
             >
-              <div className="case-visual"><span>{item.industry}</span><strong>{item.facts[0][0]}</strong></div>
+              <div className="case-visual"><span>{item.industry}</span><strong>{item.fact}</strong></div>
               <div className="case-copy">
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <Link href={`/cases/${item.slug}`} aria-label={`Разобрать проект «${item.title}»`}>Разобрать проект <ArrowRight size={14} /></Link>
+                <Link href={item.href} aria-label={`${item.linkLabel} «${item.title}»`}>{item.linkLabel} <ArrowRight size={14} /></Link>
               </div>
             </motion.article>
           ))}
@@ -270,8 +326,8 @@ export function HomePage() {
       <section className="pricing section-shell" id="pricing">
         <SectionTitle
           eyebrow="Цены"
-          title="Отдельно работа, отдельно рекламный бюджет"
-          text="Финальная смета зависит от страниц, интеграций, объёма материалов и состояния данных."
+          title="Понятная стоимость до начала работ"
+          text="Сначала определяем задачи и объём, затем согласуем состав услуг, сроки и смету. Рекламный бюджет оплачивается отдельно и остаётся под вашим контролем."
         />
         <motion.div className="pricing-card liquid-glass" {...reveal}>
           <span className="pricing-border-trail" aria-hidden="true" />
@@ -284,14 +340,14 @@ export function HomePage() {
           </div>
           <div className="pricing-features">
             {[
-              "Диагностика продукта и воронки",
-              "План гипотез и приоритетов",
-              "Реклама и посадочные страницы",
+              "Ведение канала продаж",
+              "Создание лендинга",
+              "SEO-аудит и оптимизация",
+              "Ведение Яндекс Директа",
               "Яндекс Карты и 2ГИС",
-              "Контент и креатив",
-              "Аналитика и контроль данных",
-              "Еженедельный статус",
-              "Кабинеты принадлежат клиенту",
+              "Контент и креативы",
+              "Аналитика и отчётность",
+              "Кабинеты принадлежат вам",
             ].map((item) => <div key={item}><span><Check size={13} /></span>{item}</div>)}
           </div>
         </motion.div>
