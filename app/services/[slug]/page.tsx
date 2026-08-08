@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import {
   Breadcrumbs,
@@ -14,17 +14,15 @@ import {
   blogPosts,
   cases,
   getService,
-  legacyServiceRedirects,
   services,
   site,
 } from "@/lib/site-data";
 
 export function generateStaticParams() {
-  return [
-    ...services.map(({ slug }) => ({ slug })),
-    ...Object.keys(legacyServiceRedirects).map((slug) => ({ slug })),
-  ];
+  return services.map(({ slug }) => ({ slug }));
 }
+
+export const dynamicParams = false;
 
 export async function generateMetadata({
   params,
@@ -32,8 +30,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const requestedSlug = (await params).slug;
-  const canonicalSlug = legacyServiceRedirects[requestedSlug] ?? requestedSlug;
-  const service = getService(canonicalSlug);
+  const service = getService(requestedSlug);
   if (!service) return {};
 
   return buildMetadata({
@@ -49,9 +46,6 @@ export default async function ServicePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const redirectSlug = legacyServiceRedirects[slug];
-  if (redirectSlug) permanentRedirect(`/services/${redirectSlug}`);
-
   const service = getService(slug);
   if (!service) notFound();
 

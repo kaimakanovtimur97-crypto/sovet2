@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "npm run build && node --test tests/static-export.test.mjs",
+    "qa:live": "node scripts/live-static-qa.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.27.0",
