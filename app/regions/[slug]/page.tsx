@@ -195,6 +195,24 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
 
+      <section className="inner-section section-shell">
+        <div className="inner-heading">
+          <div className="eyebrow"><span />Другие города</div>
+          <h2>Региональные направления</h2>
+          <p>Посмотрите условия и локальный контекст работы в других городах Краснодарского края.</p>
+        </div>
+        <div className="related-grid">
+          {regions.filter((entry) => entry.slug !== region.slug).map((entry) => (
+            <Link className="related-card liquid-glass" href={`/regions/${entry.slug}`} key={entry.slug}>
+              <span>Город края</span>
+              <h3>{entry.city}</h3>
+              <p>{entry.description}</p>
+              <b>Открыть страницу <ArrowRight size={15} /></b>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="inner-section section-shell faq-inner">
         <div className="inner-heading">
           <div className="eyebrow"><span />Вопросы</div>
