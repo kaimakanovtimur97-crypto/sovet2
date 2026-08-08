@@ -11,7 +11,11 @@
       "custom_domain": true
     },
     {
-      "pattern": "preview.sovet-nvrsk.ru",
+      "pattern": "www.sovet-nvrsk.ru",
+      "custom_domain": true
+    },
+    {
+      "pattern": "sovet-nvrsk.ru",
       "custom_domain": true
     }
   ],
