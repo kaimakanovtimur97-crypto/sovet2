@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { buildMetadata } from "@/lib/seo";
 import { blogPosts, site } from "@/lib/site-data";
 
@@ -45,7 +45,7 @@ export default function BlogPage() {
           </article>
         ))}
       </section>
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

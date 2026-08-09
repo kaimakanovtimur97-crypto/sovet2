@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LeadForm } from "@/components/lead-form";
+import { ContactLinks } from "@/components/contact-links";
 import { Breadcrumbs, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { nearbyServiceAreas, site } from "@/lib/site-data";
 import { buildMetadata } from "@/lib/seo";
@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Контакты в Новороссийске",
   description:
-    "Телефон, электронная почта, часы работы и форма обращения «Совет Маркетинг». Работаем из Новороссийска и удалённо по Краснодарскому краю.",
+    "Телефон, Telegram, WhatsApp и MAX агентства «Совет Маркетинг». Работаем из Новороссийска и удалённо по Краснодарскому краю.",
   path: "/contacts",
 });
 
@@ -30,30 +30,29 @@ export default function ContactsPage() {
         <article>
           <span>01 · Телефон</span>
           <h2><a href={site.phoneHref}>{site.phone}</a></h2>
-          <p>{site.hours}. Если не ответили сразу, оставьте номер в форме — заявка считается принятой только после подтверждённой доставки.</p>
+          <p>{site.hours}. Если не ответили сразу, напишите в Telegram или WhatsApp — используем тот же номер.</p>
         </article>
         <article>
-          <span>02 · Электронная почта</span>
-          <h2><a href={`mailto:${site.email}`}>{site.email}</a></h2>
-          <p>Для первого обращения укажите задачу и удобный способ связи. Договоры заключаются от имени {site.legalName}.</p>
+          <span>02 · Мессенджеры</span>
+          <h2>Telegram · WhatsApp · MAX</h2>
+          <p>В Telegram и WhatsApp переходите по кнопкам ниже. В MAX найдите профиль по номеру {site.phone}.</p>
         </article>
       </section>
 
-      <section className="contact section-shell" id="form">
+      <section className="contact section-shell" id="channels">
         <div className="contact-card liquid-glass">
           <div className="contact-copy">
-            <div className="eyebrow"><span />Форма обращения</div>
-            <h2>Начнём с задачи</h2>
+            <div className="eyebrow"><span />Связаться напрямую</div>
+            <h2>Позвоните или напишите</h2>
             <p>
-              Оставьте российский номер телефона. При разговоре уточним продукт, географию, текущие каналы и
-              доступные данные — без обещаний результата до диагностики.
+              На сайте больше нет формы заявки. Вы сразу переходите в выбранный канал и общаетесь напрямую с агентством.
             </p>
             <div className="contact-meta">
               <a href={site.phoneHref}>{site.phone}</a>
               <span>{site.hours}</span>
             </div>
           </div>
-          <LeadForm source="Страница контактов" />
+          <ContactLinks />
         </div>
       </section>
 

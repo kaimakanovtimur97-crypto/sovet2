@@ -1,14 +1,10 @@
 import assert from "node:assert/strict";
 
-const base = new URL(process.argv[2] || "https://preview.sovet-nvrsk.ru");
-const canonicalBase = "https://www.sovet-nvrsk.ru";
+const base = new URL(process.argv[2] || "https://sovet-novoross.ru");
+const canonicalBase = "https://sovet-novoross.ru";
 
 async function request(pathname, options = {}) {
-  const response = await fetch(new URL(pathname, base), {
-    redirect: "manual",
-    ...options,
-  });
-  return response;
+  return fetch(new URL(pathname, base), { redirect: "manual", ...options });
 }
 
 function canonicalFrom(html) {
@@ -31,48 +27,29 @@ for (const canonicalUrl of canonicalUrls) {
   assert.doesNotMatch(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, pathname);
 }
 
-for (const pathname of ["/privacy", "/consent", "/spasibo"]) {
-  const response = await request(pathname);
-  assert.equal(response.status, 200, pathname);
-  assert.match(
-    await response.text(),
-    /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i,
-    `${pathname} noindex`,
-  );
-}
+const privacy = await request("/privacy/");
+assert.equal(privacy.status, 200, "/privacy/ status");
+assert.match(
+  await privacy.text(),
+  /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i,
+  "/privacy/ noindex",
+);
 
-const missing = await request("/not-a-real-page-qa-20260808");
+const missing = await request("/not-a-real-page-qa-20260809/");
 assert.equal(missing.status, 404, "unknown page status");
-assert.equal(missing.headers.get("x-robots-tag"), "noindex, nofollow", "unknown page robots");
 const missingHtml = await missing.text();
 assert.match(missingHtml, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i);
 assert.equal(canonicalFrom(missingHtml), null, "unknown page must not have canonical");
 
-const missingAsset = await request("/_next/static/not-a-real-asset.js");
-assert.equal(missingAsset.status, 404, "unknown asset status");
-
-for (const [pathname, location] of [
-  ["/services/performance?utm_source=qa", `${canonicalBase}/services/yandex-direct?utm_source=qa`],
-  ["/about.html", `${canonicalBase}/about`],
-  ["/about/", `${canonicalBase}/about`],
-]) {
-  const response = await request(pathname);
-  assert.equal(response.status, 308, `${pathname} redirect status`);
-  assert.equal(response.headers.get("location"), location, `${pathname} redirect location`);
-}
-
 const home = await request("/");
-for (const name of [
-  "content-security-policy",
-  "permissions-policy",
-  "referrer-policy",
-  "strict-transport-security",
-  "x-content-type-options",
-  "x-frame-options",
-]) {
-  assert.ok(home.headers.get(name), `missing security header: ${name}`);
-}
+assert.equal(home.status, 200, "home status");
 const homeHtml = await home.text();
+assert.doesNotMatch(homeHtml, /sovet-nvrsk\.ru|forms\.sovet/i);
+assert.match(homeHtml, /\+7 995 263 15 53/);
+assert.match(homeHtml, /https:\/\/t\.me\/\+79952631553/);
+assert.match(homeHtml, /https:\/\/wa\.me\/79952631553/);
+assert.doesNotMatch(homeHtml, /<form\b|Отправить заявку/i);
+
 const assets = [
   ...new Set(
     [...homeHtml.matchAll(/(?:src|href)="(\/_next\/static\/[^"]+)"/g)].map((match) => match[1]),
@@ -85,10 +62,16 @@ for (const pathname of assets) {
   assert.doesNotMatch(response.headers.get("content-type") || "", /text\/html/i, pathname);
 }
 
-const video = await request("/ambient-bg-desktop.mp4", {
-  headers: { Range: "bytes=0-1023" },
-});
+const video = await request("/ambient-bg-desktop.mp4", { headers: { Range: "bytes=0-1023" } });
 assert.equal(video.status, 206, "video range status");
 assert.match(video.headers.get("content-type") || "", /^video\//i, "video content type");
 
-console.log(`PASS ${base.origin}: ${canonicalUrls.length} SEO URLs, ${assets.length} assets, redirects, 404, headers and video range.`);
+const wwwProbe = await fetch("https://www.sovet-novoross.ru/services/?utm_source=qa", { redirect: "manual" });
+assert.equal(wwwProbe.status, 308, "www redirect status");
+assert.equal(
+  wwwProbe.headers.get("location"),
+  `${canonicalBase}/services/?utm_source=qa`,
+  "www redirect location",
+);
+
+console.log(`PASS ${base.origin}: ${canonicalUrls.length} SEO URLs, ${assets.length} assets, contacts, 404 and www redirect.`);

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { blogPosts, getPost, getService, site } from "@/lib/site-data";
 
@@ -104,7 +104,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           {related.map((item) => <Link className="related-card liquid-glass" href={`/blog/${item.slug}`} key={item.slug}><span>{item.category}</span><h3>{item.title}</h3><p>{item.description}</p><b>Читать <ArrowRight size={15} /></b></Link>)}
         </div>
       </section>
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

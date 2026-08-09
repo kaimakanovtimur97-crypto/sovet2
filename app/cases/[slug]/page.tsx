@@ -5,7 +5,7 @@ import { ArrowRight, Check, ExternalLink } from "lucide-react";
 import {
   Breadcrumbs,
   JsonLd,
-  LeadCta,
+  ContactCta,
   SiteFooter,
   SiteHeader,
 } from "@/components/site-chrome";
@@ -257,7 +257,7 @@ export default async function CasePage({
         </div>
       </section>
 
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

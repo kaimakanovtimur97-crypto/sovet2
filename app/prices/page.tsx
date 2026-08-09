@@ -43,7 +43,7 @@ export default function PricesPage() {
           определения состава работ, исходных материалов, интеграций и сроков.
         </p>
         <div className="hero-actions">
-          <Link className="pill-button" href="/contacts#form">Запросить расчёт</Link>
+          <Link className="pill-button" href="/contacts#channels">Запросить расчёт</Link>
           <Link className="ghost-button" href="/services">Сравнить услуги</Link>
         </div>
       </section>
@@ -122,7 +122,7 @@ export default function PricesPage() {
             <p>До разговора достаточно знать услугу, город и текущее состояние сайта или рекламных каналов.</p>
           </div>
           <div className="inner-cta-actions">
-            <Link className="pill-button" href="/contacts#form">Оставить номер</Link>
+            <Link className="pill-button" href="/contacts#channels">Написать</Link>
             <a className="ghost-button" href={site.phoneHref}>{site.phone}</a>
           </div>
         </section>

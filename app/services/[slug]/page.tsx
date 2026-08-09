@@ -5,7 +5,7 @@ import { ArrowRight, Check } from "lucide-react";
 import {
   Breadcrumbs,
   JsonLd,
-  LeadCta,
+  ContactCta,
   SiteFooter,
   SiteHeader,
 } from "@/components/site-chrome";
@@ -129,9 +129,9 @@ export default async function ServicePage({
         <h1>{service.title}</h1>
         <p>{service.lead}</p>
         <div className="hero-actions">
-          <Link className="pill-button" href="/contacts#form">
+          <a className="pill-button" href={site.phoneHref}>
             Обсудить задачу <ArrowRight size={17} />
-          </Link>
+          </a>
           <Link className="ghost-button" href="/cases">Посмотреть кейсы</Link>
         </div>
       </section>
@@ -268,7 +268,7 @@ export default async function ServicePage({
         </div>
       </section>
 
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

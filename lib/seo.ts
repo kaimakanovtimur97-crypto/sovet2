@@ -20,7 +20,7 @@ export function buildMetadata({
   modifiedTime,
   index = true,
 }: PageMetadata): Metadata {
-  const url = new URL(path, site.url).toString();
+  const url = absoluteUrl(path);
   const openGraph: Metadata["openGraph"] = {
     title,
     description,
@@ -50,5 +50,7 @@ export function buildMetadata({
 }
 
 export function absoluteUrl(path: string) {
-  return new URL(path, site.url).toString();
+  if (path === "/" || path === "") return site.url;
+  const normalizedPath = `${path.replace(/\/+$/, "")}/`;
+  return new URL(normalizedPath, site.url).toString();
 }

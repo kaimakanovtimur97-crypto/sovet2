@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
+import { ContactLinks } from "@/components/contact-links";
 import { site } from "@/lib/site-data";
 
 export function Logo() {
@@ -26,7 +27,7 @@ export function SiteHeader() {
         </nav>
         <div className="nav-actions">
           <a className="phone-link" href={site.phoneHref}><Phone size={15} />{site.phone}</a>
-          <Link className="pill-button compact" href="/contacts#form">Обсудить проект <ArrowRight size={15} /></Link>
+          <a className="pill-button compact" href={site.phoneHref}>Позвонить <ArrowRight size={15} /></a>
           <details className="mobile-menu">
             <summary aria-label="Открыть меню">Меню</summary>
             <nav aria-label="Мобильная навигация">
@@ -62,8 +63,10 @@ export function SiteFooter() {
         </div>
         <div>
           <span>Контакты</span>
-          <a href={`mailto:${site.email}`}>{site.email}</a>
           <a href={site.phoneHref}>{site.phone}</a>
+          <a href={site.telegramHref} target="_blank" rel="noopener noreferrer">Telegram</a>
+          <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+          {site.maxHref ? <a href={site.maxHref} target="_blank" rel="noopener noreferrer">MAX</a> : <small>MAX: {site.phone}</small>}
           <small>{site.city}</small>
           <small>ИНН {site.inn}</small>
           <small>ОГРНИП {site.ogrnip}</small>
@@ -74,7 +77,6 @@ export function SiteFooter() {
         <Link href="/about">О компании</Link>
         <Link href="/requisites">Реквизиты</Link>
         <Link href="/privacy">Политика конфиденциальности</Link>
-        <Link href="/consent">Согласие на обработку данных</Link>
       </div>
     </footer>
   );
@@ -96,7 +98,7 @@ export function JsonLd({ data }: { data: object }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }
 
-export function LeadCta() {
+export function ContactCta() {
   return (
     <section className="inner-cta liquid-glass">
       <div>
@@ -105,8 +107,7 @@ export function LeadCta() {
         <p>На первой встрече уточним экономику, текущие данные и ограничения. Если задачу нельзя честно оценить без аудита — так и скажем.</p>
       </div>
       <div className="inner-cta-actions">
-        <Link className="pill-button" href="/contacts#form">Обсудить проект <ArrowRight size={17} /></Link>
-        <a className="ghost-button" href={site.phoneHref}>{site.phone}</a>
+        <ContactLinks compact />
       </div>
     </section>
   );
