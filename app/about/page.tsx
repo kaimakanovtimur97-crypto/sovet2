@@ -45,7 +45,7 @@ export default function AboutPage() {
         </p>
         <div className="hero-actions">
           <Link className="pill-button" href="/services">Посмотреть услуги</Link>
-          <Link className="ghost-button" href="/contacts#form">Обсудить задачу</Link>
+          <Link className="ghost-button" href="/contacts#channels">Написать в мессенджер</Link>
         </div>
       </section>
 
@@ -126,7 +126,7 @@ export default function AboutPage() {
             <p>Уточним исходные данные и предложим следующий проверяемый шаг: аудит, расчёт или план работ.</p>
           </div>
           <div className="inner-cta-actions">
-            <Link className="pill-button" href="/contacts#form">Оставить номер</Link>
+            <Link className="pill-button" href="/contacts#channels">Выбрать мессенджер</Link>
             <a className="ghost-button" href={site.phoneHref}>{site.phone}</a>
           </div>
         </section>

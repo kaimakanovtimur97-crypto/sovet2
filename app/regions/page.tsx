@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
-import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { nearbyServiceAreas, regions, services, site } from "@/lib/site-data";
 
@@ -36,8 +36,7 @@ export default function RegionsPage() {
               name: site.name,
               legalName: site.legalName,
               url: site.url,
-              telephone: site.phoneHref.replace("tel:", ""),
-              email: site.email,
+              telephone: site.phoneE164,
               areaServed,
             },
             {
@@ -81,7 +80,7 @@ export default function RegionsPage() {
           при необходимости согласуем отдельно.
         </p>
         <div className="hero-actions">
-          <Link className="pill-button" href="/contacts#form">Обсудить задачу <ArrowRight size={17} /></Link>
+          <a className="pill-button" href={site.phoneHref}>Обсудить задачу <ArrowRight size={17} /></a>
           <Link className="ghost-button" href="/services">Выбрать услугу</Link>
         </div>
       </section>
@@ -113,18 +112,18 @@ export default function RegionsPage() {
               <b>Открыть страницу <ArrowRight size={15} /></b>
             </Link>
           ))}
-          <Link className="related-card liquid-glass" href="/contacts#form">
+          <a className="related-card liquid-glass" href={site.phoneHref}>
             <span>Другие города</span>
             <h3>Краснодарский край</h3>
             <p>Работаем с компаниями из городов и районов края: изучаем спрос, собираем сайт и подключаем подходящие каналы продвижения.</p>
             <b>Обсудить проект <ArrowRight size={15} /></b>
-          </Link>
-          <Link className="related-card liquid-glass" href="/contacts#form">
+          </a>
+          <a className="related-card liquid-glass" href={site.phoneHref}>
             <span>Удалённая работа</span>
             <h3>Россия</h3>
             <p>Подключаемся к проектам онлайн: проводим аудит, создаём лендинги и многостраничные сайты, ведём SEO, рекламу и аналитику.</p>
             <b>Обсудить онлайн <ArrowRight size={15} /></b>
-          </Link>
+          </a>
         </div>
       </section>
 
@@ -157,7 +156,7 @@ export default function RegionsPage() {
         </div>
       </section>
 
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

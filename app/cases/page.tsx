@@ -4,7 +4,7 @@ import { ArrowRight, Check } from "lucide-react";
 import {
   Breadcrumbs,
   JsonLd,
-  LeadCta,
+  ContactCta,
   SiteFooter,
   SiteHeader,
 } from "@/components/site-chrome";
@@ -83,7 +83,7 @@ export default function CasesPage() {
           <Link className="pill-button" href="/services">
             Выбрать услугу <ArrowRight size={17} />
           </Link>
-          <Link className="ghost-button" href="/contacts#form">Обсудить проект</Link>
+          <a className="ghost-button" href={site.phoneHref}>Позвонить</a>
         </div>
       </section>
 
@@ -124,7 +124,7 @@ export default function CasesPage() {
         </div>
       </section>
 
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

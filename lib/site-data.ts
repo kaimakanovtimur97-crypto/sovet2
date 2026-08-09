@@ -1,17 +1,20 @@
 export const site = {
   name: "Совет Маркетинг",
   shortName: "Совет",
-  url: "https://www.sovet-nvrsk.ru",
-  phone: "+7 918 053 15 53",
-  phoneHref: "tel:+79180531553",
-  email: "hello@sovet.ru",
+  url: "https://sovet-novoross.ru",
+  phone: "+7 995 263 15 53",
+  phoneE164: "+79952631553",
+  phoneHref: "tel:+79952631553",
+  telegramHref: "https://t.me/+79952631553",
+  whatsappHref: "https://wa.me/79952631553",
+  maxHref: null as string | null,
   city: "Новороссийск",
   region: "Краснодарский край",
   hours: "Пн–Пт, 09:00–18:00",
   legalName: "ИП Каймаканов Амет Рустемович",
   inn: "231525948472",
   ogrnip: "326237500132941",
-  updatedAt: "2026-08-08",
+  updatedAt: "2026-08-09",
 };
 
 export const nearbyServiceAreas = [

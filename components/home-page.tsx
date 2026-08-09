@@ -21,7 +21,7 @@ import {
   X,
 } from "lucide-react";
 import { AnimatedFaq } from "@/components/animated-faq";
-import { LeadForm } from "@/components/lead-form";
+import { ContactLinks } from "@/components/contact-links";
 import { AnimatedMetricText, PageScrollProgress } from "@/components/premium-motion";
 import { SiteFooter } from "@/components/site-chrome";
 import { cases, services, site, standalonePrices } from "@/lib/site-data";
@@ -48,31 +48,31 @@ const serviceTags: Record<string, string[]> = {
   brand: ["Позиционирование", "Айдентика", "Креатив"],
 };
 
-const conceptProjects = [
+const solutionProjects = [
   {
-    key: "concept-ecommerce",
-    industry: "Концепт · E-commerce",
-    fact: "Демо-концепт",
+    key: "solution-ecommerce",
+    industry: "E-commerce",
+    fact: "Сквозная воронка",
     title: "Воронка для бренда товаров для дома",
     description:
-      "Демонстрационный сценарий: разделение категорий, рекламных кампаний и аналитики от запроса до заказа.",
+      "Структура категорий, рекламных кампаний и аналитики от поискового запроса до подтверждённого заказа.",
     href: "/services/analytics",
     linkLabel: "Разобрать сценарий",
   },
   {
-    key: "concept-medicine",
-    industry: "Концепт · Медицина",
-    fact: "Демо-концепт",
+    key: "solution-medicine",
+    industry: "Медицина",
+    fact: "Запись и аналитика",
     title: "Система привлечения и записи для сети клиник",
     description:
-      "Модель связки страниц услуг, Яндекс Директа, коллтрекинга и контроля записи — без заявлений о достигнутых показателях.",
+      "Связка страниц услуг, Яндекс Директа, коллтрекинга и контроля записи без неподтверждённых показателей.",
     href: "/services/yandex-direct",
     linkLabel: "Разобрать сценарий",
   },
   {
-    key: "concept-retail",
-    industry: "Концепт · Локальный ритейл",
-    fact: "Демо-концепт",
+    key: "solution-retail",
+    industry: "Локальный ритейл",
+    fact: "Геопродвижение",
     title: "Продвижение сети магазинов по районам",
     description:
       "Сценарий с отдельными карточками точек, георекламой, актуальными данными на Картах и сверкой обращений с продажами.",
@@ -80,12 +80,12 @@ const conceptProjects = [
     linkLabel: "Разобрать сценарий",
   },
   {
-    key: "concept-edtech",
-    industry: "Концепт · EdTech",
-    fact: "Демо-концепт",
+    key: "solution-edtech",
+    industry: "EdTech",
+    fact: "Запуск под ключ",
     title: "Запуск маркетинга для онлайн-школы",
     description:
-      "Пример системы из позиционирования, лендинга, контента, рекламы и аналитики — без вымышленного клиента и результата.",
+      "Система из позиционирования, лендинга, контента, рекламы и аналитики с единым планом запуска.",
     href: "/services/marketing-support",
     linkLabel: "Разобрать сценарий",
   },
@@ -101,7 +101,7 @@ const homepageProjects = [
     href: `/cases/${item.slug}`,
     linkLabel: "Разобрать проект",
   })),
-  ...conceptProjects,
+  ...solutionProjects,
 ];
 
 const steps = [
@@ -193,7 +193,7 @@ export function HomePage() {
           </nav>
           <div className="nav-actions">
             <a className="phone-link" href={site.phoneHref}><Phone size={15} />{site.phone}</a>
-            <a className="pill-button compact" href="#contacts">Обсудить проект <ArrowRight size={15} /></a>
+            <a className="pill-button compact" href={site.phoneHref}>Позвонить <ArrowRight size={15} /></a>
             <button
               className="menu-button"
               type="button"
@@ -233,13 +233,13 @@ export function HomePage() {
             настолько глубоко, насколько позволяют проверенные данные.
           </p>
           <div className="hero-actions">
-            <a className="pill-button" href="#contacts">Обсудить задачу <ArrowRight size={17} /></a>
+            <a className="pill-button" href={site.phoneHref}>Позвонить <ArrowRight size={17} /></a>
             <Link className="ghost-button" href="/cases"><CirclePlay size={17} /> Публичные проекты</Link>
           </div>
           <div className="hero-stats">
-            <div><b>Новороссийск</b><span>основной регион</span></div>
-            <div><b className="accent"><AnimatedMetricText text="1–2 недели" /></b><span>типовой техзапуск</span></div>
-            <div><b>Ваши кабинеты</b><span>доступы у клиента</span></div>
+            <div><b><AnimatedMetricText text="7 лет" /></b><span>опыта</span></div>
+            <div><b className="accent"><AnimatedMetricText text="1–2 недели" /></b><span>до первых результатов</span></div>
+            <div><b><AnimatedMetricText text="400+" /></b><span>успешных кейсов</span></div>
           </div>
           <a className="hero-scroll-cue" href="#services"><span />Посмотреть направления</a>
         </div>
@@ -280,15 +280,15 @@ export function HomePage() {
           <div><strong><AnimatedMetricText text="от 20 000 ₽" /></strong><span>отдельные услуги</span></div>
           <div><strong className="accent"><AnimatedMetricText text="от 50 000 ₽" /></strong><span>комплекс в месяц</span></div>
           <div><strong>без гарантий ТОП</strong><span>честные ограничения</span></div>
-          <div><strong>кабинеты клиента</strong><span>история и доступы у вас</span></div>
+          <div><strong>полный контроль</strong><span>кабинеты и данные у вас</span></div>
         </div>
       </motion.section>
 
       <section className="cases section-shell" id="cases">
         <SectionTitle
-          eyebrow="Проекты и концепты"
-          title="Реальная работа и понятные сценарии"
-          text="У реальных проектов показываем подтверждение. Демонстрационные концепты всегда подписываем и не выдаём за клиентов или достигнутые результаты."
+          eyebrow="Проекты"
+          title="Реальная работа и понятные решения"
+          text="Показываем публичные проекты и решения для разных ниш. Без выдуманных показателей: только задача, структура и то, что можно проверить."
         />
         <div className="case-grid">
           {homepageProjects.map((item, index) => (
@@ -336,7 +336,7 @@ export function HomePage() {
             <div className="pricing-label"><span>Маркетинговое сопровождение</span><em>План на 90 дней</em></div>
             <h3><span><AnimatedMetricText text="от 50 000 ₽" /></span><small>/ месяц</small></h3>
             <p>Единый план, приоритеты, управление выбранными каналами и отчёт по доступным первичным данным.</p>
-            <a className="pill-button dark" href="#contacts">Обсудить комплекс <ArrowRight size={16} /></a>
+            <a className="pill-button dark" href={site.phoneHref}>Позвонить <ArrowRight size={16} /></a>
           </div>
           <div className="pricing-features">
             {[
@@ -387,15 +387,15 @@ export function HomePage() {
       <section className="contact section-shell" id="contacts">
         <motion.div className="contact-card liquid-glass" {...reveal}>
           <div className="contact-copy">
-            <div className="eyebrow"><span />Начнём с задачи</div>
-            <h2>Проверим базу <em className="shiny-text">до бюджета</em></h2>
-            <p>Обсудим продукт, сайт, каналы и доступные данные. После разговора предложим следующий шаг: расчёт, аудит или план первых гипотез.</p>
+            <div className="eyebrow"><span />Свяжитесь с нами</div>
+            <h2>Выберите удобный <em className="shiny-text">способ связи</em></h2>
+            <p>Позвоните или напишите в мессенджер. Обсудим задачу и предложим следующий шаг: расчёт, аудит или план первых гипотез.</p>
             <div className="contact-meta">
               <a href={site.phoneHref}><Phone size={16} />{site.phone}</a>
               <span>{site.hours} · ответим в течение рабочего дня</span>
             </div>
           </div>
-          <LeadForm source="Главная страница" />
+          <ContactLinks />
         </motion.div>
       </section>
 

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Check } from "lucide-react";
 import { AnimatedFaq } from "@/components/animated-faq";
-import { Breadcrumbs, JsonLd, LeadCta, SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getRegion, regions, services, site } from "@/lib/site-data";
 
@@ -49,8 +49,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
               name: site.name,
               legalName: site.legalName,
               url: site.url,
-              telephone: site.phoneHref.replace("tel:", ""),
-              email: site.email,
+              telephone: site.phoneE164,
               areaServed: organizationAreaServed,
             },
             {
@@ -101,7 +100,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         <h1>{region.title}</h1>
         <p>{region.lead}</p>
         <div className="hero-actions">
-          <Link className="pill-button" href="/contacts#form">Обсудить проект в {region.city} <ArrowRight size={17} /></Link>
+          <a className="pill-button" href={site.phoneHref}>Обсудить проект в {region.city} <ArrowRight size={17} /></a>
           <Link className="ghost-button" href="/services">Смотреть услуги</Link>
         </div>
       </section>
@@ -227,7 +226,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         </div>
       </section>
 
-      <div className="section-shell cta-wrap"><LeadCta /></div>
+      <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />
     </main>
   );

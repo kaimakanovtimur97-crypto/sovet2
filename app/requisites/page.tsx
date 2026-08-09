@@ -41,7 +41,8 @@ export default function RequisitesPage() {
             <h2>Контакты</h2>
             <ul>
               <li>Телефон: <a href={site.phoneHref}>{site.phone}</a>.</li>
-              <li>Электронная почта: <a href={`mailto:${site.email}`}>{site.email}</a>.</li>
+              <li>Telegram и WhatsApp: номер {site.phone}.</li>
+              <li>MAX: поиск профиля по номеру {site.phone}.</li>
               <li>Часы связи: {site.hours}.</li>
             </ul>
           </section>
@@ -57,8 +58,8 @@ export default function RequisitesPage() {
           <section>
             <h2>Документы сайта</h2>
             <p>
-              Порядок обработки номера телефона описан в <Link href="/privacy">политике конфиденциальности</Link> и
-              отдельном <Link href="/consent">согласии на обработку персональных данных</Link>.
+              Порядок обработки данных и использование внешних мессенджеров описаны в{" "}
+              <Link href="/privacy">политике конфиденциальности</Link>.
             </p>
           </section>
         </div>
@@ -72,7 +73,7 @@ export default function RequisitesPage() {
             <p>Свяжитесь с агентством и сверяйте документы только по опубликованным контактам.</p>
           </div>
           <div className="inner-cta-actions">
-            <Link className="pill-button" href="/contacts#form">Оставить номер</Link>
+            <Link className="pill-button" href="/contacts#channels">Написать</Link>
             <a className="ghost-button" href={site.phoneHref}>{site.phone}</a>
           </div>
         </section>
