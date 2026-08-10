@@ -48,6 +48,12 @@ export default async function CasePage({
   if (!item) notFound();
 
   const url = absoluteUrl(`/cases/${item.slug}`);
+  const proofPath = item.proofUrl?.startsWith(site.url)
+    ? item.proofUrl.slice(site.url.length) || "/"
+    : undefined;
+  const proofHref = proofPath && proofPath !== "/"
+    ? `${proofPath.replace(/\/+$/, "")}/`
+    : (proofPath ?? item.proofUrl);
   const relatedCases = cases.filter((entry) => entry.slug !== item.slug);
   const relatedServices = services.filter((service) =>
     service.relatedCases.includes(item.slug),
@@ -122,10 +128,10 @@ export default async function CasePage({
         <h1>{item.title}</h1>
         <p>{item.description}</p>
         <div className="hero-actions">
-          {item.proofUrl && (
+          {proofHref && (
             <a
               className="pill-button"
-              href={item.proofUrl}
+              href={proofHref}
               target="_blank"
               rel="noreferrer"
             >
@@ -143,7 +149,7 @@ export default async function CasePage({
         ))}
       </section>
 
-      <section className="inner-section section-shell case-story">
+      <section className="inner-section section-shell case-story" id="solution">
         <article>
           <span>01 · Задача</span>
           <h2>С чего начали</h2>
@@ -156,7 +162,7 @@ export default async function CasePage({
         </article>
       </section>
 
-      <section className="inner-section section-shell">
+      <section className="inner-section section-shell" id="process">
         <div className="inner-heading">
           <div className="eyebrow"><span />Ход работы</div>
           <h2>Как строился проект</h2>
