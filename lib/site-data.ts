@@ -1,7 +1,7 @@
 export const site = {
   name: "Совет Маркетинг",
   shortName: "Совет",
-  url: "https://sovet-novoross.ru",
+  url: "https://www.sovet-nvrsk.ru",
   phone: "+7 995 263 15 53",
   phoneE164: "+79952631553",
   phoneHref: "tel:+79952631553",

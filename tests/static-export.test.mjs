@@ -5,7 +5,7 @@ import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const out = new URL("out/", root);
-const canonicalBase = "https://sovet-novoross.ru";
+const canonicalBase = "https://www.sovet-nvrsk.ru";
 
 async function text(relativePath) {
   return readFile(new URL(relativePath, out), "utf8");
@@ -72,15 +72,15 @@ test("Nexum is a Russian authored showcase without invented results", async () =
 
 test("robots, HTML and bundles use only the new production domain and contacts", async () => {
   const robots = await text("robots.txt");
-  assert.match(robots, /Sitemap:\s*https:\/\/sovet-novoross\.ru\/sitemap\.xml/i);
-  assert.match(robots, /Host:\s*sovet-novoross\.ru/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/www\.sovet-nvrsk\.ru\/sitemap\.xml/i);
+  assert.match(robots, /Host:\s*www\.sovet-nvrsk\.ru/i);
 
   const files = await listFiles(out);
   const searchable = files.filter((file) => /\.(?:html|xml|txt|js)$/i.test(file));
   const contents = await Promise.all(searchable.map((file) => text(file)));
   const bundle = contents.join("\n");
 
-  assert.doesNotMatch(bundle, /sovet-nvrsk\.ru/i);
+  assert.doesNotMatch(bundle, /sovet-novoross\.ru/i);
   assert.doesNotMatch(bundle, /forms\.sovet|\/api\/lead|Отправить заявку/i);
   assert.match(bundle, /\+7 995 263 15 53/);
   assert.match(bundle, /https:\/\/t\.me\/\+79952631553/);
