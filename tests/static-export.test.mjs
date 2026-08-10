@@ -3,7 +3,8 @@ import { access, readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
-const out = new URL("../out/", import.meta.url);
+const root = new URL("../", import.meta.url);
+const out = new URL("out/", root);
 const canonicalBase = "https://sovet-novoross.ru";
 
 async function text(relativePath) {
@@ -110,4 +111,17 @@ test("homepage and contacts expose direct channels without a lead form", async (
 test("static export contains no server API directory", async () => {
   const entries = await readdir(out);
   assert.equal(entries.includes("api"), false);
+});
+
+test("Cloudflare deploys the static export with 404 and security rules", async () => {
+  const wrangler = JSON.parse(await readFile(new URL("wrangler.jsonc", root), "utf8"));
+  const headers = await text("_headers");
+
+  assert.equal(wrangler.name, "sovet2");
+  assert.equal(wrangler.build.command, "npm run build");
+  assert.equal(wrangler.assets.directory, "./out");
+  assert.equal(wrangler.assets.not_found_handling, "404-page");
+  assert.match(headers, /Content-Security-Policy:/i);
+  assert.match(headers, /media-src 'self'/i);
+  assert.match(headers, /X-Frame-Options: DENY/i);
 });
