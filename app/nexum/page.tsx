@@ -123,9 +123,14 @@ export default function NexumPage() {
         onTimeUpdate={(event) => syncVideoVisibility(event.currentTarget)}
       >
         <source
+          src="/nexum/nexum-hero-mobile.mp4"
+          type="video/mp4"
+          media="(max-width: 767px) and (prefers-reduced-motion: no-preference)"
+        />
+        <source
           src="/nexum/nexum-hero.mp4"
           type="video/mp4"
-          media="(prefers-reduced-motion: no-preference)"
+          media="(min-width: 768px) and (prefers-reduced-motion: no-preference)"
         />
       </video>
 

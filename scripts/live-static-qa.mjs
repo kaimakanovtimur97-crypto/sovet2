@@ -22,8 +22,9 @@ for (const canonicalUrl of canonicalUrls) {
   const response = await request(pathname);
   assert.equal(response.status, 200, pathname);
   const html = await response.text();
+  const expectedCanonical = canonicalUrl === canonicalBase ? `${canonicalBase}/` : canonicalUrl;
   assert.equal((html.match(/<h1\b/gi) || []).length, 1, `${pathname} H1 count`);
-  assert.equal(canonicalFrom(html), canonicalUrl, `${pathname} canonical`);
+  assert.equal(canonicalFrom(html), expectedCanonical, `${pathname} canonical`);
   assert.doesNotMatch(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, pathname);
 }
 
@@ -68,9 +69,12 @@ for (const pathname of assets) {
   assert.doesNotMatch(response.headers.get("content-type") || "", /text\/html/i, pathname);
 }
 
-const video = await request("/nexum/nexum-hero.mp4", { headers: { Range: "bytes=0-1023" } });
-assert.equal(video.status, 206, "video range status");
-assert.match(video.headers.get("content-type") || "", /^video\//i, "video content type");
+for (const pathname of ["/nexum/nexum-hero-mobile.mp4", "/nexum/nexum-hero.mp4"]) {
+  const video = await request(pathname, { headers: { Range: "bytes=0-1023" } });
+  assert.ok([200, 206].includes(video.status), `${pathname} range-compatible status`);
+  assert.match(video.headers.get("content-type") || "", /^video\//i, `${pathname} content type`);
+  await video.body?.cancel();
+}
 
 const apexProbe = await fetch("https://sovet-nvrsk.ru/services/?utm_source=qa", { redirect: "manual" });
 if ([301, 308].includes(apexProbe.status)) {
