@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { access, readFile, readdir } from "node:fs/promises";
+import { access, readFile, readdir, stat } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
@@ -36,8 +36,9 @@ test("all sitemap URLs have directory exports, one H1 and a self-canonical", asy
   for (const url of urls) {
     assert.ok(url === canonicalBase || url.endsWith("/"), `${url} must follow the slash policy`);
     const html = await text(htmlFileForUrl(url));
+    const expectedCanonical = url === canonicalBase ? `${canonicalBase}/` : url;
     assert.equal((html.match(/<h1\b/gi) || []).length, 1, url);
-    assert.match(html, new RegExp(`<link[^>]+rel="canonical"[^>]+href="${url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`), url);
+    assert.match(html, new RegExp(`<link[^>]+rel="canonical"[^>]+href="${expectedCanonical.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`), url);
     assert.doesNotMatch(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, url);
   }
 });
@@ -65,6 +66,8 @@ test("Nexum is a Russian authored showcase without invented results", async () =
   assert.match(caseHtml, /Кейс подтверждает дизайн и реализацию интерактивного прототипа/i);
   assert.match(showcaseHtml, /ИИ-сотрудники берут рутину на себя/i);
   assert.match(showcaseHtml, /Обсудить такой сайт/i);
+  assert.match(showcaseHtml, /nexum-hero-mobile\.mp4/i);
+  assert.match(showcaseHtml, /max-width:\s*767px/i);
   assert.doesNotMatch(`${caseHtml}\n${showcaseHtml}`, /42[,.\s]?500\+|Sara Klein|Stratify|Ship AI workers|Get started/i);
   assert.match(sitemap, /\/cases\/nexum-ai-ops\//i);
   assert.doesNotMatch(sitemap, /\/nexum\//i);
@@ -124,4 +127,10 @@ test("Cloudflare deploys the static export with 404 and security rules", async (
   assert.match(headers, /Content-Security-Policy:/i);
   assert.match(headers, /media-src 'self'/i);
   assert.match(headers, /X-Frame-Options: DENY/i);
+
+  const desktopVideo = await stat(new URL("public/nexum/nexum-hero.mp4", root));
+  const mobileVideo = await stat(new URL("public/nexum/nexum-hero-mobile.mp4", root));
+  assert.ok(desktopVideo.size < 12 * 1024 * 1024, "desktop video delivery size");
+  assert.ok(mobileVideo.size < 6 * 1024 * 1024, "mobile video delivery size");
+  assert.ok(mobileVideo.size < desktopVideo.size, "mobile video must be the lighter source");
 });
