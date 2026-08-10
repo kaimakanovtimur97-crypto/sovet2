@@ -30,7 +30,7 @@ async function listFiles(directory, prefix = "") {
 test("all sitemap URLs have directory exports, one H1 and a self-canonical", async () => {
   const sitemap = await text("sitemap.xml");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.equal(urls.length, 28);
+  assert.equal(urls.length, 29);
 
   for (const url of urls) {
     assert.ok(url === canonicalBase || url.endsWith("/"), `${url} must follow the slash policy`);
@@ -41,8 +41,8 @@ test("all sitemap URLs have directory exports, one H1 and a self-canonical", asy
   }
 });
 
-test("privacy and 404 are noindex; removed form routes are absent", async () => {
-  for (const file of ["privacy/index.html", "404.html"]) {
+test("privacy, Nexum showcase and 404 are noindex; removed form routes are absent", async () => {
+  for (const file of ["privacy/index.html", "nexum/index.html", "404.html"]) {
     const html = await text(file);
     assert.match(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, file);
   }
@@ -52,6 +52,21 @@ test("privacy and 404 are noindex; removed form routes are absent", async () => 
 
   const notFound = await text("404.html");
   assert.doesNotMatch(notFound, /rel="canonical"/i);
+});
+
+test("Nexum is a Russian authored showcase without invented results", async () => {
+  const caseHtml = await text("cases/nexum-ai-ops/index.html");
+  const showcaseHtml = await text("nexum/index.html");
+  const sitemap = await text("sitemap.xml");
+
+  assert.match(caseHtml, /Одноэкранный SaaS-лендинг для AI-операций/i);
+  assert.match(caseHtml, /href="\/nexum\/?"/i);
+  assert.match(caseHtml, /Кейс подтверждает дизайн и реализацию интерактивного прототипа/i);
+  assert.match(showcaseHtml, /ИИ-сотрудники берут рутину на себя/i);
+  assert.match(showcaseHtml, /Обсудить такой сайт/i);
+  assert.doesNotMatch(`${caseHtml}\n${showcaseHtml}`, /42[,.\s]?500\+|Sara Klein|Stratify|Ship AI workers|Get started/i);
+  assert.match(sitemap, /\/cases\/nexum-ai-ops\//i);
+  assert.doesNotMatch(sitemap, /\/nexum\//i);
 });
 
 test("robots, HTML and bundles use only the new production domain and contacts", async () => {

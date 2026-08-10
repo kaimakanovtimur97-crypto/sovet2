@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "sovet-cookie-notice";
 
 export function CookieNotice() {
   const [visible, setVisible] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -28,7 +30,7 @@ export function CookieNotice() {
     setVisible(false);
   }
 
-  if (!visible) return null;
+  if (!visible || pathname.replace(/\/+$/, "") === "/nexum") return null;
 
   return (
     <aside className="cookie-notice" aria-label="Уведомление о cookie">
