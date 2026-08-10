@@ -137,11 +137,11 @@ const reveal = {
   transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
 };
 
-function Logo() {
+function Logo({ iconOnly = false }: { iconOnly?: boolean }) {
   return (
-    <Link className="logo" href="/" aria-label="Совет Маркетинг — на главную">
-      <span className="logo-mark" aria-hidden="true"><i /><i /></span>
-      <span>совет.</span>
+    <Link className={`logo${iconOnly ? " logo-icon-only" : ""}`} href="/" aria-label="Совет Маркетинг — на главную">
+      <img className="logo-icon" src="/favicon.svg" alt="" width={32} height={32} aria-hidden="true" />
+      {!iconOnly && <span>совет.</span>}
     </Link>
   );
 }
@@ -187,7 +187,7 @@ export function HomePage() {
       <header className="site-header">
         <div className="nav-wrap">
           <PageScrollProgress />
-          <Logo />
+          <Logo iconOnly />
           <nav className="desktop-nav" aria-label="Основная навигация">
             {navItems.map(([label, href]) => <Link href={href} key={href}>{label}</Link>)}
           </nav>
