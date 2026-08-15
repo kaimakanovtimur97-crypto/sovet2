@@ -80,6 +80,7 @@ export default function RootLayout({
                   url: site.url,
                   logo: `${site.url}/favicon.svg`,
                   telephone: site.phoneE164,
+                  sameAs: [site.telegramHref, site.maxHref],
                   areaServed: [site.city, ...regions.map((region) => region.city), site.region],
                   contactPoint: {
                     "@type": "ContactPoint",

@@ -85,9 +85,11 @@ test("robots, HTML and bundles use only the new production domain and contacts",
 
   assert.doesNotMatch(bundle, /sovet-novoross\.ru/i);
   assert.doesNotMatch(bundle, /forms\.sovet|\/api\/lead|Отправить заявку/i);
+  assert.match(bundle, /\+7 918 053 15 53/);
   assert.match(bundle, /\+7 995 263 15 53/);
   assert.match(bundle, /https:\/\/t\.me\/\+79952631553/);
-  assert.match(bundle, /https:\/\/wa\.me\/79952631553/);
+  assert.doesNotMatch(bundle, /https:\/\/wa\.me\/79952631553/i);
+  assert.match(bundle, /https:\/\/max\.ru\/u\/f9LHodD0cOIoDNk0r3SF500vliJJpk73qUdOt77XEQvB57OxZQOwO4s6bb8/);
 });
 
 test("homepage and contacts expose direct channels without a lead form", async () => {
@@ -98,10 +100,11 @@ test("homepage and contacts expose direct channels without a lead form", async (
   for (const html of [home, contacts]) {
     assert.doesNotMatch(html, /<form\b/i);
     assert.doesNotMatch(html, /<input\b/i);
-    assert.match(html, /tel:\+79952631553/);
+    assert.match(html, /tel:\+79180531553/);
     assert.match(html, /Telegram/);
-    assert.match(html, /WhatsApp/);
+    assert.doesNotMatch(html, /WhatsApp/i);
     assert.match(html, /MAX/);
+    assert.match(html, /https:\/\/max\.ru\/u\/f9LHodD0cOIoDNk0r3SF500vliJJpk73qUdOt77XEQvB57OxZQOwO4s6bb8/);
   }
 
   assert.match(normalizedHome, />7 лет</);

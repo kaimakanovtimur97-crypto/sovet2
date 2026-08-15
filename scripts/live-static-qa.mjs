@@ -52,9 +52,11 @@ const home = await request("/");
 assert.equal(home.status, 200, "home status");
 const homeHtml = await home.text();
 assert.doesNotMatch(homeHtml, /sovet-novoross\.ru|forms\.sovet/i);
+assert.match(homeHtml, /\+7 918 053 15 53/);
 assert.match(homeHtml, /\+7 995 263 15 53/);
 assert.match(homeHtml, /https:\/\/t\.me\/\+79952631553/);
-assert.match(homeHtml, /https:\/\/wa\.me\/79952631553/);
+assert.doesNotMatch(homeHtml, /https:\/\/wa\.me\/79952631553|WhatsApp/i);
+assert.match(homeHtml, /https:\/\/max\.ru\/u\/f9LHodD0cOIoDNk0r3SF500vliJJpk73qUdOt77XEQvB57OxZQOwO4s6bb8/);
 assert.doesNotMatch(homeHtml, /<form\b|Отправить заявку/i);
 
 const assets = [
