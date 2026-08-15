@@ -1,11 +1,5 @@
 {
   "name": "sovet2",
   "compatibility_date": "2026-08-10",
-  "build": {
-    "command": "npm run build"
-  },
-  "assets": {
-    "directory": "./out",
-    "not_found_handling": "404-page"
-  }
+  "main": "./cloudflare/redirect-worker.mjs"
 }
