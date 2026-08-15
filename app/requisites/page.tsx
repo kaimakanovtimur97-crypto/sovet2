@@ -41,8 +41,8 @@ export default function RequisitesPage() {
             <h2>Контакты</h2>
             <ul>
               <li>Телефон: <a href={site.phoneHref}>{site.phone}</a>.</li>
-              <li>Telegram и WhatsApp: номер {site.phone}.</li>
-              <li>MAX: поиск профиля по номеру {site.phone}.</li>
+              <li>Telegram: <a href={site.telegramHref} target="_blank" rel="noopener noreferrer">{site.telegramPhone}</a>.</li>
+              <li>MAX: <a href={site.maxHref} target="_blank" rel="noopener noreferrer">прямая ссылка на профиль</a>.</li>
               <li>Часы связи: {site.hours}.</li>
             </ul>
           </section>

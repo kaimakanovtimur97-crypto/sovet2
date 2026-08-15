@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Контакты в Новороссийске",
   description:
-    "Телефон, Telegram, WhatsApp и MAX агентства «Совет Маркетинг». Работаем из Новороссийска и удалённо по Краснодарскому краю.",
+    "Телефон, Telegram и MAX агентства «Совет Маркетинг». Работаем из Новороссийска и удалённо по Краснодарскому краю.",
   path: "/contacts",
 });
 
@@ -30,12 +30,12 @@ export default function ContactsPage() {
         <article>
           <span>01 · Телефон</span>
           <h2><a href={site.phoneHref}>{site.phone}</a></h2>
-          <p>{site.hours}. Если не ответили сразу, напишите в Telegram или WhatsApp — используем тот же номер.</p>
+          <p>{site.hours}. Если не ответили сразу, напишите в Telegram.</p>
         </article>
         <article>
           <span>02 · Мессенджеры</span>
-          <h2>Telegram · WhatsApp · MAX</h2>
-          <p>В Telegram и WhatsApp переходите по кнопкам ниже. В MAX найдите профиль по номеру {site.phone}.</p>
+          <h2><a href={site.telegramHref} target="_blank" rel="noopener noreferrer">Telegram · {site.telegramPhone}</a></h2>
+          <p>Для Telegram и MAX используйте прямые кнопки ниже.</p>
         </article>
       </section>
 

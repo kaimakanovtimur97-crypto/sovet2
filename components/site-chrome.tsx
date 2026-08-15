@@ -64,9 +64,8 @@ export function SiteFooter() {
         <div>
           <span>Контакты</span>
           <a href={site.phoneHref}>{site.phone}</a>
-          <a href={site.telegramHref} target="_blank" rel="noopener noreferrer">Telegram</a>
-          <a href={site.whatsappHref} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-          {site.maxHref ? <a href={site.maxHref} target="_blank" rel="noopener noreferrer">MAX</a> : <small>MAX: {site.phone}</small>}
+          <a href={site.telegramHref} target="_blank" rel="noopener noreferrer">Telegram · {site.telegramPhone}</a>
+          <a href={site.maxHref} target="_blank" rel="noopener noreferrer">MAX</a>
           <small>{site.city}</small>
           <small>ИНН {site.inn}</small>
           <small>ОГРНИП {site.ogrnip}</small>

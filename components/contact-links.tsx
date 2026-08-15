@@ -1,4 +1,4 @@
-import { MessageCircle, MessagesSquare, Phone, Send } from "lucide-react";
+import { MessagesSquare, Phone, Send } from "lucide-react";
 import { site } from "@/lib/site-data";
 
 type ContactLinksProps = {
@@ -15,18 +15,9 @@ export function ContactLinks({ compact = false, className = "" }: ContactLinksPr
       <a className="ghost-button" href={site.telegramHref} target="_blank" rel="noopener noreferrer">
         <Send size={17} /> Telegram
       </a>
-      <a className="ghost-button" href={site.whatsappHref} target="_blank" rel="noopener noreferrer">
-        <MessageCircle size={17} /> WhatsApp
+      <a className="ghost-button" href={site.maxHref} target="_blank" rel="noopener noreferrer">
+        <MessagesSquare size={17} /> MAX
       </a>
-      {site.maxHref ? (
-        <a className="ghost-button" href={site.maxHref} target="_blank" rel="noopener noreferrer">
-          <MessagesSquare size={17} /> MAX
-        </a>
-      ) : (
-        <span className="ghost-button contact-link-note" title={`Найдите в MAX по номеру ${site.phone}`}>
-          <MessagesSquare size={17} /> MAX · по номеру
-        </span>
-      )}
     </div>
   );
 }
