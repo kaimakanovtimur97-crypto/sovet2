@@ -140,14 +140,14 @@ test("static export contains no server API directory", async () => {
   assert.equal(entries.includes("api"), false);
 });
 
-test("static export keeps 404 and security rules", async () => {
+test("static export keeps 404 and security rules while Cloudflare stays redirect-only", async () => {
   const wrangler = JSON.parse(await readFile(new URL("wrangler.jsonc", root), "utf8"));
   const headers = await text("_headers");
 
   assert.equal(wrangler.name, "sovet2");
-  assert.equal(wrangler.build.command, "npm run build");
-  assert.equal(wrangler.assets.directory, "./out");
-  assert.equal(wrangler.assets.not_found_handling, "404-page");
+  assert.equal(wrangler.main, "./cloudflare/redirect-worker.mjs");
+  assert.equal(wrangler.build, undefined);
+  assert.equal(wrangler.assets, undefined);
   assert.match(headers, /Content-Security-Policy:/i);
   assert.match(headers, /media-src 'self'/i);
   assert.match(headers, /script-src[^;\n]+https:\/\/mc\.yandex\.ru/i);
