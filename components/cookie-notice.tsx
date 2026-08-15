@@ -1,48 +1,77 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const STORAGE_KEY = "sovet-cookie-notice";
+import {
+  ANALYTICS_CONSENT_EVENT,
+  ANALYTICS_CONSENT_STORAGE_KEY,
+  OPEN_COOKIE_SETTINGS_EVENT,
+  type AnalyticsConsent,
+} from "@/lib/analytics";
 
 export function CookieNotice() {
   const [visible, setVisible] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       try {
-        setVisible(window.localStorage.getItem(STORAGE_KEY) !== "accepted");
+        const value = window.localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY);
+        setVisible(value !== "analytics" && value !== "necessary");
       } catch {
         setVisible(true);
       }
     });
-    return () => window.cancelAnimationFrame(frame);
+
+    function openSettings() {
+      setVisible(true);
+    }
+
+    window.addEventListener(OPEN_COOKIE_SETTINGS_EVENT, openSettings);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener(OPEN_COOKIE_SETTINGS_EVENT, openSettings);
+    };
   }, []);
 
-  function acceptNotice() {
+  function saveConsent(consent: AnalyticsConsent) {
+    let previous: string | null = null;
     try {
-      window.localStorage.setItem(STORAGE_KEY, "accepted");
+      previous = window.localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY);
+      window.localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, consent);
     } catch {
-      // The notice can still be dismissed when storage is unavailable.
+      // The choice still applies to the current page when storage is unavailable.
     }
+
+    window.dispatchEvent(new CustomEvent(ANALYTICS_CONSENT_EVENT, {
+      detail: { consent },
+    }));
     setVisible(false);
+
+    if (previous === "analytics" && consent === "necessary") {
+      window.location.reload();
+    }
   }
 
-  if (!visible || pathname.replace(/\/+$/, "") === "/nexum") return null;
+  if (!visible) return null;
 
   return (
     <aside className="cookie-notice" aria-label="Уведомление о cookie">
       <div>
-        <strong>На сайте используются технические cookie</strong>
+        <strong>Настройки cookie и аналитики</strong>
         <p>
-          Они нужны для корректной работы сайта и сохранения вашего выбора.
-          Необязательные аналитические cookie сейчас не устанавливаются.
+          Техническое хранилище сохраняет ваш выбор. Яндекс Метрика,
+          Вебвизор и аналитические cookie включаются только с вашего разрешения.
         </p>
         <Link href="/privacy#cookies">Подробнее в политике</Link>
       </div>
-      <button type="button" onClick={acceptNotice}>Понятно</button>
+      <div className="cookie-notice-actions">
+        <button className="cookie-secondary" type="button" onClick={() => saveConsent("necessary")}>
+          Только необходимые
+        </button>
+        <button type="button" onClick={() => saveConsent("analytics")}>
+          Разрешить аналитику
+        </button>
+      </div>
     </aside>
   );
 }

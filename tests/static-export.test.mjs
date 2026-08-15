@@ -5,7 +5,7 @@ import test from "node:test";
 
 const root = new URL("../", import.meta.url);
 const out = new URL("out/", root);
-const canonicalBase = "https://www.sovet-nvrsk.ru";
+const canonicalBase = "https://sovet-novoross.ru";
 
 async function text(relativePath) {
   return readFile(new URL(relativePath, out), "utf8");
@@ -75,19 +75,43 @@ test("Nexum is a Russian authored showcase without invented results", async () =
 
 test("robots, HTML and bundles use only the new production domain and contacts", async () => {
   const robots = await text("robots.txt");
-  assert.match(robots, /Sitemap:\s*https:\/\/www\.sovet-nvrsk\.ru\/sitemap\.xml/i);
-  assert.match(robots, /Host:\s*www\.sovet-nvrsk\.ru/i);
+  assert.match(robots, /Sitemap:\s*https:\/\/sovet-novoross\.ru\/sitemap\.xml/i);
+  assert.match(robots, /Host:\s*sovet-novoross\.ru/i);
 
   const files = await listFiles(out);
   const searchable = files.filter((file) => /\.(?:html|xml|txt|js)$/i.test(file));
   const contents = await Promise.all(searchable.map((file) => text(file)));
   const bundle = contents.join("\n");
 
-  assert.doesNotMatch(bundle, /sovet-novoross\.ru/i);
+  assert.doesNotMatch(bundle, /(?:www\.)?sovet-nvrsk\.ru/i);
+  assert.doesNotMatch(bundle, /www\.sovet-novoross\.ru/i);
+  assert.match(bundle, /https:\/\/sovet-novoross\.ru/i);
   assert.doesNotMatch(bundle, /forms\.sovet|\/api\/lead|Отправить заявку/i);
   assert.match(bundle, /\+7 995 263 15 53/);
   assert.match(bundle, /https:\/\/t\.me\/\+79952631553/);
   assert.match(bundle, /https:\/\/wa\.me\/79952631553/);
+});
+
+test("Metrika is consent-gated and exposes contact goals", async () => {
+  const home = await text("index.html");
+  const privacy = await text("privacy/index.html");
+  const files = await listFiles(out);
+  const scripts = files.filter((file) => file.endsWith(".js"));
+  const scriptBundle = (await Promise.all(scripts.map((file) => text(file)))).join("\n");
+
+  assert.doesNotMatch(home, /<script[^>]+src="https:\/\/mc\.yandex\.ru/i);
+  assert.doesNotMatch(home, /mc\.yandex\.ru\/watch\/111627787/i);
+  assert.match(scriptBundle, /metrika\/tag\.js\?id=/);
+  assert.match(scriptBundle, /YANDEX_METRIKA_ID/);
+  assert.match(scriptBundle, /sovet-analytics-consent-v1/);
+  assert.match(scriptBundle, /disableYaCounter/);
+  assert.match(scriptBundle, /contact_phone/);
+  assert.match(scriptBundle, /contact_telegram/);
+  assert.match(scriptBundle, /contact_whatsapp/);
+  assert.match(scriptBundle, /contact_max/);
+  assert.match(privacy, /Яндекс Метрика/i);
+  assert.match(privacy, /111627787/);
+  assert.match(privacy, /Разрешить аналитику/i);
 });
 
 test("homepage and contacts expose direct channels without a lead form", async () => {
@@ -116,7 +140,7 @@ test("static export contains no server API directory", async () => {
   assert.equal(entries.includes("api"), false);
 });
 
-test("Cloudflare deploys the static export with 404 and security rules", async () => {
+test("static export keeps 404 and security rules", async () => {
   const wrangler = JSON.parse(await readFile(new URL("wrangler.jsonc", root), "utf8"));
   const headers = await text("_headers");
 
@@ -126,7 +150,10 @@ test("Cloudflare deploys the static export with 404 and security rules", async (
   assert.equal(wrangler.assets.not_found_handling, "404-page");
   assert.match(headers, /Content-Security-Policy:/i);
   assert.match(headers, /media-src 'self'/i);
-  assert.match(headers, /X-Frame-Options: DENY/i);
+  assert.match(headers, /script-src[^;\n]+https:\/\/mc\.yandex\.ru/i);
+  assert.match(headers, /connect-src[^;\n]+https:\/\/mc\.yandex\.ru/i);
+  assert.match(headers, /frame-ancestors[^;\n]+https:\/\/metrika\.yandex\.ru/i);
+  assert.doesNotMatch(headers, /X-Frame-Options:\s*DENY/i);
 
   const desktopVideo = await stat(new URL("public/nexum/nexum-hero.mp4", root));
   const mobileVideo = await stat(new URL("public/nexum/nexum-hero-mobile.mp4", root));

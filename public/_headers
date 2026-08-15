@@ -1,10 +1,9 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data:; media-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self' https://metrika.yandex.ru https://analytics.yandex.ru https://metr.yandex.ru https://metrica.yandex.ru https://metrika.ya.ru; form-action 'self'; img-src 'self' data: https://mc.yandex.ru; media-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://mc.webvisor.com https://mc.webvisor.org wss://mc.yandex.ru wss://mc.webvisor.com wss://mc.webvisor.org; child-src blob: https://mc.yandex.ru; frame-src blob: https://mc.yandex.ru; upgrade-insecure-requests
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
-  X-Frame-Options: DENY
 
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable

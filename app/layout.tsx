@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { CookieNotice } from "@/components/cookie-notice";
 import { SiteBackdrop } from "@/components/site-backdrop";
+import { YandexMetrika } from "@/components/yandex-metrika";
 import { regions, site } from "@/lib/site-data";
 import "./globals.css";
 
@@ -101,6 +102,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <YandexMetrika />
         <CookieNotice />
       </body>
     </html>
