@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
-const base = new URL(process.argv[2] || "https://www.sovet-nvrsk.ru");
-const canonicalBase = "https://www.sovet-nvrsk.ru";
+const base = new URL(process.argv[2] || "https://sovet-novoross.ru");
+const canonicalBase = "https://sovet-novoross.ru";
 
 async function request(pathname, options = {}) {
   return fetch(new URL(pathname, base), { redirect: "manual", ...options });
@@ -51,7 +51,7 @@ assert.equal(canonicalFrom(missingHtml), null, "unknown page must not have canon
 const home = await request("/");
 assert.equal(home.status, 200, "home status");
 const homeHtml = await home.text();
-assert.doesNotMatch(homeHtml, /sovet-novoross\.ru|forms\.sovet/i);
+assert.doesNotMatch(homeHtml, /(?:www\.)?sovet-nvrsk\.ru|www\.sovet-novoross\.ru|forms\.sovet/i);
 assert.match(homeHtml, /\+7 995 263 15 53/);
 assert.match(homeHtml, /https:\/\/t\.me\/\+79952631553/);
 assert.match(homeHtml, /https:\/\/wa\.me\/79952631553/);
@@ -76,16 +76,20 @@ for (const pathname of ["/nexum/nexum-hero-mobile.mp4", "/nexum/nexum-hero.mp4"]
   await video.body?.cancel();
 }
 
-const apexProbe = await fetch("https://sovet-nvrsk.ru/services/?utm_source=qa", { redirect: "manual" });
-if ([301, 308].includes(apexProbe.status)) {
-  assert.equal(
-    apexProbe.headers.get("location"),
-    `${canonicalBase}/services/?utm_source=qa`,
-    "apex redirect location",
-  );
-} else {
-  assert.equal(apexProbe.status, 200, "apex status");
-  assert.equal(canonicalFrom(await apexProbe.text()), `${canonicalBase}/services/`);
-}
+const wwwProbe = await fetch("https://www.sovet-novoross.ru/services/?utm_source=qa", { redirect: "manual" });
+assert.ok([301, 308].includes(wwwProbe.status), "www must redirect permanently to apex");
+assert.equal(
+  wwwProbe.headers.get("location"),
+  `${canonicalBase}/services/?utm_source=qa`,
+  "www redirect location",
+);
 
-console.log(`PASS ${base.origin}: ${canonicalUrls.length} SEO URLs, ${assets.length} assets, Nexum, contacts, 404 and apex canonical.`);
+const oldDomainProbe = await fetch("https://www.sovet-nvrsk.ru/services/?utm_source=qa", { redirect: "manual" });
+assert.ok([301, 308].includes(oldDomainProbe.status), "old domain must redirect permanently");
+assert.equal(
+  oldDomainProbe.headers.get("location"),
+  `${canonicalBase}/services/?utm_source=qa`,
+  "old-domain redirect location",
+);
+
+console.log(`PASS ${base.origin}: ${canonicalUrls.length} SEO URLs, ${assets.length} assets, Metrika-ready consent, 404 and permanent redirects.`);

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { ContactLinks } from "@/components/contact-links";
+import { CookieSettingsButton } from "@/components/cookie-settings-button";
 import { site } from "@/lib/site-data";
 
 export function Logo({ iconOnly = false }: { iconOnly?: boolean }) {
@@ -77,6 +78,7 @@ export function SiteFooter() {
         <Link href="/about">О компании</Link>
         <Link href="/requisites">Реквизиты</Link>
         <Link href="/privacy">Политика конфиденциальности</Link>
+        <CookieSettingsButton />
       </div>
     </footer>
   );

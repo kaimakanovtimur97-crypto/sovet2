@@ -1,7 +1,7 @@
 export const site = {
   name: "Совет Маркетинг",
   shortName: "Совет",
-  url: "https://www.sovet-nvrsk.ru",
+  url: "https://sovet-novoross.ru",
   phone: "+7 995 263 15 53",
   phoneE164: "+79952631553",
   phoneHref: "tel:+79952631553",
@@ -14,7 +14,7 @@ export const site = {
   legalName: "ИП Каймаканов Амет Рустемович",
   inn: "231525948472",
   ogrnip: "326237500132941",
-  updatedAt: "2026-08-10",
+  updatedAt: "2026-08-15",
 };
 
 export const nearbyServiceAreas = [
