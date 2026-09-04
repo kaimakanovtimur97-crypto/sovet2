@@ -1,23 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import { CookieNotice } from "@/components/cookie-notice";
 import { SiteBackdrop } from "@/components/site-backdrop";
 import { YandexMetrika } from "@/components/yandex-metrika";
 import { absoluteUrl } from "@/lib/seo";
 import { regions, site } from "@/lib/site-data";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-});
-
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin", "cyrillic"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -65,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru">
-      <body className={`${inter.variable} ${mono.variable}`}>
+      <body>
         <SiteBackdrop />
         <script
           type="application/ld+json"
