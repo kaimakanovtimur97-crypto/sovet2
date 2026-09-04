@@ -51,6 +51,7 @@ export default async function CasePage({
   const proofPath = item.proofUrl?.startsWith(site.url)
     ? item.proofUrl.slice(site.url.length) || "/"
     : undefined;
+  const proofUrl = proofPath !== undefined ? absoluteUrl(proofPath) : item.proofUrl;
   const proofHref = proofPath && proofPath !== "/"
     ? `${proofPath.replace(/\/+$/, "")}/`
     : (proofPath ?? item.proofUrl);
@@ -86,7 +87,7 @@ export default async function CasePage({
                 name: site.name,
               },
               url,
-              ...(item.proofUrl ? { sameAs: item.proofUrl } : {}),
+              ...(proofUrl ? { sameAs: proofUrl } : {}),
             },
             {
               "@type": "BreadcrumbList",
@@ -95,7 +96,7 @@ export default async function CasePage({
                   "@type": "ListItem",
                   position: 1,
                   name: "Главная",
-                  item: site.url,
+                  item: absoluteUrl("/"),
                 },
                 {
                   "@type": "ListItem",

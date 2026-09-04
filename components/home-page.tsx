@@ -23,7 +23,7 @@ import {
 import { AnimatedFaq } from "@/components/animated-faq";
 import { ContactLinks } from "@/components/contact-links";
 import { AnimatedMetricText, PageScrollProgress } from "@/components/premium-motion";
-import { SiteFooter } from "@/components/site-chrome";
+import { RegionLinks, SiteFooter } from "@/components/site-chrome";
 import { cases, services, site, standalonePrices } from "@/lib/site-data";
 
 const serviceIcons = {
@@ -273,6 +273,7 @@ export function HomePage() {
           })}
         </div>
         <div className="section-more"><Link className="ghost-button" href="/services">Все услуги <ArrowRight size={16} /></Link></div>
+        <RegionLinks />
       </section>
 
       <motion.section className="number-band" {...reveal}>

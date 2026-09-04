@@ -31,7 +31,7 @@ async function listFiles(directory, prefix = "") {
 test("all sitemap URLs have directory exports, one H1 and a self-canonical", async () => {
   const sitemap = await text("sitemap.xml");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.equal(urls.length, 29);
+  assert.equal(urls.length, 27);
 
   for (const url of urls) {
     assert.ok(url === canonicalBase || url.endsWith("/"), `${url} must follow the slash policy`);
@@ -43,7 +43,7 @@ test("all sitemap URLs have directory exports, one H1 and a self-canonical", asy
   }
 });
 
-test("privacy, Nexum showcase and 404 are noindex; removed form routes are absent", async () => {
+test("privacy, Nexum showcase and 404 are noindex; removed routes are absent", async () => {
   for (const file of ["privacy/index.html", "nexum/index.html", "404.html"]) {
     const html = await text(file);
     assert.match(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i, file);
@@ -51,6 +51,11 @@ test("privacy, Nexum showcase and 404 are noindex; removed form routes are absen
 
   await assert.rejects(access(new URL("consent/index.html", out)));
   await assert.rejects(access(new URL("spasibo/index.html", out)));
+  await assert.rejects(access(new URL("regions/krymsk/index.html", out)));
+  await assert.rejects(access(new URL("regions/abinsk/index.html", out)));
+
+  const sitemap = await text("sitemap.xml");
+  assert.doesNotMatch(sitemap, /\/regions\/(?:krymsk|abinsk)\//i);
 
   const notFound = await text("404.html");
   assert.doesNotMatch(notFound, /rel="canonical"/i);

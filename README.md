@@ -58,7 +58,7 @@ Cloudflare больше не обслуживает сайт: Worker `sovet2` и
 
 ## Проверка перед публикацией
 
-1. Все 29 URL из `sitemap.xml` отвечают своей страницей, содержат один H1 и
+1. Все 27 URL из `sitemap.xml` отвечают своей страницей, содержат один H1 и
    self-canonical на `https://sovet-novoross.ru/.../`.
 2. В HTML, JSON-LD, `robots.txt`, sitemap и клиентском бандле нет
    `sovet-nvrsk.ru` или `www.sovet-novoross.ru`.
@@ -70,3 +70,5 @@ Cloudflare больше не обслуживает сайт: Worker `sovet2` и
 6. Apex и `www` имеют валидный TLS; `www` и старый домен делают постоянный
    редирект на новый apex с сохранением пути и query.
 7. Неизвестный URL возвращает настоящий HTTP 404, а не главную страницу.
+8. Старые региональные URL `/regions/krymsk/` и `/regions/abinsk/` постоянно
+   перенаправляются на `/regions/`.

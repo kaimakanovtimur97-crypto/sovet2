@@ -30,12 +30,6 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
 
   const url = absoluteUrl(`/regions/${region.slug}`);
   const regionsUrl = absoluteUrl("/regions");
-  const organizationAreaServed = [
-    { "@type": "City", name: site.city },
-    { "@type": "City", name: region.city },
-    ...region.nearby.map((name) => ({ "@type": "Place", name })),
-    { "@type": "AdministrativeArea", name: site.region },
-  ];
 
   return (
     <main className="inner-page">
@@ -43,15 +37,6 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         data={{
           "@context": "https://schema.org",
           "@graph": [
-            {
-              "@type": "Organization",
-              "@id": `${site.url}/#organization`,
-              name: site.name,
-              legalName: site.legalName,
-              url: site.url,
-              telephone: site.phoneE164,
-              areaServed: organizationAreaServed,
-            },
             {
               "@type": "WebPage",
               "@id": `${url}#page`,
@@ -67,7 +52,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
             {
               "@type": "Service",
               "@id": `${url}#service`,
-              name: `Маркетинговые услуги для бизнеса в ${region.city}`,
+              name: `Маркетинговые услуги для бизнеса в ${region.cityPrepositional}`,
               serviceType: "Маркетинговые услуги",
               url,
               provider: { "@id": `${site.url}/#organization` },
@@ -76,7 +61,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
             {
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Главная", item: site.url },
+                { "@type": "ListItem", position: 1, name: "Главная", item: absoluteUrl("/") },
                 { "@type": "ListItem", position: 2, name: "География", item: regionsUrl },
                 { "@type": "ListItem", position: 3, name: region.city, item: url },
               ],
@@ -100,12 +85,12 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         <h1>{region.title}</h1>
         <p>{region.lead}</p>
         <div className="hero-actions">
-          <a className="pill-button" href={site.phoneHref}>Обсудить проект в {region.city} <ArrowRight size={17} /></a>
+          <a className="pill-button" href={site.phoneHref}>Обсудить проект в {region.cityPrepositional} <ArrowRight size={17} /></a>
           <Link className="ghost-button" href="/services">Смотреть услуги</Link>
         </div>
       </section>
 
-      <section className="metric-strip section-shell" aria-label={`Формат работы в ${region.city}`}>
+      <section className="metric-strip section-shell" aria-label={`Формат работы в ${region.cityPrepositional}`}>
         <div><strong>{region.city}</strong><span>отдельный локальный контекст</span></div>
         <div><strong>{site.city}</strong><span>основная точка агентства</span></div>
         <div><strong>{region.nearby.length}</strong><span>близлежащих направления в зоне работы</span></div>
@@ -114,7 +99,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
       <section className="inner-section section-shell split-intro">
         <div>
           <div className="eyebrow"><span />Контекст</div>
-          <h2>Что учитываем для бизнеса в {region.city}</h2>
+          <h2>Что учитываем для бизнеса в {region.cityPrepositional}</h2>
         </div>
         <div className="fit-list">
           {region.context.map((item) => <p key={item}><Check size={17} />{item}</p>)}
@@ -202,7 +187,13 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
           <h2>Региональные направления</h2>
           <p>Посмотрите условия и локальный контекст работы в других городах Краснодарского края.</p>
         </div>
-        <div className="related-grid">
+        <div className="related-grid region-peer-grid">
+          <Link className="related-card liquid-glass" href="/">
+            <span>Основной город</span>
+            <h3>{site.city}</h3>
+            <p>Основная точка агентства: сайты, SEO, Яндекс Директ, Карты, контент и аналитика для бизнеса Новороссийска.</p>
+            <b>Открыть главную <ArrowRight size={15} /></b>
+          </Link>
           {regions.filter((entry) => entry.slug !== region.slug).map((entry) => (
             <Link className="related-card liquid-glass" href={`/regions/${entry.slug}`} key={entry.slug}>
               <span>Город края</span>
@@ -217,7 +208,7 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
       <section className="inner-section section-shell faq-inner">
         <div className="inner-heading">
           <div className="eyebrow"><span />Вопросы</div>
-          <h2>Перед стартом в {region.city}</h2>
+          <h2>Перед стартом в {region.cityPrepositional}</h2>
         </div>
         <div>
           {region.faq.map((item, index) => (

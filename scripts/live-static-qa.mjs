@@ -7,6 +7,24 @@ async function request(pathname, options = {}) {
   return fetch(new URL(pathname, base), { redirect: "manual", ...options });
 }
 
+async function assertPermanentRedirectChain(input, expected, label) {
+  let current = new URL(input, base);
+  const expectedUrl = new URL(expected, canonicalBase);
+
+  for (let hop = 1; hop <= 4; hop += 1) {
+    const response = await fetch(current, { redirect: "manual" });
+    assert.ok([301, 308].includes(response.status), `${label} hop ${hop} status`);
+
+    const location = response.headers.get("location");
+    assert.ok(location, `${label} hop ${hop} location`);
+    current = new URL(location, current);
+
+    if (current.href === expectedUrl.href) return;
+  }
+
+  assert.fail(`${label} did not redirect to ${expectedUrl.href}`);
+}
+
 function canonicalFrom(html) {
   return html.match(/<link[^>]+rel="canonical"[^>]+href="([^"]+)"/i)?.[1] || null;
 }
@@ -15,7 +33,7 @@ const sitemapResponse = await request("/sitemap.xml");
 assert.equal(sitemapResponse.status, 200, "sitemap.xml status");
 const sitemap = await sitemapResponse.text();
 const canonicalUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-assert.equal(canonicalUrls.length, 29, "sitemap URL count");
+assert.equal(canonicalUrls.length, 27, "sitemap URL count");
 
 for (const canonicalUrl of canonicalUrls) {
   const pathname = new URL(canonicalUrl).pathname;
@@ -91,5 +109,10 @@ assert.equal(
   `${canonicalBase}/services/?utm_source=qa`,
   "old-domain redirect location",
 );
+
+for (const slug of ["krymsk", "abinsk"]) {
+  await assertPermanentRedirectChain(`/regions/${slug}`, "/regions/", `${slug} redirect without slash`);
+  await assertPermanentRedirectChain(`/regions/${slug}/`, "/regions/", `${slug} redirect with slash`);
+}
 
 console.log(`PASS ${base.origin}: ${canonicalUrls.length} SEO URLs, ${assets.length} assets, Metrika-ready consent, 404 and permanent redirects.`);

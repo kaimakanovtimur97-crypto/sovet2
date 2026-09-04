@@ -16,13 +16,6 @@ const featuredRegions = regions.filter(({ slug }) => ["anapa", "gelendzhik"].inc
 
 export default function RegionsPage() {
   const url = absoluteUrl("/regions");
-  const areaServed = [
-    { "@type": "City", name: site.city },
-    ...regions.map((region) => ({ "@type": "City", name: region.city })),
-    ...nearbyServiceAreas.map((name) => ({ "@type": "Place", name })),
-    { "@type": "AdministrativeArea", name: site.region },
-    { "@type": "Country", name: "Россия" },
-  ];
 
   return (
     <main className="inner-page">
@@ -30,15 +23,6 @@ export default function RegionsPage() {
         data={{
           "@context": "https://schema.org",
           "@graph": [
-            {
-              "@type": "Organization",
-              "@id": `${site.url}/#organization`,
-              name: site.name,
-              legalName: site.legalName,
-              url: site.url,
-              telephone: site.phoneE164,
-              areaServed,
-            },
             {
               "@type": "CollectionPage",
               "@id": `${url}#page`,
@@ -61,7 +45,7 @@ export default function RegionsPage() {
             {
               "@type": "BreadcrumbList",
               itemListElement: [
-                { "@type": "ListItem", position: 1, name: "Главная", item: site.url },
+                { "@type": "ListItem", position: 1, name: "Главная", item: absoluteUrl("/") },
                 { "@type": "ListItem", position: 2, name: "География", item: url },
               ],
             },

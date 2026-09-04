@@ -50,7 +50,7 @@ export function buildMetadata({
 }
 
 export function absoluteUrl(path: string) {
-  if (path === "/" || path === "") return site.url;
+  if (path === "/" || path === "") return new URL("/", site.url).toString();
   const normalizedPath = `${path.replace(/\/+$/, "")}/`;
   return new URL(normalizedPath, site.url).toString();
 }

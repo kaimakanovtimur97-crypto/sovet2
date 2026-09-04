@@ -38,8 +38,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         "@graph": [
           { "@type": "BlogPosting", "@id": `${url}#article`, headline: post.title, description: post.description, datePublished: post.dateIso, dateModified: post.updatedIso, inLanguage: "ru-RU", mainEntityOfPage: url, author: { "@type": "Organization", "@id": `${site.url}/#organization`, name: site.name }, publisher: { "@type": "Organization", "@id": `${site.url}/#organization`, name: site.name }, image: `${site.url}/og.png` },
           { "@type": "BreadcrumbList", itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Главная", item: site.url },
-            { "@type": "ListItem", position: 2, name: "Блог", item: `${site.url}/blog` },
+            { "@type": "ListItem", position: 1, name: "Главная", item: absoluteUrl("/") },
+            { "@type": "ListItem", position: 2, name: "Блог", item: absoluteUrl("/blog") },
             { "@type": "ListItem", position: 3, name: post.title, item: url },
           ] },
         ],
