@@ -96,6 +96,17 @@ export function Breadcrumbs({ items }: { items: { label: string; href?: string }
   );
 }
 
+export function RegionLinks() {
+  return (
+    <nav className="region-links" id="priority-regions" aria-label="Приоритетные города работы">
+      <span>Основной город — Новороссийск</span>
+      <Link href="/regions">Вся география</Link>
+      <Link href="/regions/anapa">Анапа</Link>
+      <Link href="/regions/gelendzhik">Геленджик</Link>
+    </nav>
+  );
+}
+
 export function JsonLd({ data }: { data: object }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />;
 }

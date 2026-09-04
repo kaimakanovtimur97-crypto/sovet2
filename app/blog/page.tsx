@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
-import { buildMetadata } from "@/lib/seo";
+import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { blogPosts, site } from "@/lib/site-data";
 
 export const metadata: Metadata = buildMetadata({
@@ -18,12 +18,12 @@ export default function BlogPage() {
         "@context": "https://schema.org",
         "@type": "Blog",
         name: "Блог «Совет Маркетинг»",
-        url: `${site.url}/blog`,
+        url: absoluteUrl("/blog"),
         publisher: { "@type": "Organization", "@id": `${site.url}/#organization`, name: site.name },
         blogPost: blogPosts.map((post) => ({
           "@type": "BlogPosting",
           headline: post.title,
-          url: `${site.url}/blog/${post.slug}`,
+          url: absoluteUrl(`/blog/${post.slug}`),
           datePublished: post.dateIso,
           dateModified: post.updatedIso,
         })),

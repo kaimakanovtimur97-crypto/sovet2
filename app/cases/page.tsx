@@ -43,7 +43,7 @@ export default function CasesPage() {
                   "@type": "ListItem",
                   position: 1,
                   name: "Главная",
-                  item: site.url,
+                  item: absoluteUrl("/"),
                 },
                 {
                   "@type": "ListItem",

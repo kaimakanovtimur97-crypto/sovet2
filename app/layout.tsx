@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { CookieNotice } from "@/components/cookie-notice";
 import { SiteBackdrop } from "@/components/site-backdrop";
 import { YandexMetrika } from "@/components/yandex-metrika";
+import { absoluteUrl } from "@/lib/seo";
 import { regions, site } from "@/lib/site-data";
 import "./globals.css";
 
@@ -78,10 +79,10 @@ export default function RootLayout({
                   name: site.name,
                   alternateName: site.shortName,
                   legalName: site.legalName,
-                  url: site.url,
+                  url: absoluteUrl("/"),
                   logo: `${site.url}/favicon.svg`,
                   telephone: site.phoneE164,
-                  areaServed: [site.city, ...regions.map((region) => region.city), site.region],
+                  areaServed: [site.city, ...regions.map((region) => region.city), site.region, "Россия"],
                   contactPoint: {
                     "@type": "ContactPoint",
                     telephone: site.phoneE164,
@@ -92,7 +93,7 @@ export default function RootLayout({
                 {
                   "@type": "WebSite",
                   "@id": `${site.url}/#website`,
-                  url: site.url,
+                  url: absoluteUrl("/"),
                   name: site.name,
                   inLanguage: "ru-RU",
                   publisher: { "@id": `${site.url}/#organization` },

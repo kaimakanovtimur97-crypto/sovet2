@@ -5,6 +5,7 @@ import {
   Breadcrumbs,
   JsonLd,
   ContactCta,
+  RegionLinks,
   SiteFooter,
   SiteHeader,
 } from "@/components/site-chrome";
@@ -43,7 +44,7 @@ export default function ServicesPage() {
                   "@type": "ListItem",
                   position: 1,
                   name: "Главная",
-                  item: site.url,
+                  item: absoluteUrl("/"),
                 },
                 {
                   "@type": "ListItem",
@@ -110,6 +111,7 @@ export default function ServicesPage() {
             </Link>
           ))}
         </div>
+        <RegionLinks />
       </section>
 
       <section className="inner-section section-shell split-intro">

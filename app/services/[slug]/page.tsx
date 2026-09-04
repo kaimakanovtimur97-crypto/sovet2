@@ -77,7 +77,7 @@ export default async function ServicePage({
                 "@type": "Organization",
                 "@id": `${site.url}/#organization`,
                 name: site.name,
-                url: site.url,
+                url: absoluteUrl("/"),
               },
               url,
             },
@@ -88,7 +88,7 @@ export default async function ServicePage({
                   "@type": "ListItem",
                   position: 1,
                   name: "Главная",
-                  item: site.url,
+                  item: absoluteUrl("/"),
                 },
                 {
                   "@type": "ListItem",
