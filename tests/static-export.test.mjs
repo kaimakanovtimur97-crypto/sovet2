@@ -119,6 +119,21 @@ test("Metrika is consent-gated and exposes contact goals", async () => {
   assert.match(privacy, /Разрешить аналитику/i);
 });
 
+test("the main visual keeps desktop video out of the mobile loading path and uses lean fonts", async () => {
+  const files = await listFiles(out);
+  const scripts = files.filter((file) => file.endsWith(".js"));
+  const styles = files.filter((file) => file.endsWith(".css"));
+  const scriptBundle = (await Promise.all(scripts.map((file) => text(file)))).join("\n");
+  const styleBundle = (await Promise.all(styles.map((file) => text(file)))).join("\n");
+  const home = await text("index.html");
+
+  assert.match(scriptBundle, /ambient-bg-desktop\.mp4/);
+  assert.doesNotMatch(scriptBundle, /ambient-bg-mobile\.mp4/);
+  assert.doesNotMatch(styleBundle, /JetBrains Mono/i);
+  assert.doesNotMatch(styleBundle, /font-family:\s*Inter/i);
+  assert.equal((home.match(/rel="preload"[^>]+as="font"/gi) || []).length, 0);
+});
+
 test("homepage and contacts expose direct channels without a lead form", async () => {
   const home = await text("index.html");
   const contacts = await text("contacts/index.html");

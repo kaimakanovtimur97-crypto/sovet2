@@ -17,18 +17,17 @@ export function SiteBackdrop() {
       return () => window.cancelAnimationFrame(resetFrame);
     }
 
+    const mobileViewport = window.matchMedia("(max-width: 900px), (pointer: coarse)").matches;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
-    if (reduceMotion || connection.connection?.saveData) {
+    if (mobileViewport || reduceMotion || connection.connection?.saveData) {
       return () => window.cancelAnimationFrame(resetFrame);
     }
 
     let started = false;
     let sourceAttached = false;
     let timer = 0;
-    const source = window.matchMedia("(max-width: 700px)").matches
-      ? `/ambient-bg-mobile.mp4?v=${VIDEO_VERSION}`
-      : `/ambient-bg-desktop.mp4?v=${VIDEO_VERSION}`;
+    const source = `/ambient-bg-desktop.mp4?v=${VIDEO_VERSION}`;
 
     const markReady = () => {
       if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
