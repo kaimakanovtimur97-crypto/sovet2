@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import {
   Breadcrumbs,
   JsonLd,
@@ -76,8 +76,8 @@ export default function CasesPage() {
         <div className="eyebrow"><span />Практика</div>
         <h1>Подтверждённые проекты и проектные работы</h1>
         <p>
-          Показываем только то, что можно проверить. Публичный результат,
-          выполненная работа и ограничения доказательств разделены явно.
+          Сайт федерации, структура развлекательного центра и собственный
+          интерфейс Nexum: посмотрите, как разные задачи определяют решение.
         </p>
         <div className="hero-actions">
           <Link className="pill-button" href="/services">
@@ -92,8 +92,8 @@ export default function CasesPage() {
           <div className="eyebrow"><span />Кейсы</div>
           <h2>Что было сделано</h2>
           <p>
-            Внутри каждого кейса — задача, решение, этапы, факты и ссылка на
-            публичный источник, когда он доступен.
+            Выберите близкую задачу: многостраничный сайт, проектирование
+            страниц услуг или компактная визуальная презентация.
           </p>
         </div>
         <div className="related-grid">
@@ -103,24 +103,13 @@ export default function CasesPage() {
               href={`/cases/${item.slug}`}
               key={item.slug}
             >
-              <span>{item.industry} · {item.facts[0]?.[0]}</span>
+              {item.images?.[0] && <img className="project-preview" src={item.images[0].src} alt={item.images[0].alt} width={item.images[0].width} height={item.images[0].height} loading="lazy" />}
+              <span>{item.industry} · {item.slug === "kosmodrom-seo-structure" ? "Локальная разработка" : item.slug === "nexum-ai-ops" ? "Собственный спецпроект" : "Опубликованный сайт"}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <b>Разобрать кейс <ArrowRight size={15} /></b>
             </Link>
           ))}
-        </div>
-      </section>
-
-      <section className="inner-section section-shell split-intro">
-        <div>
-          <div className="eyebrow"><span />Принцип</div>
-          <h2>Не подменяем результат обещанием</h2>
-        </div>
-        <div className="fit-list">
-          <p><Check size={17} />Публичный сайт подтверждает сам результат публикации, но не продажи клиента.</p>
-          <p><Check size={17} />Проектная работа отделена от решений, уже внедрённых на действующем сайте.</p>
-          <p><Check size={17} />Трафик, заявки и выручку публикуем только с согласованным периодом и источником.</p>
         </div>
       </section>
 

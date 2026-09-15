@@ -11,6 +11,7 @@ import {
 } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { services, site } from "@/lib/site-data";
+import { ServiceChooser } from "@/components/service-chooser";
 
 export const metadata: Metadata = buildMetadata({
   title: "Услуги маркетингового агентства в Новороссийске",
@@ -93,8 +94,8 @@ export default function ServicesPage() {
           <div className="eyebrow"><span />Направления</div>
           <h2>Выберите самостоятельную задачу</h2>
           <p>
-            На каждой странице указаны состав работы, процесс, отчётность,
-            ограничения и связанные материалы.
+            Выберите задачу, с которой хотите начать. Можно заказать разовую
+            работу или регулярное сопровождение по согласованному плану.
           </p>
         </div>
         <div className="related-grid">
@@ -114,17 +115,7 @@ export default function ServicesPage() {
         <RegionLinks />
       </section>
 
-      <section className="inner-section section-shell split-intro">
-        <div>
-          <div className="eyebrow"><span />Как выбрать</div>
-          <h2>Сначала определяем ограничение</h2>
-        </div>
-        <div className="fit-list">
-          <p><Check size={17} />Если спрос уже есть, проверяем рекламу, посадочную страницу и обработку обращений.</p>
-          <p><Check size={17} />Если нужен устойчивый органический спрос, строим техническую и содержательную SEO-базу.</p>
-          <p><Check size={17} />Если цифры расходятся, начинаем с карты данных, целей и CRM-статусов.</p>
-        </div>
-      </section>
+      <ServiceChooser />
 
       <div className="section-shell cta-wrap"><ContactCta /></div>
       <SiteFooter />

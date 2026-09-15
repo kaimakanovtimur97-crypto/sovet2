@@ -10,6 +10,7 @@ import {
   SiteHeader,
 } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { GuideSections } from "@/components/content-section";
 import {
   blogPosts,
   cases,
@@ -154,6 +155,8 @@ export default async function ServicePage({
         </div>
       </section>
 
+      <GuideSections sections={service.details} />
+
       <section className="inner-section section-shell">
         <div className="inner-heading">
           <div className="eyebrow"><span />Состав работы</div>
@@ -215,6 +218,7 @@ export default async function ServicePage({
                 href={`/cases/${item.slug}`}
                 key={item.slug}
               >
+                {item.images?.[0] && <img className="project-preview" src={item.images[0].src} alt={item.images[0].alt} width={item.images[0].width} height={item.images[0].height} loading="lazy" />}
                 <span>{item.industry}</span>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
@@ -255,7 +259,7 @@ export default async function ServicePage({
         <div className="inner-heading">
           <div className="eyebrow"><span />Вопросы</div>
           <h2>Перед стартом</h2>
-          <p>Ответы полностью доступны в исходном HTML страницы.</p>
+          <p>Ответы о составе, условиях и начале работы.</p>
         </div>
         <div className="feature-grid">
           {service.faq.map((item, index) => (

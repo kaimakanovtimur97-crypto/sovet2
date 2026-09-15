@@ -12,6 +12,13 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function BlogPage() {
+  const readerTasks: Record<string, string> = {
+    "skolko-stoit-yandex-direct-novorossiysk": "Оценить бюджет: рассчитать три условных сценария стоимости обращения",
+    "prodvizhenie-2gis-yandex-karty-novorossiysk": "Проверить Карты: пройти чек-лист и записать нужные исправления",
+    "landing-ili-mnogostranichny-sait": "Выбрать сайт: сравнить форматы по пяти вопросам",
+    "seo-ili-yandex-direct-novorossiysk": "Выбрать канал: определить первый шаг по готовности бизнеса",
+    "metrika-crm-i-prodazhi": "Разобраться в цифрах: отделить контактный клик от сделки",
+  };
   return (
     <main className="inner-page">
       <JsonLd data={{
@@ -40,7 +47,7 @@ export default function BlogPage() {
           <article className="blog-card liquid-glass" key={post.slug}>
             <div><span>{post.category}</span><time dateTime={post.updatedIso}>Обновлено {post.updatedDate}</time></div>
             <h2><Link href={`/blog/${post.slug}`}>{post.title}</Link></h2>
-            <p>{post.description}</p>
+            <p>{readerTasks[post.slug] ?? post.description}</p>
             <Link href={`/blog/${post.slug}`}>Читать · {post.readTime} <ArrowRight size={15} /></Link>
           </article>
         ))}
