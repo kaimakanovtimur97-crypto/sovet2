@@ -6,6 +6,7 @@ import { AnimatedFaq } from "@/components/animated-faq";
 import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { getRegion, regions, services, site } from "@/lib/site-data";
+import { GuideSections } from "@/components/content-section";
 
 export function generateStaticParams() {
   return regions.map(({ slug }) => ({ slug }));
@@ -95,6 +96,8 @@ export default async function RegionPage({ params }: { params: Promise<{ slug: s
         <div><strong>{site.city}</strong><span>основная точка агентства</span></div>
         <div><strong>{region.nearby.length}</strong><span>близлежащих направления в зоне работы</span></div>
       </section>
+
+      <GuideSections sections={region.details} />
 
       <section className="inner-section section-shell split-intro">
         <div>

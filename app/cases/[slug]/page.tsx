@@ -10,6 +10,7 @@ import {
   SiteHeader,
 } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
+import { GuideSections, ProjectGallery } from "@/components/content-section";
 import {
   blogPosts,
   cases,
@@ -87,7 +88,7 @@ export default async function CasePage({
                 name: site.name,
               },
               url,
-              ...(proofUrl ? { sameAs: proofUrl } : {}),
+              ...(proofUrl ? { citation: proofUrl } : {}),
             },
             {
               "@type": "BreadcrumbList",
@@ -162,6 +163,9 @@ export default async function CasePage({
           <p>{item.solution}</p>
         </article>
       </section>
+
+      <ProjectGallery images={item.images} />
+      <GuideSections sections={item.details} />
 
       <section className="inner-section section-shell" id="process">
         <div className="inner-heading">

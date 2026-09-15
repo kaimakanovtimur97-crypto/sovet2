@@ -254,3 +254,46 @@ footer { position:relative; z-index:2; border-top:1px solid var(--line); backgro
   .site-backdrop video { display:none; }
   .site-backdrop-aurora { animation:none; opacity:.45; }
 }
+
+/* Practical guides: server-rendered tables, evidence and links. */
+.guide-sections { padding-top:70px; }
+.guide-section { min-width:0; padding-block:35px; }
+.guide-section + .guide-section { border-top:1px solid var(--line); }
+.guide-section h2 { max-width:850px; margin:0 0 22px; font-size:clamp(26px,3.6vw,42px); line-height:1.15; letter-spacing:-.04em; }
+.guide-section p, .guide-section li { max-width:900px; color:rgba(239,246,255,.75); font-size:16px; line-height:1.75; }
+.guide-section ul { padding-left:23px; }
+.guide-section li { margin-block:10px; }
+.guide-section a { color:#a6bbff; text-decoration:underline; text-underline-offset:4px; }
+.guide-table-scroll { width:100%; max-width:100%; overflow-x:auto; margin:26px 0; border:1px solid var(--line); border-radius:16px; background:rgba(13,17,26,.85); }
+.guide-table-scroll:focus-visible { outline:2px solid #a6bbff; outline-offset:4px; }
+.table-scroll-hint { display:none; }
+.guide-table { width:100%; border-collapse:collapse; text-align:left; font-size:14px; line-height:1.6; }
+.guide-table caption { text-align:left; padding:18px 20px; color:#b1c2ff; font-size:13px; }
+.guide-table th, .guide-table td { padding:18px 20px; vertical-align:top; border-top:1px solid var(--line); min-width:135px; overflow-wrap:anywhere; }
+.guide-table thead th { background:rgba(95,128,228,.1); color:#eff4ff; font-weight:600; }
+.guide-table tbody th { color:#e2e9fa; font-weight:500; }
+.guide-table td { color:rgba(239,246,255,.75); }
+.guide-table a { color:#a6bbff; text-decoration:underline; text-underline-offset:3px; }
+.guide-links { display:flex; flex-wrap:wrap; gap:12px 24px; padding:0 !important; list-style:none; }
+.guide-links li { margin:0; }
+.project-gallery { display:grid; grid-template-columns:minmax(0,3fr) minmax(0,1fr); gap:24px; align-items:start; padding-top:45px; }
+.project-gallery figure { margin:0; min-width:0; }
+.project-gallery figure:only-child { grid-column:1 / -1; max-width:1000px; }
+.project-gallery img { display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:16px; }
+.project-gallery figcaption { margin-top:12px; color:var(--muted); font-size:12px; line-height:1.6; }
+.related-card .project-preview { width:100%; height:auto; aspect-ratio:1.44; object-fit:cover; object-position:top; border-radius:10px; margin-bottom:20px; }
+.related-card:has(.project-preview) h3 { margin-top:24px; }
+.article-layout aside { top:115px; max-height:calc(100vh - 140px); overflow-y:auto; }
+.article-content section { scroll-margin-top:125px; }
+.article-content, .article-layout > * { min-width:0; }
+@media (max-width:800px) {
+  .table-scroll-hint { display:block; font-size:12px !important; color:#b1c2ff !important; }
+  .article-layout aside { display:flex; position:static; max-height:none; }
+  .guide-sections { padding-top:35px; }
+  .guide-section { padding-block:26px; }
+  .guide-table th, .guide-table td { padding:14px; }
+  .guide-table caption { padding:14px; }
+  .guide-section p, .guide-section li { font-size:15px; }
+  .project-gallery { grid-template-columns:1fr; }
+  .project-gallery figure:nth-child(2) { max-width:300px; margin-inline:auto; }
+}

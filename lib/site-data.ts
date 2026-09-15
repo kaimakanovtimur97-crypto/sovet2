@@ -1,3 +1,10 @@
+import type { ContentSection, ContentImage } from "./content-types";
+import { serviceGuides } from "./service-guides";
+import { articleGuides } from "./article-guides";
+import { caseGuides, caseImages, gelendzhikGuide } from "./project-guides";
+
+export const contentUpdatedAt = "2026-09-15";
+
 export const site = {
   name: "Совет Маркетинг",
   shortName: "Совет",
@@ -34,6 +41,7 @@ export const nearbyServiceAreas = [
 ];
 
 export type Service = {
+  details?: ContentSection[];
   slug: string;
   shortTitle: string;
   title: string;
@@ -50,7 +58,7 @@ export type Service = {
   updatedAt: string;
 };
 
-export const services: Service[] = [
+const baseServices: Service[] = [
   {
     slug: "marketing-support",
     shortTitle: "Маркетинговое сопровождение",
@@ -410,6 +418,8 @@ export const legacyServiceRedirects: Record<string, string> = {
 };
 
 export type CaseStudy = {
+  details?: ContentSection[];
+  images?: ContentImage[];
   slug: string;
   industry: string;
   client: string;
@@ -425,7 +435,7 @@ export type CaseStudy = {
   updatedAt: string;
 };
 
-export const cases: CaseStudy[] = [
+const baseCases: CaseStudy[] = [
   {
     slug: "taekwondo-novorossiysk",
     industry: "Спорт и образование",
@@ -513,7 +523,7 @@ export const cases: CaseStudy[] = [
 ];
 
 export type ArticleSource = { label: string; url: string };
-export type ArticleSection = { title: string; paragraphs?: string[]; bullets?: string[] };
+export type ArticleSection = ContentSection;
 export type BlogPost = {
   slug: string;
   category: string;
@@ -530,7 +540,7 @@ export type BlogPost = {
   sources?: ArticleSource[];
 };
 
-export const blogPosts: BlogPost[] = [
+const baseBlogPosts: BlogPost[] = [
   {
     slug: "skolko-stoit-yandex-direct-novorossiysk",
     category: "Контекстная реклама",
@@ -643,6 +653,7 @@ export const blogPosts: BlogPost[] = [
 ];
 
 export type RegionPage = {
+  details?: ContentSection[];
   slug: string;
   city: string;
   cityPrepositional: string;
@@ -658,7 +669,7 @@ export type RegionPage = {
   updatedAt: string;
 };
 
-export const regions: RegionPage[] = [
+const baseRegions: RegionPage[] = [
   {
     slug: "anapa",
     city: "Анапа",
@@ -749,6 +760,25 @@ export const standalonePrices = [
   ["Маркетинговый план на 90 дней", "от 50 000 ₽"],
   ["Веб- и сквозная аналитика", "после карты данных"],
 ] as const;
+
+export const services: Service[] = baseServices.map(item => serviceGuides[item.slug]
+  ? { ...item, details: serviceGuides[item.slug], updatedAt: contentUpdatedAt } : item);
+
+export const cases: CaseStudy[] = baseCases.map(item => ({ ...item,
+  details: caseGuides[item.slug], images: caseImages[item.slug],
+  updatedAt: caseGuides[item.slug] ? contentUpdatedAt : item.updatedAt,
+}));
+
+export const blogPosts: BlogPost[] = baseBlogPosts.map(item => {
+  const sections = articleGuides[item.slug] ?? item.sections;
+  const words = [item.intro, ...sections.flatMap(section => [section.title, ...(section.paragraphs ?? []), ...(section.bullets ?? []), ...(section.table?.rows.flat() ?? [])])].join(" ").split(/\s+/).length;
+  const minutes = Math.max(2, Math.ceil(words / 180));
+  return { ...item, sections, updatedDate: "15 сентября 2026", updatedIso: contentUpdatedAt,
+    readTime: `${minutes} ${minutes < 5 ? "минуты" : "минут"}` };
+});
+
+export const regions: RegionPage[] = baseRegions.map(item => item.slug === "gelendzhik"
+  ? { ...item, details: gelendzhikGuide, updatedAt: contentUpdatedAt } : item);
 
 export function getService(slug: string) {
   return services.find((item) => item.slug === slug);

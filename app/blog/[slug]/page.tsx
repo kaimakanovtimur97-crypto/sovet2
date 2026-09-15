@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Breadcrumbs, ContactCta, JsonLd, SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { absoluteUrl, buildMetadata } from "@/lib/seo";
 import { blogPosts, getPost, getService, site } from "@/lib/site-data";
+import { SectionBody } from "@/components/content-section";
 
 export function generateStaticParams() {
   return blogPosts.map(({ slug }) => ({ slug }));
@@ -64,8 +65,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               return (
                 <section id={id} key={section.title}>
                   <h2>{section.title}</h2>
-                  {section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-                  {section.bullets && <ul>{section.bullets.map((item) => <li key={item}>{item}</li>)}</ul>}
+                  <SectionBody section={section} />
                 </section>
               );
             })}
