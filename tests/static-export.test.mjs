@@ -97,7 +97,7 @@ test("robots, HTML and bundles use only the new production domain and contacts",
   assert.match(bundle, /https:\/\/wa\.me\/79952631553/);
 });
 
-test("Metrika is consent-gated and exposes contact goals", async () => {
+test("Metrika starts on entry with opt-out and exposes contact goals", async () => {
   const home = await text("index.html");
   const privacy = await text("privacy/index.html");
   const files = await listFiles(out);
@@ -116,7 +116,8 @@ test("Metrika is consent-gated and exposes contact goals", async () => {
   assert.match(scriptBundle, /contact_max/);
   assert.match(privacy, /Яндекс Метрика/i);
   assert.match(privacy, /111627787/);
-  assert.match(privacy, /Разрешить аналитику/i);
+  assert.match(privacy, /включаются при открытии сайта/i);
+  assert.match(privacy, /Отключить аналитику/i);
 });
 
 test("the main visual keeps desktop video out of the mobile loading path and uses lean fonts", async () => {
