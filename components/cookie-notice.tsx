@@ -34,9 +34,7 @@ export function CookieNotice() {
   }, []);
 
   function saveConsent(consent: AnalyticsConsent) {
-    let previous: string | null = null;
     try {
-      previous = window.localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY);
       window.localStorage.setItem(ANALYTICS_CONSENT_STORAGE_KEY, consent);
     } catch {
       // The choice still applies to the current page when storage is unavailable.
@@ -47,9 +45,6 @@ export function CookieNotice() {
     }));
     setVisible(false);
 
-    if (previous === "analytics" && consent === "necessary") {
-      window.location.reload();
-    }
   }
 
   if (!visible) return null;
@@ -59,17 +54,18 @@ export function CookieNotice() {
       <div>
         <strong>Настройки cookie и аналитики</strong>
         <p>
-          Техническое хранилище сохраняет ваш выбор. Яндекс Метрика,
-          Вебвизор и аналитические cookie включаются только с вашего разрешения.
+          Яндекс Метрика и Вебвизор включаются при открытии сайта, если вы
+          ранее не отключили аналитику. Они помогают оценивать посещаемость
+          и действия на страницах. Вы можете отключить дальнейший сбор данных.
         </p>
         <Link href="/privacy#cookies">Подробнее в политике</Link>
       </div>
       <div className="cookie-notice-actions">
         <button className="cookie-secondary" type="button" onClick={() => saveConsent("necessary")}>
-          Только необходимые
+          Отключить аналитику
         </button>
         <button type="button" onClick={() => saveConsent("analytics")}>
-          Разрешить аналитику
+          Понятно
         </button>
       </div>
     </aside>

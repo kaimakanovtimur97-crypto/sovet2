@@ -15,6 +15,7 @@ type Ym = (counterId: number, method: string, ...args: unknown[]) => void;
 declare global {
   interface Window {
     ym?: Ym & { a?: unknown[]; l?: number };
+    sovetMetrikaInitialized?: boolean;
   }
 }
 
@@ -25,7 +26,7 @@ function setCounterDisabled(disabled: boolean) {
 }
 
 function initializeMetrika() {
-  if (document.getElementById("yandex-metrika-tag")) return false;
+  if (window.sovetMetrikaInitialized) return false;
 
   window.ym = window.ym || Object.assign(
     (...args: unknown[]) => {
@@ -35,11 +36,13 @@ function initializeMetrika() {
     { l: Date.now() },
   );
 
-  const script = document.createElement("script");
-  script.id = "yandex-metrika-tag";
-  script.async = true;
-  script.src = `https://mc.yandex.ru/metrika/tag.js?id=${YANDEX_METRIKA_ID}`;
-  document.head.appendChild(script);
+  if (!document.getElementById("yandex-metrika-tag")) {
+    const script = document.createElement("script");
+    script.id = "yandex-metrika-tag";
+    script.async = true;
+    script.src = `https://mc.yandex.ru/metrika/tag.js?id=${YANDEX_METRIKA_ID}`;
+    document.head.appendChild(script);
+  }
 
   window.ym(YANDEX_METRIKA_ID, "init", {
     defer: true,
@@ -49,10 +52,14 @@ function initializeMetrika() {
     accurateTrackBounce: true,
     trackLinks: true,
   });
+  window.sovetMetrikaInitialized = true;
   return true;
 }
 
+let sessionConsent: AnalyticsConsent | null | undefined;
+
 function currentConsent(): AnalyticsConsent | null {
+  if (sessionConsent !== undefined) return sessionConsent;
   try {
     const value = window.localStorage.getItem(ANALYTICS_CONSENT_STORAGE_KEY);
     return value === "analytics" || value === "necessary" ? value : null;
@@ -76,8 +83,14 @@ export function YandexMetrika() {
 
   useEffect(() => {
     function applyConsent(consent: AnalyticsConsent | null) {
-      const enabled = consent === "analytics";
+      sessionConsent = consent;
+      const enabled = consent !== "necessary";
       setCounterDisabled(!enabled);
+      if (!enabled && window.sovetMetrikaInitialized) {
+        window.ym?.(YANDEX_METRIKA_ID, "destruct");
+        window.sovetMetrikaInitialized = false;
+        previousUrl.current = null;
+      }
       if (enabled) {
         const initialized = initializeMetrika();
         if (initialized) {
@@ -102,7 +115,7 @@ export function YandexMetrika() {
   }, []);
 
   useEffect(() => {
-    if (currentConsent() !== "analytics" || !window.ym) return;
+    if (currentConsent() === "necessary" || !window.ym) return;
 
     const nextUrl = window.location.href;
     const previous = previousUrl.current;
@@ -117,7 +130,7 @@ export function YandexMetrika() {
 
   useEffect(() => {
     function trackContactClick(event: MouseEvent) {
-      if (currentConsent() !== "analytics" || !window.ym) return;
+      if (currentConsent() === "necessary" || !window.ym) return;
       const target = event.target;
       if (!(target instanceof Element)) return;
 
