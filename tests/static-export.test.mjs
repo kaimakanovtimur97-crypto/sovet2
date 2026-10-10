@@ -31,7 +31,8 @@ async function listFiles(directory, prefix = "") {
 test("all sitemap URLs have directory exports, one H1 and a self-canonical", async () => {
   const sitemap = await text("sitemap.xml");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.equal(urls.length, 28);
+  assert.equal(urls.length, 29);
+  assert.ok(urls.includes(`${canonicalBase}/marketing-agency/`));
 
   for (const url of urls) {
     assert.ok(url === canonicalBase || url.endsWith("/"), `${url} must follow the slash policy`);

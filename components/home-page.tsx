@@ -168,7 +168,11 @@ function SectionTitle({ eyebrow, title, text }: { eyebrow: string; title: string
   );
 }
 
-export function HomePage() {
+type HomePageProps = {
+  genericHero?: boolean;
+};
+
+export function HomePage({ genericHero = false }: HomePageProps = {}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const navItems = [
     ["Услуги", "/services"],
@@ -224,10 +228,16 @@ export function HomePage() {
 
       <section className="hero section-shell">
         <div className="hero-copy">
-          <div className="eyebrow hero-eyebrow"><span />Совет Маркетинг · Новороссийск</div>
-          <h1>
-            Маркетинговое агентство <em className="shiny-text">в Новороссийске</em>
-          </h1>
+          <div className="eyebrow hero-eyebrow">
+            <span />{genericHero ? "Совет Маркетинг" : "Совет Маркетинг · Новороссийск"}
+          </div>
+          {genericHero ? (
+            <h1><em className="shiny-text">Маркетинговое агентство</em></h1>
+          ) : (
+            <h1>
+              Маркетинговое агентство <em className="shiny-text">в Новороссийске</em>
+            </h1>
+          )}
           <p>
             Стратегия, сайты, реклама и аналитика в одной системе. Связываем каналы с обращениями и продажами —
             настолько глубоко, насколько позволяют проверенные данные.
