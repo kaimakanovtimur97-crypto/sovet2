@@ -76,7 +76,7 @@ export default function CasesPage() {
         <div className="eyebrow"><span />Практика</div>
         <h1>Подтверждённые проекты и проектные работы</h1>
         <p>
-          Сайт федерации, структура развлекательного центра и собственный
+          Сайты федерации, фитнес-клуба и B2B-консалтинга, а также собственный
           интерфейс Nexum: посмотрите, как разные задачи определяют решение.
         </p>
         <div className="hero-actions">
@@ -104,7 +104,7 @@ export default function CasesPage() {
               key={item.slug}
             >
               {item.images?.[0] && <img className="project-preview" src={item.images[0].src} alt={item.images[0].alt} width={item.images[0].width} height={item.images[0].height} loading="lazy" />}
-              <span>{item.industry} · {item.slug === "kosmodrom-seo-structure" ? "Локальная разработка" : item.slug === "nexum-ai-ops" ? "Собственный спецпроект" : "Опубликованный сайт"}</span>
+              <span>{item.industry} · {item.slug === "nexum-ai-ops" ? "Собственный спецпроект" : "Опубликованный сайт"}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
               <b>Разобрать кейс <ArrowRight size={15} /></b>

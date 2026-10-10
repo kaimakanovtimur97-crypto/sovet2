@@ -31,7 +31,7 @@ async function listFiles(directory, prefix = "") {
 test("all sitemap URLs have directory exports, one H1 and a self-canonical", async () => {
   const sitemap = await text("sitemap.xml");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.equal(urls.length, 27);
+  assert.equal(urls.length, 28);
 
   for (const url of urls) {
     assert.ok(url === canonicalBase || url.endsWith("/"), `${url} must follow the slash policy`);
@@ -53,9 +53,13 @@ test("privacy, Nexum showcase and 404 are noindex; removed routes are absent", a
   await assert.rejects(access(new URL("spasibo/index.html", out)));
   await assert.rejects(access(new URL("regions/krymsk/index.html", out)));
   await assert.rejects(access(new URL("regions/abinsk/index.html", out)));
+  await assert.rejects(access(new URL("cases/kosmodrom-seo-structure/index.html", out)));
 
   const sitemap = await text("sitemap.xml");
   assert.doesNotMatch(sitemap, /\/regions\/(?:krymsk|abinsk)\//i);
+  assert.doesNotMatch(sitemap, /\/cases\/kosmodrom-seo-structure\//i);
+  assert.match(sitemap, /\/cases\/titan-fitness-marketing\//i);
+  assert.match(sitemap, /\/cases\/baza-business-website\//i);
 
   const notFound = await text("404.html");
   assert.doesNotMatch(notFound, /rel="canonical"/i);
