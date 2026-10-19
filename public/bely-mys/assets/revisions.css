@@ -1,0 +1,76 @@
+/* User-reviewed structure: two assignments, with Word and Excel kept distinct. */
+[hidden]{display:none!important}
+.hero h1{font-size:clamp(36px,4.1vw,58px);line-height:1.16;letter-spacing:-.035em;max-width:13em}
+.hero-action{display:block;margin-top:28px}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap}
+.hero-author{font-size:12px;color:var(--muted);margin-top:18px;line-height:1.65}
+.button-outline{background:transparent;border:1px solid var(--ink);color:var(--ink)}
+.button-outline:hover{background:var(--surface)}
+.button-outline:focus-visible{outline-color:var(--ink)}
+.assignment-heading{border-top:1px solid var(--line);padding-top:38px;padding-bottom:40px}
+.assignment-number{font-size:14px;margin-bottom:14px;color:var(--muted)}
+.assignment-heading h2{font-size:clamp(32px,3.7vw,48px);line-height:1.2;letter-spacing:-.035em;font-weight:400}
+.assignment-description{max-width:70ch;margin-top:20px;color:var(--muted);font-size:14px;line-height:1.8}
+.assignment-one .approach{border-top:0;padding-top:25px}
+.assignment-two-heading{background:var(--dark);color:#f0f0f0;padding-top:24px}
+.assignment-two-heading .assignment-heading{border-color:#575758;padding-top:38px;padding-bottom:0}
+.assignment-two-heading .assignment-number,.assignment-two-heading .assignment-description{color:#cdcdcd}
+.assignment-two .economics-section{padding-top:50px}
+.source-tabs{display:flex;gap:28px;border-bottom:1px solid #b5b5b5;margin-bottom:28px}
+.source-tabs button{background:transparent;padding:13px 0;font-size:14px;color:var(--muted);border-bottom:2px solid transparent;min-height:48px}
+.source-tabs button[aria-selected=true]{border-bottom-color:var(--ink);color:var(--ink);font-weight:600}
+.word-month-title{font-size:25px;line-height:1.45;letter-spacing:-.02em;margin-bottom:23px}
+.strategy-text{max-width:86ch;font-size:15px;line-height:1.85}
+.strategy-text p{white-space:pre-line;margin-bottom:21px}
+.strategy-text p:last-child{margin-bottom:0}
+.word-overview{color:var(--muted);margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid #cdcdcd}
+.word-budget{margin-top:30px}
+.word-budget .strategy-text{padding-top:10px;padding-bottom:25px}
+.word-budget summary{font-weight:500}
+.media-head,.media-row{grid-template-columns:minmax(0,.95fr) minmax(0,1fr) minmax(0,1.1fr);gap:32px}
+.media-purpose{font-size:13px;color:var(--muted);line-height:1.8}
+.cell-label{display:none}
+.support-work .support-owner{font-size:11px;margin-top:10px;color:var(--muted)}
+.section-heading>*{min-width:0}
+.funnel-heading{grid-template-columns:minmax(0,1fr) minmax(280px,360px);gap:40px;align-items:center}
+.select-wrap{justify-self:stretch;align-self:center;align-items:stretch;width:100%;max-width:360px;min-width:0;margin-left:auto}
+.select-control{position:relative;width:100%}
+.select-control::after{content:'';position:absolute;right:20px;top:18px;width:8px;height:8px;transform:rotate(45deg);border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);pointer-events:none}
+.select-wrap .select-control select{appearance:none;-webkit-appearance:none;display:block;width:100%;max-width:100%;min-width:0;height:48px;border-radius:999px;padding:10px 45px 10px 18px;line-height:26px;font-size:13px;text-overflow:ellipsis}
+.guest-card .strategy-text{padding-top:12px;padding-bottom:25px;color:var(--ink)}
+.guest-card .strategy-text p:first-child{font-weight:600}
+section[id]{scroll-margin-top:18px}
+@media(max-width:1100px){.hero h1{font-size:clamp(36px,4.1vw,48px)}.hero-action{display:block}.hero-media img{height:420px}.media-head,.media-row{gap:24px}}
+@media(max-width:760px){
+  .hero h1{font-size:clamp(34px,8.8vw,46px);line-height:1.18;max-width:13em}
+  .hero-action{margin-top:23px}
+  .hero-buttons{gap:10px}
+  .hero-buttons .button{padding-inline:18px;min-height:45px}
+  .hero-author{font-size:11px;margin-top:16px;max-width:none}
+  .assignment-heading{padding-top:26px;padding-bottom:28px}
+  .assignment-number{font-size:12px;margin-bottom:12px}
+  .assignment-heading h2{font-size:31px;line-height:1.25}
+  .assignment-description{font-size:12px;margin-top:17px}
+  .assignment-one .approach{padding-top:14px}
+  .assignment-two-heading{padding-top:18px}
+  .assignment-two-heading .assignment-heading{padding-top:27px}
+  .assignment-two .economics-section{padding-top:36px}
+  .source-tabs{gap:22px;margin-bottom:23px}
+  .source-tabs button{font-size:12px;min-height:46px;padding:12px 0}
+  .word-month-title{font-size:21px;line-height:1.45;margin-bottom:20px}
+  .strategy-text{font-size:13px;line-height:1.9}
+  .strategy-text p{margin-bottom:20px}
+  .word-overview{margin-bottom:25px;padding-bottom:20px}
+  .word-budget summary{font-size:12px}
+  .media-head{display:none}
+  .media-row{grid-template-columns:1fr;gap:13px}
+  .media-purpose{font-size:12px;line-height:1.8}
+  .cell-label{display:block;font-size:10px;color:var(--muted);margin-bottom:3px}
+  .media-task{font-size:13px}
+  .funnel-heading{grid-template-columns:1fr;gap:22px;align-items:start}
+  .select-wrap{margin:0;max-width:none;justify-self:stretch}
+  .select-wrap .select-control select{height:46px;line-height:24px;font-size:12px}
+  .select-control::after{top:17px}
+}
+@media(max-width:360px){.hero h1{font-size:33px}.hero-buttons{gap:8px}.hero-buttons .button{font-size:11px;padding-inline:17px}.source-tabs{gap:17px}.source-tabs button{font-size:11px}}
+@media print{.assignment-heading{padding-top:20px;padding-bottom:20px}.assignment-two-heading{background:white;color:var(--ink)}.assignment-two-heading p{color:var(--muted)!important}.source-tabs,.hero-buttons{display:none}.hero h1{font-size:36px}}
